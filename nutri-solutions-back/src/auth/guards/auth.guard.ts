@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
+  Logger,
   SetMetadata,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class AuthGuard implements CanActivate {
     private reflector: Reflector,
     private configService: ConfigService,
   ) {}
-
+  private readonly logger = new Logger(AuthGuard.name);
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -33,6 +34,7 @@ export class AuthGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const token = extractTokenFromHeader(request);
+    this.logger.debug(token);
     if (!token) {
       throw new UnauthorizedException('You need to be authenticated1');
     }
