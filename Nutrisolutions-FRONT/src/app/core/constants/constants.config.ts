@@ -1,5 +1,6 @@
 export const APP_API = {
-  base_url: 'http://localhost:3000',
+  base_url:
+    'http://NutrisolutionsLB-834407706.us-east-1.elb.amazonaws.com:8080',
 };
 
 export const APP_CONST = {
