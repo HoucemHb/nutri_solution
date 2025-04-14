@@ -71,6 +71,6 @@ ThemeData lightTheme = ThemeData(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.horizontal(right: Radius.circular(24)),
     ),
-    scrimColor: AppColors.lightOrange.withOpacity(0.5), // when drawer slides in
+    scrimColor: AppColors.lightOrange.withOpacity(0.1), // when drawer slides in
   ),
 );
