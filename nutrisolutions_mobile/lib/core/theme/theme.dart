@@ -10,7 +10,7 @@ ThemeData lightTheme = ThemeData(
   textTheme: TextTheme(
     headlineLarge: poppins.copyWith(
         color: AppColors.primaryColor,
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: FontWeight.w600),
     headlineMedium: poppins.copyWith(
         color: AppColors.secondaryColor,
@@ -21,34 +21,57 @@ ThemeData lightTheme = ThemeData(
         fontSize: 25,
         fontWeight: FontWeight.w600),
     titleMedium: poppins.copyWith(
-        color: AppColors.black, fontSize: 20, fontWeight: FontWeight.w600),
+        color: AppColors.textColor, fontSize: 20, fontWeight: FontWeight.w600),
     titleSmall: poppins.copyWith(
-        color: AppColors.black, fontSize: 18, fontWeight: FontWeight.w600),
+        color: AppColors.textColor, fontSize: 18, fontWeight: FontWeight.w600),
     bodySmall: poppins.copyWith(
-        color: AppColors.black, fontSize: 14, fontWeight: FontWeight.w400),
+        color: AppColors.hintText, fontSize: 16, fontWeight: FontWeight.w400),
     bodyMedium: poppins.copyWith(
-        color: AppColors.black, fontSize: 17, fontWeight: FontWeight.w500),
+        color: AppColors.textColor, fontSize: 17, fontWeight: FontWeight.w500),
     labelLarge: poppins.copyWith(
         color: AppColors.textColor, fontSize: 20, fontWeight: FontWeight.w600),
     labelMedium: poppins.copyWith(
-        color: AppColors.hintText, fontSize: 16, fontWeight: FontWeight.w600),
+        color: AppColors.primaryColor,
+        fontSize: 16,
+        fontWeight: FontWeight.w600),
     labelSmall: poppins.copyWith(
         color: AppColors.white, fontSize: 14, fontWeight: FontWeight.w600),
   ),
   appBarTheme: const AppBarTheme(
     color: AppColors.primaryColor,
     elevation: 0,
+    iconTheme: IconThemeData(
+      color: AppColors.white,
+    ),
   ),
   colorScheme: const ColorScheme.light(
-      primary: AppColors.white, background: Colors.transparent),
+      primary: AppColors.primaryColor, background: Colors.transparent),
   primaryColor: AppColors.primaryColor,
   bottomNavigationBarTheme:
       const BottomNavigationBarThemeData(backgroundColor: Colors.transparent),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: AppColors.lightOrange),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        poppins.copyWith(
+            color: AppColors.primaryColor,
+            fontSize: 12,
+            fontWeight: FontWeight.w600),
+      ),
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+      foregroundColor: MaterialStateProperty.all<Color>(AppColors.hintText),
+      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          const EdgeInsets.symmetric(horizontal: 0, vertical: 15)),
+      shape: MaterialStateProperty.all<OutlinedBorder>(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
+      ),
+    ),
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(AppColors.lightGreen),
+      backgroundColor:
+          MaterialStateProperty.all<Color>(AppColors.secondaryColor),
       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
           const EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
       shape: MaterialStateProperty.all<OutlinedBorder>(

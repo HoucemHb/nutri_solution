@@ -23,7 +23,14 @@ final GoRouter appRouter = GoRouter(
               onDrawerChanged: (isOpened) {
                 ref.read(drawerStateProvider.notifier).state = isOpened;
               },
-              appBar: AppBar(title: const Text("NutriSolutions")),
+              appBar: AppBar(
+                title: Text(
+                  "NUTRISOLUTIONS",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               body: child,
             );
           },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisolutions_mobile/shared/custom_drawer.dart';
 import 'core/theme/theme.dart';
-import 'data/providers/drawer_provider.dart';
 import 'routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: lightTheme,
       routerConfig: appRouter,
