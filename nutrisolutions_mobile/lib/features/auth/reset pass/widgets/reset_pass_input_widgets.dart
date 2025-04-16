@@ -12,6 +12,7 @@ class OldPasswordField extends ConsumerWidget {
     final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'Old Password',
       hintText: 'Enter your old password',
       obscureText: obscureText,
       onToggleVisibility: resetPasswordNotifier.toggleOldPasswordVisibility,
@@ -29,6 +30,7 @@ class NewPasswordField extends ConsumerWidget {
     final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'New Password',
       hintText: 'Enter new password',
       obscureText: obscureText,
       onToggleVisibility: resetPasswordNotifier.toggleNewPasswordVisibility,
@@ -46,6 +48,7 @@ class ConfirmPasswordField extends ConsumerWidget {
     final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'Confirm Password',
       hintText: 'Enter Confirm password',
       obscureText: obscureText,
       onToggleVisibility: resetPasswordNotifier.toggleConfirmPasswordVisibility,

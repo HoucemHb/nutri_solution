@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+
 class SignupFormState {
   final String email;
   final String password;
@@ -17,7 +19,9 @@ class SignupFormState {
   final GoalEnum goal;
   final String profilePictureUrl;
   final int currentStep;
-  const SignupFormState({
+  final PageController pageController;
+  SignupFormState({
+    PageController? pageController,
     this.email = '',
     this.password = '',
     this.obscurePassword = true,
@@ -33,7 +37,7 @@ class SignupFormState {
     this.goal = GoalEnum.looseWeight,
     this.profilePictureUrl = '',
     this.currentStep = 0,
-  });
+  }) : pageController = pageController ?? PageController();
 
   SignupFormState copyWith({
     String? email,

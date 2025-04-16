@@ -1,0 +1,2 @@
+D:/Code/angular/nutri_solution/nutrisolutions_mobile/android/app/.cxx/Debug/6vu5v82l/x86/CMakeFiles/edit_cache.dir
+D:/Code/angular/nutri_solution/nutrisolutions_mobile/android/app/.cxx/Debug/6vu5v82l/x86/CMakeFiles/rebuild_cache.dir

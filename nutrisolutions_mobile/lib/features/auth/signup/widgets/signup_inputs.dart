@@ -13,6 +13,7 @@ class SignupEmailField extends ConsumerWidget {
     final signupNotifier = ref.read(signupFormProvider.notifier);
 
     return EmailTemplate(
+      labelText: 'Email address',
       onChanged: signupNotifier.updatePassword,
     );
   }
@@ -27,6 +28,7 @@ class SignupPasswordField extends ConsumerWidget {
     final signupNotifier = ref.read(signupFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'Password',
       hintText: 'Enter your password',
       obscureText: obscureText,
       onToggleVisibility: signupNotifier.togglePasswordVisibility,
@@ -44,6 +46,7 @@ class SignupConfirmPasswordField extends ConsumerWidget {
     final signupNotifier = ref.read(signupFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'Confirm Password',
       hintText: 'Confirm your password',
       obscureText: obscureText,
       onToggleVisibility: signupNotifier.toggleConfirmPasswordVisibility,

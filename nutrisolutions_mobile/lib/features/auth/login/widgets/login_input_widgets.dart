@@ -13,6 +13,7 @@ class LoginPasswordField extends ConsumerWidget {
     final loginNotifier = ref.read(loginFormProvider.notifier);
 
     return PasswordTemplate(
+      labelText: 'Password',
       hintText: 'Enter your password',
       obscureText: obscureText,
       onToggleVisibility: loginNotifier.togglePasswordVisibility,
@@ -27,8 +28,10 @@ class LoginEmailField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginNotifier = ref.read(loginFormProvider.notifier);
-    return EmailTemplate(onChanged: (value) {
-      loginNotifier.updateEmail(value);
-    });
+    return EmailTemplate(
+        labelText: 'Email address',
+        onChanged: (value) {
+          loginNotifier.updateEmail(value);
+        });
   }
 }

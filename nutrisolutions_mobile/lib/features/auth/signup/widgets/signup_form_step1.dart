@@ -13,22 +13,20 @@ class SignupFormStep1 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final signupFormState = ref.watch(signupFormProvider);
-    return Column(
-      children: [
-        const AuthLabel(labelText: 'Email address'),
-        const Gap(8),
-        const SignupEmailField(),
-        const Gap(20),
-        const AuthLabel(labelText: 'Password'),
-        const Gap(8),
-        SignupPasswordField(
-          obscureText: signupFormState.obscurePassword,
-        ),
-        const Gap(12),
-        SignupConfirmPasswordField(
-          obscureText: signupFormState.obscureConfirmPassword,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const SignupEmailField(),
+          SignupPasswordField(
+            obscureText: signupFormState.obscurePassword,
+          ),
+          SignupConfirmPasswordField(
+            obscureText: signupFormState.obscureConfirmPassword,
+          ),
+        ],
+      ),
     );
   }
 }

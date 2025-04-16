@@ -34,18 +34,12 @@ class ResetPasswordScreen extends ConsumerWidget {
                     Text('Reset Password',
                         style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(32),
-                    const AuthLabel(labelText: 'Old Password'),
-                    const Gap(8),
                     OldPasswordField(
                         obscureText: resetPasswordState.obscureOldPassword),
                     const Gap(20),
-                    const AuthLabel(labelText: 'New Password'),
-                    const Gap(8),
                     ConfirmPasswordField(
                         obscureText: resetPasswordState.obscureConfirmPassword),
                     const Gap(20),
-                    const AuthLabel(labelText: 'Confirm Password'),
-                    const Gap(8),
                     NewPasswordField(
                         obscureText: resetPasswordState.obscureNewPassword),
                     const Gap(40),

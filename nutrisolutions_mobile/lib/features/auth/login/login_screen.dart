@@ -35,12 +35,8 @@ class LoginScreen extends ConsumerWidget {
                     Text('Sign in',
                         style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(32),
-                    const AuthLabel(labelText: 'Email address'),
-                    const Gap(8),
                     const LoginEmailField(),
                     const Gap(20),
-                    const AuthLabel(labelText: 'Password'),
-                    const Gap(8),
                     LoginPasswordField(
                       obscureText: loginFormState.obscurePassword,
                     ),

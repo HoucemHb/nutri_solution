@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/signup_form_notifier.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step1.dart';
+import 'package:nutrisolutions_mobile/features/auth/signup/widgets/stepper_widget.dart';
 import '../providers/reset_form_notifier.dart';
 import '../widgets/auth_label_widget.dart';
 import '../widgets/input_template_widgets.dart';
@@ -26,8 +27,6 @@ class SignupScreen extends ConsumerWidget {
       backgroundColor: const Color(0xFFFDF2E9),
       body: SafeArea(
         child: SingleChildScrollView(
-          physics:
-              const NeverScrollableScrollPhysics(), // Prevent manual scrolling
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height - 50,
@@ -42,93 +41,93 @@ class SignupScreen extends ConsumerWidget {
                     Text('Register',
                         style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(20),
-                    Stepper(
-                      steps: List.generate(
-                          4,
-                          (index) => Step(
-                                title: Text(steps[index]),
-                                content: Text('$index'),
-                                isActive: signupState.currentStep == index,
-                                state: signupState.currentStep > index
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              )),
-                      type: StepperType.horizontal,
-                      connectorColor:
-                          WidgetStateProperty.all(AppColors.hintText),
-                      currentStep: signupState.currentStep,
-                      onStepTapped: (index) {
-                        ref
-                            .read(signupFormProvider.notifier)
-                            .updateCurrentStep(index);
-                      },
+
+                    const SignupStepper(),
+                    SizedBox(
+                      height: 350,
+                      child: PageView(
+                          controller: signupState.pageController,
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (page) {
+                            signupNotifier.updateCurrentStep(page);
+                          },
+                          children: const [
+                            SignupFormStep1(),
+                            SignupFormStep1(),
+                            SignupFormStep1(),
+                            SignupFormStep1(),
+                            // SignupFormStep2(),
+                            // SignupFormStep3(),
+                            // SignupFormStep4()
+                          ]),
                     ),
 
-                    PageView(
-                        scrollDirection: Axis.horizontal,
-                        onPageChanged: (page) {
-                          signupNotifier.updateCurrentStep(page);
-                        },
-                        children: const [
-                          SignupFormStep1(),
-                          // SignupFormStep2(),
-                          // SignupFormStep3(),
-                          // SignupFormStep4()
-                        ]),
-
                     //buttons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        if (signupState.currentStep > 0)
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: Theme.of(context)
-                                  .elevatedButtonTheme
-                                  .style!
-                                  .copyWith(
-                                    foregroundColor:
-                                        const WidgetStatePropertyAll(
-                                            AppColors.hintText),
-                                    backgroundColor:
-                                        const WidgetStatePropertyAll(
-                                            AppColors.white),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 70,
+                      child: Row(
+                        children: [
+                          if (signupState.currentStep > 0)
+                            SizedBox(
+                              width: 150,
+                              child: ElevatedButton(
+                                style: Theme.of(context)
+                                    .elevatedButtonTheme
+                                    .style!
+                                    .copyWith(
+                                      foregroundColor:
+                                          const WidgetStatePropertyAll(
+                                              AppColors.hintText),
+                                      backgroundColor:
+                                          const WidgetStatePropertyAll(
+                                              AppColors.white),
+                                    ),
+                                onPressed: () {
+                                  signupNotifier.animateToPage(
+                                      signupState.currentStep - 1);
+                                },
+                                child: const Text(
+                                  'Previous',
+                                  style: TextStyle(
+                                    fontSize: 16,
                                   ),
-                              onPressed: () {},
-                              child: const Text(
-                                'Previous',
-                                style: TextStyle(
-                                  fontSize: 16,
                                 ),
                               ),
                             ),
-                          ),
-                        if (signupState.currentStep < 3)
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Next',
-                                style: TextStyle(
-                                  fontSize: 16,
+                          if (signupState.currentStep < 4) const Spacer(),
+                          if (signupState.currentStep < 3)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    signupNotifier.animateToPage(
+                                        signupState.currentStep + 1);
+                                  },
+                                  child: const Text(
+                                    'Next',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        if (signupState.currentStep == 3)
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Confirm',
-                                style: TextStyle(fontSize: 16),
+                          if (signupState.currentStep == 3)
+                            SizedBox(
+                              width: 150,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Confirm',
+                                  style: TextStyle(fontSize: 16),
+                                ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                     const Gap(16),
                     if (signupState.currentStep == 0)

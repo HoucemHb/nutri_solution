@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../states/signup_form_state.dart';
 
 class SignupFormNotifier extends StateNotifier<SignupFormState> {
-  SignupFormNotifier() : super(const SignupFormState());
+  SignupFormNotifier() : super(SignupFormState());
 
   void updateEmail(String value) {
     state = state.copyWith(email: value);
@@ -64,6 +65,12 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
 
   void updateCurrentStep(int value) {
     state = state.copyWith(currentStep: value);
+  }
+
+  void animateToPage(int index) {
+    state.pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 400), curve: Curves.linear);
+    state = state.copyWith(currentStep: index.toInt());
   }
 }
 
