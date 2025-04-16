@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/signup_form_notifier.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step1.dart';
+import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step2.dart';
+import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step3.dart';
+import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step4.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/stepper_widget.dart';
 import '../providers/reset_form_notifier.dart';
 import '../widgets/auth_label_widget.dart';
@@ -27,14 +31,15 @@ class SignupScreen extends ConsumerWidget {
       backgroundColor: const Color(0xFFFDF2E9),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height - 50,
             ),
             child: IntrinsicHeight(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 34.0, vertical: 48.0),
+                padding:
+                    const EdgeInsets.only(right: 34.0, left: 34.0, top: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -43,6 +48,8 @@ class SignupScreen extends ConsumerWidget {
                     const Gap(20),
 
                     const SignupStepper(),
+                    const Gap(20),
+
                     SizedBox(
                       height: 350,
                       child: PageView(
@@ -53,12 +60,9 @@ class SignupScreen extends ConsumerWidget {
                           },
                           children: const [
                             SignupFormStep1(),
-                            SignupFormStep1(),
-                            SignupFormStep1(),
-                            SignupFormStep1(),
-                            // SignupFormStep2(),
-                            // SignupFormStep3(),
-                            // SignupFormStep4()
+                            SignupFormStep2(),
+                            SignupFormStep3(),
+                            SignupFormStep4(),
                           ]),
                     ),
 
@@ -129,14 +133,30 @@ class SignupScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    const Gap(16),
+                    const Gap(8),
                     if (signupState.currentStep == 0)
-                      const Text(
-                        'Already have an account?',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.hintText,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already have an account? ",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              context.go('/login');
+                            },
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.primaryColor,
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                   ],
                 ),

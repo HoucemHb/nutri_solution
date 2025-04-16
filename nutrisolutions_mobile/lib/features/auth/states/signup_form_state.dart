@@ -10,13 +10,13 @@ class SignupFormState {
   final String confirmPassword;
   final bool obscureConfirmPassword;
   final String name;
-  final GenderEnum gender;
+  final String gender;
   final int age;
   final String phoneNumber;
   final int currentWeight;
   final int currentHeight;
-  final DailyActivityEnum dailyActivity;
-  final GoalEnum goal;
+  final String dailyActivity;
+  final String goal;
   final String profilePictureUrl;
   final int currentStep;
   final PageController pageController;
@@ -28,13 +28,13 @@ class SignupFormState {
     this.confirmPassword = '',
     this.obscureConfirmPassword = true,
     this.name = '',
-    this.gender = GenderEnum.male,
+    this.gender = 'Male',
     this.age = 18,
     this.phoneNumber = '',
     this.currentWeight = 150,
     this.currentHeight = 150,
-    this.dailyActivity = DailyActivityEnum.sedentary,
-    this.goal = GoalEnum.looseWeight,
+    this.dailyActivity = 'Sedentary',
+    this.goal = 'Lose Weight',
     this.profilePictureUrl = '',
     this.currentStep = 0,
   }) : pageController = pageController ?? PageController();
@@ -46,13 +46,13 @@ class SignupFormState {
     bool? obscureConfirmPassword,
     String? confirmPassword,
     String? name,
-    GenderEnum? gender,
+    String? gender,
     int? age,
     String? phoneNumber,
     int? currentWeight,
     int? currentHeight,
-    DailyActivityEnum? dailyActivity,
-    GoalEnum? goal,
+    String? dailyActivity,
+    String? goal,
     String? profilePictureUrl,
     int? currentStep,
   }) {
@@ -100,13 +100,13 @@ class SignupFormState {
       password: map['password'] as String,
       confirmPassword: map['confirmPassword'] as String,
       name: map['name'] as String,
-      gender: map['gender'] as GenderEnum,
+      gender: map['gender'],
       age: map['age'] as int,
       phoneNumber: map['phoneNumber'] as String,
       currentWeight: map['currentWeight'] as int,
       currentHeight: map['currentHeight'] as int,
-      dailyActivity: map['dailyActivity'] as DailyActivityEnum,
-      goal: map['goal'] as GoalEnum,
+      dailyActivity: map['dailyActivity'],
+      goal: map['goal'],
       profilePictureUrl: map['profilePictureUrl'] as String,
       currentStep: map['currentStep'] as int,
     );
@@ -160,6 +160,17 @@ class SignupFormState {
 }
 
 enum GenderEnum { male, female }
+
+extension GenderEnumExtension on GenderEnum {
+  String get label {
+    switch (this) {
+      case GenderEnum.male:
+        return 'Male';
+      case GenderEnum.female:
+        return 'Female';
+    }
+  }
+}
 
 enum DailyActivityEnum { veryActive, moderatelyActive, sedentary }
 

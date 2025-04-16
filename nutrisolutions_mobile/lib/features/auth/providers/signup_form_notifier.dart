@@ -31,7 +31,7 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
     state = state.copyWith(name: value);
   }
 
-  void updateGender(GenderEnum gender) {
+  void updateGender(String gender) {
     state = state.copyWith(gender: gender);
   }
 
@@ -51,11 +51,11 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
     state = state.copyWith(currentHeight: value);
   }
 
-  void updateDailyActivity(DailyActivityEnum value) {
+  void updateDailyActivity(String value) {
     state = state.copyWith(dailyActivity: value);
   }
 
-  void updateGoal(GoalEnum value) {
+  void updateGoal(String value) {
     state = state.copyWith(goal: value);
   }
 

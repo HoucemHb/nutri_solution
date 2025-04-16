@@ -15,9 +15,29 @@ class EmailTemplate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return _AuthInput(
+    return TextInputTemplate(
         labelText: labelText,
         hintText: 'Enter your email',
+        onChanged: onChanged);
+  }
+}
+
+class TextInputTemplate extends ConsumerWidget {
+  final void Function(String)? onChanged;
+  final String labelText;
+  final String hintText;
+
+  const TextInputTemplate(
+      {this.onChanged,
+      required this.hintText,
+      super.key,
+      required this.labelText});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _AuthInput(
+        labelText: labelText,
+        hintText: hintText,
         keyboardType: TextInputType.emailAddress,
         onChanged: onChanged);
   }
@@ -111,6 +131,68 @@ class _AuthInput extends StatelessWidget {
             filled: true,
             fillColor: Colors.white,
             suffixIcon: suffixIcon,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DropDownTemplate<T> extends ConsumerWidget {
+  const DropDownTemplate(
+      {super.key,
+      required this.items,
+      required this.labelText,
+      this.onChanged,
+      required this.selectedValue});
+
+  final void Function(T? value)? onChanged;
+  final T selectedValue;
+  final List<T> items;
+  final String labelText;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        AuthLabel(labelText: labelText),
+        const Gap(8),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(11),
+              border: Border.all(color: AppColors.hintText, width: 0.5)),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<T>(
+                borderRadius: BorderRadius.circular(11),
+                style: Theme.of(context).textTheme.bodyMedium,
+                value: selectedValue,
+                focusColor: AppColors.primaryColor,
+                dropdownColor: AppColors.lightGreen,
+                icon: const Icon(Icons.arrow_drop_down,
+                    color: AppColors.secondaryColor, size: 30),
+                padding: EdgeInsets.zero,
+                selectedItemBuilder: (BuildContext context) {
+                  return items.map((T value) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        value.toString(),
+                      ),
+                    );
+                  }).toList();
+                },
+                items: items.map<DropdownMenuItem<T>>((T value) {
+                  return DropdownMenuItem<T>(
+                    value: value,
+                    child: Text(
+                      value.toString(),
+                    ),
+                  );
+                }).toList(),
+                onChanged: onChanged),
           ),
         ),
       ],

@@ -83,7 +83,9 @@ class LoginScreen extends ConsumerWidget {
                               child: const Text(
                                 'Sign up',
                                 style: TextStyle(
-                                  color: Color(0xFFB44D00),
+                                  color: AppColors.primaryColor,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppColors.primaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
