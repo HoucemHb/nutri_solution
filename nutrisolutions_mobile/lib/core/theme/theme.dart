@@ -45,7 +45,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   colorScheme: const ColorScheme.light(
-      primary: AppColors.primaryColor, background: Colors.transparent),
+      primary: AppColors.primaryColor, surface: Colors.transparent),
   primaryColor: AppColors.primaryColor,
   bottomNavigationBarTheme:
       const BottomNavigationBarThemeData(backgroundColor: Colors.transparent),
@@ -53,31 +53,31 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: AppColors.lightOrange),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      textStyle: MaterialStateProperty.all<TextStyle>(
+      textStyle: WidgetStateProperty.all<TextStyle>(
         poppins.copyWith(
             color: AppColors.primaryColor,
             fontSize: 12,
             fontWeight: FontWeight.w600),
       ),
-      backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-      foregroundColor: MaterialStateProperty.all<Color>(AppColors.hintText),
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+      backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent),
+      foregroundColor: WidgetStateProperty.all<Color>(AppColors.hintText),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
           const EdgeInsets.symmetric(horizontal: 0, vertical: 15)),
-      shape: MaterialStateProperty.all<OutlinedBorder>(
+      shape: WidgetStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
       ),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor:
-          MaterialStateProperty.all<Color>(AppColors.secondaryColor),
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+      foregroundColor: WidgetStateProperty.all<Color>(AppColors.white),
+      backgroundColor: WidgetStateProperty.all<Color>(AppColors.secondaryColor),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
           const EdgeInsets.symmetric(horizontal: 20, vertical: 15)),
-      shape: MaterialStateProperty.all<OutlinedBorder>(
+      shape: WidgetStateProperty.all<OutlinedBorder>(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
       ),
-      minimumSize: MaterialStateProperty.all<Size>(
+      minimumSize: WidgetStateProperty.all<Size>(
         const Size(double.infinity, 20), // Set the minimum width to infinity
       ),
     ),

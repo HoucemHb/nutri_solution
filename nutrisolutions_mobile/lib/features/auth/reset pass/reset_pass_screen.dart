@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
+import 'package:nutrisolutions_mobile/features/auth/reset%20pass/widgets/reset_pass_input_widgets.dart';
 import '../providers/reset_form_notifier.dart';
 import '../widgets/auth_label_widget.dart';
-import '../widgets/password_widget.dart';
+import '../widgets/input_template_widgets.dart';
 
 class ResetPasswordScreen extends ConsumerWidget {
   const ResetPasswordScreen({super.key});
@@ -29,7 +31,6 @@ class ResetPasswordScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Gap(16),
                     Text('Reset Password',
                         style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(32),
@@ -40,11 +41,13 @@ class ResetPasswordScreen extends ConsumerWidget {
                     const Gap(20),
                     const AuthLabel(labelText: 'New Password'),
                     const Gap(8),
-                    ConfirmPasswordField(obscureText: resetPasswordState.obscureConfirmPassword),
+                    ConfirmPasswordField(
+                        obscureText: resetPasswordState.obscureConfirmPassword),
                     const Gap(20),
                     const AuthLabel(labelText: 'Confirm Password'),
                     const Gap(8),
-                    NewPasswordField(obscureText: resetPasswordState.obscureNewPassword),
+                    NewPasswordField(
+                        obscureText: resetPasswordState.obscureNewPassword),
                     const Gap(40),
                     SizedBox(
                       width: double.infinity,

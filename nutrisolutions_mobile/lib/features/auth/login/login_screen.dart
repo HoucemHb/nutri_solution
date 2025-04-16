@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
 import '../providers/login_form_notifier.dart';
 import '../widgets/auth_label_widget.dart';
-import '../widgets/password_widget.dart';
+import '../widgets/input_template_widgets.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -31,13 +32,12 @@ class LoginScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Gap(16),
                     Text('Sign in',
                         style: Theme.of(context).textTheme.headlineLarge),
                     const Gap(32),
                     const AuthLabel(labelText: 'Email address'),
                     const Gap(8),
-                    const EmailField(),
+                    const LoginEmailField(),
                     const Gap(20),
                     const AuthLabel(labelText: 'Password'),
                     const Gap(8),
