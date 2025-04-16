@@ -1,33 +1,106 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
 
 import '../providers/login_form_notifier.dart';
 
-class PasswordField extends ConsumerWidget {
+class PasswordTemplate extends StatelessWidget {
   final String hintText;
-  const PasswordField({required this.hintText, super.key});
+  final bool obscureText;
+  final VoidCallback onToggleVisibility;
+  final void Function(String)? onChanged;
+
+  const PasswordTemplate({
+    required this.hintText,
+    required this.obscureText,
+    required this.onToggleVisibility,
+    this.onChanged,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthInput(
+      hintText: hintText,
+      obscureText: obscureText,
+      suffixIcon: IconButton(
+        icon: Icon(
+          obscureText ? Icons.visibility : Icons.visibility_off,
+          color: Colors.grey,
+        ),
+        onPressed: onToggleVisibility,
+      ),
+      onChanged: onChanged,
+    );
+  }
+}
+
+class OldPasswordField extends ConsumerWidget {
+  final bool obscureText;
+  const OldPasswordField({required this.obscureText, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.watch(loginFormProvider);
-    final obscurePassword = loginState.obscurePassword;
+    final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
+
+    return PasswordTemplate(
+      hintText: 'Enter your old password',
+      obscureText: obscureText,
+      onToggleVisibility: resetPasswordNotifier.toggleOldPasswordVisibility,
+      onChanged: resetPasswordNotifier.updateOldPassword,
+    );
+  }
+}
+
+class NewPasswordField extends ConsumerWidget {
+  final bool obscureText;
+  const NewPasswordField({required this.obscureText, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
+
+    return PasswordTemplate(
+      hintText: 'Enter new password',
+      obscureText: obscureText,
+      onToggleVisibility: resetPasswordNotifier.toggleNewPasswordVisibility,
+      onChanged: resetPasswordNotifier.updateNewPassword,
+    );
+  }
+}
+
+class ConfirmPasswordField extends ConsumerWidget {
+  final bool obscureText;
+  const ConfirmPasswordField({required this.obscureText, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final resetPasswordNotifier = ref.read(resetFormProvider.notifier);
+
+    return PasswordTemplate(
+      hintText: 'Enter Confirm password',
+      obscureText: obscureText,
+      onToggleVisibility: resetPasswordNotifier.toggleConfirmPasswordVisibility,
+      onChanged: resetPasswordNotifier.updateConfirmPassword,
+    );
+  }
+}
+
+class LoginPasswordField extends ConsumerWidget {
+  final bool obscureText;
+  const LoginPasswordField({required this.obscureText, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final loginNotifier = ref.read(loginFormProvider.notifier);
-    return AuthInput(
-        hintText: hintText,
-        obscureText: obscurePassword,
-        suffixIcon: IconButton(
-          icon: Icon(
-            obscurePassword ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey,
-          ),
-          onPressed: () {
-            loginNotifier.togglePasswordVisibility();
-          },
-        ),
-        onChanged: (value) {
-          loginNotifier.updatePassword(value);
-        });
+
+    return PasswordTemplate(
+      hintText: 'Enter your password',
+      obscureText: obscureText,
+      onToggleVisibility: loginNotifier.togglePasswordVisibility,
+      onChanged: loginNotifier.updatePassword,
+    );
   }
 }
 

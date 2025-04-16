@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
-
-import '../widgets/auth_label.dart';
+import 'package:go_router/go_router.dart';
+import '../providers/login_form_notifier.dart';
+import '../widgets/auth_label_widget.dart';
 import '../widgets/password_widget.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool rememberMe = false;
-  bool obscurePassword = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginFormState = ref.watch(loginFormProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFFDF2E9),
@@ -46,36 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Gap(20),
                     const AuthLabel(labelText: 'Password'),
                     const Gap(8),
-                    const PasswordField(hintText: 'Enter your password'),
-                    const Gap(12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              side: const BorderSide(
-                                  color: AppColors.hintText, width: 1.5),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4)),
-                              value: rememberMe,
-                              onChanged: (value) {
-                                setState(() {
-                                  rememberMe = value ?? false;
-                                });
-                              },
-                            ),
-                            Text(
-                              "Remember me?",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ],
+                    LoginPasswordField(
+                      obscureText: loginFormState.obscurePassword,
                     ),
+                    const Gap(12),
+                    const RememberMe(),
                     const Gap(12),
                     SizedBox(
                       width: double.infinity,
@@ -111,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                context.go('/signup');
+                              },
                               child: const Text(
                                 'Sign up',
                                 style: TextStyle(
@@ -123,7 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/reset-password');
+                          },
                           child: Text(
                             'Forgot Password ?',
                             style: Theme.of(context)
@@ -144,6 +118,33 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class RememberMe extends ConsumerWidget {
+  const RememberMe({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rememberMe = ref.watch(loginFormProvider).rememberMe;
+    return Row(
+      children: [
+        Checkbox(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          visualDensity: VisualDensity.compact,
+          side: const BorderSide(color: AppColors.hintText, width: 1.5),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          value: rememberMe,
+          onChanged: (value) {
+            ref.read(loginFormProvider.notifier).updateRememberMe(value!);
+          },
+        ),
+        Text(
+          "Remember me?",
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ],
     );
   }
 }

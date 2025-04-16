@@ -1,0 +1,93 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+class ResetFormState {
+  final String oldPassword;
+  final String newPassword;
+  final String confirmPassword;
+  final bool obscureConfirmPassword;
+  final bool obscureNewPassword;
+  final bool obscureOldPassword;
+
+  const ResetFormState({
+    this.oldPassword = '',
+    this.newPassword = '',
+    this.confirmPassword = '',
+    this.obscureConfirmPassword = true,
+    this.obscureNewPassword = true,
+    this.obscureOldPassword = true,
+  });
+
+  ResetFormState copyWith({
+    String? oldPassword,
+    String? newPassword,
+    String? confirmPassword,
+    bool? obscureConfirmPassword,
+    bool? obscureNewPassword,
+    bool? obscureOldPassword,
+  }) {
+    return ResetFormState(
+      oldPassword: oldPassword ?? this.oldPassword,
+      newPassword: newPassword ?? this.newPassword,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      obscureConfirmPassword: obscureConfirmPassword ?? this.obscureConfirmPassword,
+      obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
+      obscureOldPassword: obscureOldPassword ?? this.obscureOldPassword,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+      'confirmPassword': confirmPassword,
+      'obscureConfirmPassword': obscureConfirmPassword,
+      'obscureNewPassword': obscureNewPassword,
+      'obscureOldPassword': obscureOldPassword,
+    };
+  }
+
+  factory ResetFormState.fromMap(Map<String, dynamic> map) {
+    return ResetFormState(
+      oldPassword: map['oldPassword'] as String? ?? '',
+      newPassword: map['newPassword'] as String? ?? '',
+      confirmPassword: map['confirmPassword'] as String? ?? '',
+      obscureConfirmPassword: map['obscureConfirmPassword'] as bool? ?? true,
+      obscureNewPassword: map['obscureNewPassword'] as bool? ?? true,
+      obscureOldPassword: map['obscureOldPassword'] as bool? ?? true,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ResetFormState.fromJson(String source) =>
+      ResetFormState.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'ResetFormState(oldPassword: $oldPassword, newPassword: $newPassword, confirmPassword: $confirmPassword, obscureConfirmPassword: $obscureConfirmPassword, obscureNewPassword: $obscureNewPassword, obscureOldPassword: $obscureOldPassword)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ResetFormState &&
+        other.oldPassword == oldPassword &&
+        other.newPassword == newPassword &&
+        other.confirmPassword == confirmPassword &&
+        other.obscureConfirmPassword == obscureConfirmPassword &&
+        other.obscureNewPassword == obscureNewPassword &&
+        other.obscureOldPassword == obscureOldPassword;
+  }
+
+  @override
+  int get hashCode {
+    return oldPassword.hashCode ^
+        newPassword.hashCode ^
+        confirmPassword.hashCode ^
+        obscureConfirmPassword.hashCode ^
+        obscureNewPassword.hashCode ^
+        obscureOldPassword.hashCode;
+  }
+}

@@ -17,6 +17,10 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     state = state.copyWith(obscurePassword: !state.obscurePassword);
   }
 
+  void updateRememberMe(bool value) {
+    state = state.copyWith(rememberMe: value);
+  }
+
   Future<void> submitLogin() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 

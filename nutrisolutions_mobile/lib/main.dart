@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nutrisolutions_mobile/shared/custom_drawer.dart';
+import 'app_observer.dart';
 import 'core/theme/theme.dart';
 import 'routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    observers: [AppObserver()],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,10 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
+import '../providers/reset_form_notifier.dart';
+import '../widgets/auth_label_widget.dart';
+import '../widgets/password_widget.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends ConsumerWidget {
+  const ResetPasswordScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Reset Password Screen'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final resetPasswordState = ref.watch(resetFormProvider);
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: const Color(0xFFFDF2E9),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics:
+              const NeverScrollableScrollPhysics(), // Prevent manual scrolling
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height - 50,
+            ),
+            child: IntrinsicHeight(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 34.0, vertical: 48.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Gap(16),
+                    Text('Reset Password',
+                        style: Theme.of(context).textTheme.headlineLarge),
+                    const Gap(32),
+                    const AuthLabel(labelText: 'Old Password'),
+                    const Gap(8),
+                    OldPasswordField(
+                        obscureText: resetPasswordState.obscureOldPassword),
+                    const Gap(20),
+                    const AuthLabel(labelText: 'New Password'),
+                    const Gap(8),
+                    ConfirmPasswordField(obscureText: resetPasswordState.obscureConfirmPassword),
+                    const Gap(20),
+                    const AuthLabel(labelText: 'Confirm Password'),
+                    const Gap(8),
+                    NewPasswordField(obscureText: resetPasswordState.obscureNewPassword),
+                    const Gap(40),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Confirm',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    const Gap(16),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
