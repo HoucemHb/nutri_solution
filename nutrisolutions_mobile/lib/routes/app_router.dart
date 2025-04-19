@@ -12,7 +12,7 @@ import '../features/recipes/recipes_screen.dart';
 import '../shared/custom_drawer.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/signup',
   routes: [
     ShellRoute(
       builder: (context, state, child) {

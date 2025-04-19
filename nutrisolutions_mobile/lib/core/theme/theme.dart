@@ -7,6 +7,7 @@ final poppins = GoogleFonts.poppins(letterSpacing: 0.8);
 final dancingScript = GoogleFonts.dancingScript(letterSpacing: 0.8);
 
 ThemeData lightTheme = ThemeData(
+  scaffoldBackgroundColor: AppColors.backgroundColor,
   textTheme: TextTheme(
     headlineLarge: poppins.copyWith(
         color: AppColors.primaryColor,
@@ -35,7 +36,7 @@ ThemeData lightTheme = ThemeData(
         fontSize: 16,
         fontWeight: FontWeight.w600),
     labelSmall: poppins.copyWith(
-        color: AppColors.white, fontSize: 14, fontWeight: FontWeight.w600),
+        color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w600),
   ),
   appBarTheme: const AppBarTheme(
     color: AppColors.primaryColor,

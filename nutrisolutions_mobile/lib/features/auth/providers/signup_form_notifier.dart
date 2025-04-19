@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,10 +61,13 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
     state = state.copyWith(goal: value);
   }
 
-  void updateProfilePictureUrl(String value) {
-    state = state.copyWith(profilePictureUrl: value);
-  }
+  // void updateProfilePictureUrl(String value) {
+  //   state = state.copyWith(profilePictureUrl: value);
+  // }
 
+  void updateProfilePicture(File value) {
+    state = state.copyWith(profilePicture: value);
+  }
   void updateCurrentStep(int value) {
     state = state.copyWith(currentStep: value);
   }

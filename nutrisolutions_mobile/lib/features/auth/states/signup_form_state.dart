@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 
@@ -17,7 +18,8 @@ class SignupFormState {
   final int currentHeight;
   final String dailyActivity;
   final String goal;
-  final String profilePictureUrl;
+  // final String profilePictureUrl;
+  final File? profilePicture;
   final int currentStep;
   final PageController pageController;
   SignupFormState({
@@ -35,7 +37,7 @@ class SignupFormState {
     this.currentHeight = 150,
     this.dailyActivity = 'Sedentary',
     this.goal = 'Lose Weight',
-    this.profilePictureUrl = '',
+    this.profilePicture,
     this.currentStep = 0,
   }) : pageController = pageController ?? PageController();
 
@@ -43,8 +45,8 @@ class SignupFormState {
     String? email,
     String? password,
     bool? obscurePassword,
-    bool? obscureConfirmPassword,
     String? confirmPassword,
+    bool? obscureConfirmPassword,
     String? name,
     String? gender,
     int? age,
@@ -53,16 +55,16 @@ class SignupFormState {
     int? currentHeight,
     String? dailyActivity,
     String? goal,
-    String? profilePictureUrl,
+    File? profilePicture,
     int? currentStep,
+    PageController? pageController,
   }) {
     return SignupFormState(
       email: email ?? this.email,
       password: password ?? this.password,
       obscurePassword: obscurePassword ?? this.obscurePassword,
-      obscureConfirmPassword:
-          obscureConfirmPassword ?? this.obscureConfirmPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
+      obscureConfirmPassword: obscureConfirmPassword ?? this.obscureConfirmPassword,
       name: name ?? this.name,
       gender: gender ?? this.gender,
       age: age ?? this.age,
@@ -71,8 +73,9 @@ class SignupFormState {
       currentHeight: currentHeight ?? this.currentHeight,
       dailyActivity: dailyActivity ?? this.dailyActivity,
       goal: goal ?? this.goal,
-      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
+      profilePicture: profilePicture ?? this.profilePicture,
       currentStep: currentStep ?? this.currentStep,
+      pageController: pageController ?? this.pageController,
     );
   }
 
@@ -80,7 +83,9 @@ class SignupFormState {
     return <String, dynamic>{
       'email': email,
       'password': password,
+      'obscurePassword': obscurePassword,
       'confirmPassword': confirmPassword,
+      'obscureConfirmPassword': obscureConfirmPassword,
       'name': name,
       'gender': gender,
       'age': age,
@@ -89,7 +94,6 @@ class SignupFormState {
       'currentHeight': currentHeight,
       'dailyActivity': dailyActivity,
       'goal': goal,
-      'profilePictureUrl': profilePictureUrl,
       'currentStep': currentStep,
     };
   }
@@ -98,16 +102,17 @@ class SignupFormState {
     return SignupFormState(
       email: map['email'] as String,
       password: map['password'] as String,
+      obscurePassword: map['obscurePassword'] as bool,
       confirmPassword: map['confirmPassword'] as String,
+      obscureConfirmPassword: map['obscureConfirmPassword'] as bool,
       name: map['name'] as String,
-      gender: map['gender'],
+      gender: map['gender'] as String,
       age: map['age'] as int,
       phoneNumber: map['phoneNumber'] as String,
       currentWeight: map['currentWeight'] as int,
       currentHeight: map['currentHeight'] as int,
-      dailyActivity: map['dailyActivity'],
-      goal: map['goal'],
-      profilePictureUrl: map['profilePictureUrl'] as String,
+      dailyActivity: map['dailyActivity'] as String,
+      goal: map['goal'] as String,
       currentStep: map['currentStep'] as int,
     );
   }
@@ -119,43 +124,50 @@ class SignupFormState {
 
   @override
   String toString() {
-    return 'SignupFormState(email: $email, password: $password, confirmPassword: $confirmPassword, name: $name, gender: $gender, age: $age, phoneNumber: $phoneNumber, currentWeight: $currentWeight, currentHeight: $currentHeight, dailyActivity: $dailyActivity, goal: $goal, profilePictureUrl: $profilePictureUrl, currentStep: $currentStep)';
+    return 'SignupFormState(email: $email, password: $password, obscurePassword: $obscurePassword, confirmPassword: $confirmPassword, obscureConfirmPassword: $obscureConfirmPassword, name: $name, gender: $gender, age: $age, phoneNumber: $phoneNumber, currentWeight: $currentWeight, currentHeight: $currentHeight, dailyActivity: $dailyActivity, goal: $goal, profilePicture: $profilePicture, currentStep: $currentStep, pageController: $pageController)';
   }
 
   @override
   bool operator ==(covariant SignupFormState other) {
     if (identical(this, other)) return true;
-
-    return other.email == email &&
-        other.password == password &&
-        other.confirmPassword == confirmPassword &&
-        other.name == name &&
-        other.gender == gender &&
-        other.age == age &&
-        other.phoneNumber == phoneNumber &&
-        other.currentWeight == currentWeight &&
-        other.currentHeight == currentHeight &&
-        other.dailyActivity == dailyActivity &&
-        other.goal == goal &&
-        other.profilePictureUrl == profilePictureUrl &&
-        other.currentStep == currentStep;
+  
+    return 
+      other.email == email &&
+      other.password == password &&
+      other.obscurePassword == obscurePassword &&
+      other.confirmPassword == confirmPassword &&
+      other.obscureConfirmPassword == obscureConfirmPassword &&
+      other.name == name &&
+      other.gender == gender &&
+      other.age == age &&
+      other.phoneNumber == phoneNumber &&
+      other.currentWeight == currentWeight &&
+      other.currentHeight == currentHeight &&
+      other.dailyActivity == dailyActivity &&
+      other.goal == goal &&
+      other.profilePicture == profilePicture &&
+      other.currentStep == currentStep &&
+      other.pageController == pageController;
   }
 
   @override
   int get hashCode {
     return email.hashCode ^
-        password.hashCode ^
-        confirmPassword.hashCode ^
-        name.hashCode ^
-        gender.hashCode ^
-        age.hashCode ^
-        phoneNumber.hashCode ^
-        currentWeight.hashCode ^
-        currentHeight.hashCode ^
-        dailyActivity.hashCode ^
-        goal.hashCode ^
-        profilePictureUrl.hashCode ^
-        currentStep.hashCode;
+      password.hashCode ^
+      obscurePassword.hashCode ^
+      confirmPassword.hashCode ^
+      obscureConfirmPassword.hashCode ^
+      name.hashCode ^
+      gender.hashCode ^
+      age.hashCode ^
+      phoneNumber.hashCode ^
+      currentWeight.hashCode ^
+      currentHeight.hashCode ^
+      dailyActivity.hashCode ^
+      goal.hashCode ^
+      profilePicture.hashCode ^
+      currentStep.hashCode ^
+      pageController.hashCode;
   }
 }
 
