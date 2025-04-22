@@ -90,8 +90,8 @@ class _DrawerItemState extends ConsumerState<_DrawerItem> {
 
   @override
   Widget build(BuildContext context) {
-    final drawerState = ref.watch(drawerStateProvider);
-    print("drawerstate: $drawerState");
+    // final drawerState = ref.watch(drawerStateProvider);
+    // print("drawerstate: $drawerState");
     return Stack(
       alignment: Alignment.centerLeft,
       children: [

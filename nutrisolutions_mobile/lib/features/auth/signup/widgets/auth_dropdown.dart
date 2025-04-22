@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/signup_form_notifier.dart';
-import 'package:nutrisolutions_mobile/features/auth/states/signup_form_state.dart';
 import 'package:nutrisolutions_mobile/features/auth/widgets/input_template_widgets.dart';
+
+import '../../../../data/models/enums.dart';
 
 class AgeDropDown extends ConsumerWidget {
   const AgeDropDown({super.key});
@@ -73,16 +73,6 @@ class GoalDropDown extends ConsumerWidget {
   }
 }
 
-extension GoalEnumExtension on GoalEnum {
-  String get label {
-    switch (this) {
-      case GoalEnum.looseWeight:
-        return 'Lose Weight';
-      case GoalEnum.gainMuscle:
-        return 'Gain Muscle';
-    }
-  }
-}
 
 class GenderDropDown extends ConsumerWidget {
   const GenderDropDown({super.key});
@@ -118,15 +108,3 @@ class DailyActivityDropDown extends ConsumerWidget {
   }
 }
 
-extension DailyActivityEnumExtension on DailyActivityEnum {
-  String get label {
-    switch (this) {
-      case DailyActivityEnum.veryActive:
-        return 'Very Active';
-      case DailyActivityEnum.moderatelyActive:
-        return 'Moderately Active';
-      case DailyActivityEnum.sedentary:
-        return 'Sedentary';
-    }
-  }
-}

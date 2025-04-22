@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrisolutions_mobile/core/utils/validators.dart';
+import 'package:nutrisolutions_mobile/data/providers/client_provider.dart';
 
+import '../../../core/constants/app_constants.dart';
+import '../../../data/models/client_model.dart';
+import '../../../data/providers/auth_provider.dart';
 import '../states/login_form_state.dart';
 
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
-  LoginFormNotifier() : super(const LoginFormState());
+  final Ref ref;
+  LoginFormNotifier(this.ref) : super(const LoginFormState());
 
   void updateEmail(String value) {
     state = state.copyWith(email: value);
@@ -29,26 +34,31 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     state = state.copyWith(rememberMe: value);
   }
 
-  Future<void> submitLogin() async {
+  Future<ClientModel?> submitLogin() async {
     state = state.copyWith(isLoading: true);
 
-    // Fake delay to simulate API call
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (state.email == "test@example.com" && state.password == "123456") {
-      // success
-      state = state.copyWith(isLoading: false);
-    } else {
-      // failure
-      state = state.copyWith(
-        isLoading: false,
-        // errorMessage: "Invalid credentials",
+    try {
+      final authService = ref.read(authServiceProvider);
+      final result = await authService.login(
+        email: state.email,
+        password: state.password,
       );
+      state = state.copyWith(isLoading: false);
+      return result;
+    } catch (e, stacktrace) {
+
+      state = state.copyWith(isLoading: false);
+      return null;
     }
+  }
+
+  bool validateLoginForm() {
+    return ((state.emailErrorMessage == AppConstants.valid) &&
+        (state.passwordErrorMessage == AppConstants.valid));
   }
 }
 
 final loginFormProvider =
     StateNotifierProvider<LoginFormNotifier, LoginFormState>((ref) {
-  return LoginFormNotifier();
+  return LoginFormNotifier(ref);
 });

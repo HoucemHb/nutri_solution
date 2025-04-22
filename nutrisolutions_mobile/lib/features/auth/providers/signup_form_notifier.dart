@@ -19,7 +19,6 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
   void updatePassword(String value) {
     state = state.copyWith(password: value);
     final validationResult = AppValidators.validatePassword(value);
-    print(validationResult);
     final passwordStrengthLevel = AppValidators.validatePasswordStrength(value);
     state = state.copyWith(
         passwordErrorMessage: validationResult,

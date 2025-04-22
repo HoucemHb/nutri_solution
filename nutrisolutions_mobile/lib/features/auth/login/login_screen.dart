@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,8 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginFormState = ref.watch(loginFormProvider);
+    final loginFormNotifier = ref.read(loginFormProvider.notifier);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFFDF2E9),
@@ -46,7 +49,33 @@ class LoginScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (!loginFormNotifier.validateLoginForm()) {
+                            Fluttertoast.showToast(
+                              msg: "Fill the required fields!",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.TOP,
+                              backgroundColor: AppColors.red,
+                              textColor: Colors.white,
+                              fontSize: 18.0,
+                            );
+                          } else {
+                            final response =
+                                await loginFormNotifier.submitLogin();
+                            if (response != null) {
+                              context.go('/');
+                            } else {
+                              Fluttertoast.showToast(
+                                msg: "Invalid credentials!",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.TOP,
+                                backgroundColor: AppColors.red,
+                                textColor: Colors.white,
+                                fontSize: 18.0,
+                              );
+                            }
+                          }
+                        },
                         child: const Text(
                           'Login',
                           style: TextStyle(fontSize: 16, color: Colors.white),

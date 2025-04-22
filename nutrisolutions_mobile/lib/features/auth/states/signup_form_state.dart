@@ -189,19 +189,3 @@ class SignupFormState {
   }
 }
 
-enum GenderEnum { male, female }
-
-extension GenderEnumExtension on GenderEnum {
-  String get label {
-    switch (this) {
-      case GenderEnum.male:
-        return 'Male';
-      case GenderEnum.female:
-        return 'Female';
-    }
-  }
-}
-
-enum DailyActivityEnum { veryActive, moderatelyActive, sedentary }
-
-enum GoalEnum { looseWeight, gainMuscle }
