@@ -22,10 +22,18 @@ class SignupFormState {
   final File? profilePicture;
   final int currentStep;
   final PageController pageController;
+  final String? emailErrorMessage;
+  final String? passwordErrorMessage;
+  final String? passwordStrengthLevel;
+  final String? confirmPasswordErrorMessage;
   SignupFormState({
     PageController? pageController,
     this.email = '',
     this.password = '',
+    this.emailErrorMessage,
+    this.passwordErrorMessage,
+    this.passwordStrengthLevel,
+    this.confirmPasswordErrorMessage,
     this.obscurePassword = true,
     this.confirmPassword = '',
     this.obscureConfirmPassword = true,
@@ -44,6 +52,10 @@ class SignupFormState {
   SignupFormState copyWith({
     String? email,
     String? password,
+    String? emailErrorMessage,
+    String? passwordErrorMessage,
+    String? passwordStrengthLevel,
+    String? confirmPasswordErrorMessage,
     bool? obscurePassword,
     String? confirmPassword,
     bool? obscureConfirmPassword,
@@ -61,10 +73,15 @@ class SignupFormState {
   }) {
     return SignupFormState(
       email: email ?? this.email,
+      emailErrorMessage: emailErrorMessage ?? this.emailErrorMessage,
+      passwordErrorMessage: passwordErrorMessage ?? this.passwordErrorMessage,
+      passwordStrengthLevel:
+          passwordStrengthLevel ?? this.passwordStrengthLevel,
       password: password ?? this.password,
       obscurePassword: obscurePassword ?? this.obscurePassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
-      obscureConfirmPassword: obscureConfirmPassword ?? this.obscureConfirmPassword,
+      obscureConfirmPassword:
+          obscureConfirmPassword ?? this.obscureConfirmPassword,
       name: name ?? this.name,
       gender: gender ?? this.gender,
       age: age ?? this.age,
@@ -76,6 +93,8 @@ class SignupFormState {
       profilePicture: profilePicture ?? this.profilePicture,
       currentStep: currentStep ?? this.currentStep,
       pageController: pageController ?? this.pageController,
+      confirmPasswordErrorMessage:
+          confirmPasswordErrorMessage ?? this.confirmPasswordErrorMessage,
     );
   }
 
@@ -130,44 +149,43 @@ class SignupFormState {
   @override
   bool operator ==(covariant SignupFormState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.email == email &&
-      other.password == password &&
-      other.obscurePassword == obscurePassword &&
-      other.confirmPassword == confirmPassword &&
-      other.obscureConfirmPassword == obscureConfirmPassword &&
-      other.name == name &&
-      other.gender == gender &&
-      other.age == age &&
-      other.phoneNumber == phoneNumber &&
-      other.currentWeight == currentWeight &&
-      other.currentHeight == currentHeight &&
-      other.dailyActivity == dailyActivity &&
-      other.goal == goal &&
-      other.profilePicture == profilePicture &&
-      other.currentStep == currentStep &&
-      other.pageController == pageController;
+
+    return other.email == email &&
+        other.password == password &&
+        other.obscurePassword == obscurePassword &&
+        other.confirmPassword == confirmPassword &&
+        other.obscureConfirmPassword == obscureConfirmPassword &&
+        other.name == name &&
+        other.gender == gender &&
+        other.age == age &&
+        other.phoneNumber == phoneNumber &&
+        other.currentWeight == currentWeight &&
+        other.currentHeight == currentHeight &&
+        other.dailyActivity == dailyActivity &&
+        other.goal == goal &&
+        other.profilePicture == profilePicture &&
+        other.currentStep == currentStep &&
+        other.pageController == pageController;
   }
 
   @override
   int get hashCode {
     return email.hashCode ^
-      password.hashCode ^
-      obscurePassword.hashCode ^
-      confirmPassword.hashCode ^
-      obscureConfirmPassword.hashCode ^
-      name.hashCode ^
-      gender.hashCode ^
-      age.hashCode ^
-      phoneNumber.hashCode ^
-      currentWeight.hashCode ^
-      currentHeight.hashCode ^
-      dailyActivity.hashCode ^
-      goal.hashCode ^
-      profilePicture.hashCode ^
-      currentStep.hashCode ^
-      pageController.hashCode;
+        password.hashCode ^
+        obscurePassword.hashCode ^
+        confirmPassword.hashCode ^
+        obscureConfirmPassword.hashCode ^
+        name.hashCode ^
+        gender.hashCode ^
+        age.hashCode ^
+        phoneNumber.hashCode ^
+        currentWeight.hashCode ^
+        currentHeight.hashCode ^
+        dailyActivity.hashCode ^
+        goal.hashCode ^
+        profilePicture.hashCode ^
+        currentStep.hashCode ^
+        pageController.hashCode;
   }
 }
 

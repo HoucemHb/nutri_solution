@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class LoginFormState {
@@ -6,7 +7,8 @@ class LoginFormState {
   final bool isLoading;
   final bool obscurePassword;
   final bool rememberMe;
-  final String? errorMessage;
+  final String? emailErrorMessage;
+  final String? passwordErrorMessage;
 
   const LoginFormState({
     this.email = '',
@@ -14,7 +16,8 @@ class LoginFormState {
     this.isLoading = false,
     this.obscurePassword = true,
     this.rememberMe = false,
-    this.errorMessage,
+    this.emailErrorMessage,
+    this.passwordErrorMessage,
   });
 
   LoginFormState copyWith({
@@ -23,7 +26,8 @@ class LoginFormState {
     bool? isLoading,
     bool? obscurePassword,
     bool? rememberMe,
-    String? errorMessage,
+    String? emailErrorMessage,
+    String? passwordErrorMessage,
   }) {
     return LoginFormState(
       email: email ?? this.email,
@@ -31,7 +35,8 @@ class LoginFormState {
       isLoading: isLoading ?? this.isLoading,
       obscurePassword: obscurePassword ?? this.obscurePassword,
       rememberMe: rememberMe ?? this.rememberMe,
-      errorMessage: errorMessage ?? this.errorMessage,
+      emailErrorMessage: emailErrorMessage ?? this.emailErrorMessage,
+      passwordErrorMessage: passwordErrorMessage ?? this.passwordErrorMessage,
     );
   }
 
@@ -42,7 +47,8 @@ class LoginFormState {
       'isLoading': isLoading,
       'obscurePassword': obscurePassword,
       'rememberMe': rememberMe,
-      'errorMessage': errorMessage,
+      'emailErrorMessage': emailErrorMessage,
+      'passwordErrorMessage': passwordErrorMessage,
     };
   }
 
@@ -53,39 +59,46 @@ class LoginFormState {
       isLoading: map['isLoading'] as bool,
       obscurePassword: map['obscurePassword'] as bool,
       rememberMe: map['rememberMe'] as bool,
-      errorMessage: map['errorMessage'] != null ? map['errorMessage'] as String : null,
+      emailErrorMessage: map['emailErrorMessage'] != null
+          ? map['emailErrorMessage'] as String
+          : null,
+      passwordErrorMessage: map['passwordErrorMessage'] != null
+          ? map['passwordErrorMessage'] as String
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory LoginFormState.fromJson(String source) => LoginFormState.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory LoginFormState.fromJson(String source) =>
+      LoginFormState.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'LoginFormState(email: $email, password: $password, isLoading: $isLoading, obscurePassword: $obscurePassword, rememberMe: $rememberMe, errorMessage: $errorMessage)';
+    return 'LoginFormState(email: $email, password: $password, isLoading: $isLoading, obscurePassword: $obscurePassword, rememberMe: $rememberMe, emailErrorMessage: $emailErrorMessage, passwordErrorMessage: $passwordErrorMessage)';
   }
 
   @override
   bool operator ==(covariant LoginFormState other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.email == email &&
-      other.password == password &&
-      other.isLoading == isLoading &&
-      other.obscurePassword == obscurePassword &&
-      other.rememberMe == rememberMe &&
-      other.errorMessage == errorMessage;
+
+    return other.email == email &&
+        other.password == password &&
+        other.isLoading == isLoading &&
+        other.obscurePassword == obscurePassword &&
+        other.rememberMe == rememberMe &&
+        other.emailErrorMessage == emailErrorMessage &&
+        other.passwordErrorMessage == passwordErrorMessage;
   }
 
   @override
   int get hashCode {
     return email.hashCode ^
-      password.hashCode ^
-      isLoading.hashCode ^
-      obscurePassword.hashCode ^
-      rememberMe.hashCode ^
-      errorMessage.hashCode;
+        password.hashCode ^
+        isLoading.hashCode ^
+        obscurePassword.hashCode ^
+        rememberMe.hashCode ^
+        emailErrorMessage.hashCode ^
+        passwordErrorMessage.hashCode;
   }
 }

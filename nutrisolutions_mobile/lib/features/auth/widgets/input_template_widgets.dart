@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/core/utils/decoration.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
 import 'package:nutrisolutions_mobile/features/auth/widgets/auth_label_widget.dart';
 
@@ -10,15 +12,25 @@ import '../providers/login_form_notifier.dart';
 class EmailTemplate extends ConsumerWidget {
   final void Function(String)? onChanged;
   final String labelText;
-
-  const EmailTemplate({this.onChanged, super.key, required this.labelText});
+  final String? noteText;
+  final bool isError;
+  const EmailTemplate(
+      {this.onChanged,
+      this.noteText,
+      this.isError = false,
+      super.key,
+      required this.labelText});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextInputTemplate(
-        labelText: labelText,
-        hintText: 'Enter your email',
-        onChanged: onChanged);
+      labelText: labelText,
+      hintText: 'Enter your email',
+      onChanged: onChanged,
+      noteText: noteText,
+      isError: isError,
+      keyboardType: TextInputType.emailAddress,
+    );
   }
 }
 
@@ -26,20 +38,28 @@ class TextInputTemplate extends ConsumerWidget {
   final void Function(String)? onChanged;
   final String labelText;
   final String hintText;
-
+  final String? noteText;
+  final bool isError;
+  final TextInputType keyboardType;
   const TextInputTemplate(
       {this.onChanged,
       required this.hintText,
+      this.keyboardType = TextInputType.text,
       super.key,
-      required this.labelText});
+      required this.labelText,
+      this.noteText,
+      this.isError = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return _AuthInput(
-        labelText: labelText,
-        hintText: hintText,
-        keyboardType: TextInputType.emailAddress,
-        onChanged: onChanged);
+      labelText: labelText,
+      hintText: hintText,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      isError: isError,
+      noteText: noteText,
+    );
   }
 }
 
@@ -49,31 +69,35 @@ class PasswordTemplate extends StatelessWidget {
   final bool obscureText;
   final VoidCallback onToggleVisibility;
   final void Function(String)? onChanged;
+  final String? noteText;
+  final bool isError;
 
-  const PasswordTemplate({
-    required this.hintText,
-    required this.obscureText,
-    required this.onToggleVisibility,
-    this.onChanged,
-    super.key,
-    required this.labelText,
-  });
+  const PasswordTemplate(
+      {required this.hintText,
+      required this.obscureText,
+      required this.onToggleVisibility,
+      this.onChanged,
+      super.key,
+      required this.labelText,
+      this.noteText,
+      this.isError = false});
 
   @override
   Widget build(BuildContext context) {
     return _AuthInput(
-      labelText: labelText,
-      hintText: hintText,
-      obscureText: obscureText,
-      suffixIcon: IconButton(
-        icon: Icon(
-          obscureText ? Icons.visibility : Icons.visibility_off,
-          color: Colors.grey,
+        labelText: labelText,
+        hintText: hintText,
+        obscureText: obscureText,
+        suffixIcon: IconButton(
+          icon: Icon(
+            obscureText ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+          onPressed: onToggleVisibility,
         ),
-        onPressed: onToggleVisibility,
-      ),
-      onChanged: onChanged,
-    );
+        onChanged: onChanged,
+        isError: isError,
+        noteText: noteText);
   }
 }
 
@@ -84,6 +108,8 @@ class _AuthInput extends StatelessWidget {
   final Widget? suffixIcon;
   final TextInputType keyboardType;
   final void Function(String)? onChanged;
+  final String? noteText;
+  final bool isError;
 
   const _AuthInput({
     super.key,
@@ -93,13 +119,26 @@ class _AuthInput extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.onChanged,
     required this.labelText,
+    this.noteText,
+    this.isError = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final valid = noteText == AppConstants.valid ||
+        noteText == AppConstants.normalPassword ||
+        noteText == AppConstants.strongPassword;
     return Column(
       children: [
-        AuthLabel(labelText: labelText),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            AuthLabel(labelText: labelText),
+            if (noteText != null)
+              _InputNote(noteText: noteText!, isError: isError)
+          ],
+        ),
         const Gap(8),
         TextField(
           obscureText: obscureText,
@@ -111,29 +150,49 @@ class _AuthInput extends StatelessWidget {
               horizontal: 12,
             ),
             hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: const BorderSide(
-                color: AppColors.primaryColor,
-                width: 0.5,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: const BorderSide(
-                color: AppColors.hintText,
-                width: 0.5,
-              ),
-            ),
+            border: AppDecoration.getInputBorder(isError, valid, noteText),
+            focusedBorder:
+                AppDecoration.getInputBorder(isError, valid, noteText),
+            enabledBorder:
+                AppDecoration.getInputBorder(isError, valid, noteText),
             filled: true,
             fillColor: Colors.white,
             suffixIcon: suffixIcon,
           ),
         ),
       ],
+    );
+  }
+}
+
+class _InputNote extends StatelessWidget {
+  final String noteText;
+  final bool isError;
+  const _InputNote({super.key, required this.noteText, this.isError = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: isError
+            ? AppColors.lightRed
+            : noteText == 'Weak..'
+                ? const Color.fromARGB(255, 255, 196, 100)
+                : AppColors.lightGreen,
+        borderRadius: BorderRadius.circular(11),
+      ),
+      child: Text(
+        noteText,
+        style: TextStyle(
+          color: isError
+              ? AppColors.red
+              : noteText == 'Weak..'
+                  ? AppColors.primaryColor
+                  : AppColors.secondaryColor,
+          fontSize: 12,
+        ),
+      ),
     );
   }
 }

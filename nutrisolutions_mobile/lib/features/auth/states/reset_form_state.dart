@@ -3,6 +3,9 @@ import 'dart:convert';
 
 class ResetFormState {
   final String oldPassword;
+  final String? newPasswordErrorMessage;
+  final String? confirmPasswordErrorMessage;
+  final String? newPasswordStrengthLevel;
   final String newPassword;
   final String confirmPassword;
   final bool obscureConfirmPassword;
@@ -13,6 +16,9 @@ class ResetFormState {
     this.oldPassword = '',
     this.newPassword = '',
     this.confirmPassword = '',
+    this.newPasswordErrorMessage,
+    this.newPasswordStrengthLevel,
+    this.confirmPasswordErrorMessage,
     this.obscureConfirmPassword = true,
     this.obscureNewPassword = true,
     this.obscureOldPassword = true,
@@ -22,6 +28,10 @@ class ResetFormState {
     String? oldPassword,
     String? newPassword,
     String? confirmPassword,
+    String? oldPasswordErrorMessage,
+    String? newPasswordErrorMessage,
+    String? newPasswordStrengthLevel,
+    String? confirmPasswordErrorMessage,
     bool? obscureConfirmPassword,
     bool? obscureNewPassword,
     bool? obscureOldPassword,
@@ -30,7 +40,14 @@ class ResetFormState {
       oldPassword: oldPassword ?? this.oldPassword,
       newPassword: newPassword ?? this.newPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
-      obscureConfirmPassword: obscureConfirmPassword ?? this.obscureConfirmPassword,
+      newPasswordErrorMessage:
+          newPasswordErrorMessage ?? this.newPasswordErrorMessage,
+      newPasswordStrengthLevel:
+          newPasswordStrengthLevel ?? this.newPasswordStrengthLevel,
+      confirmPasswordErrorMessage:
+          confirmPasswordErrorMessage ?? this.confirmPasswordErrorMessage,
+      obscureConfirmPassword:
+          obscureConfirmPassword ?? this.obscureConfirmPassword,
       obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
       obscureOldPassword: obscureOldPassword ?? this.obscureOldPassword,
     );

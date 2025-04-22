@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nutrisolutions_mobile/core/utils/validators.dart';
 
 import '../states/login_form_state.dart';
 
@@ -6,11 +7,18 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   LoginFormNotifier() : super(const LoginFormState());
 
   void updateEmail(String value) {
-    state = state.copyWith(email: value, errorMessage: null);
+    state = state.copyWith(email: value);
+    final validationResult = AppValidators.validateEmail(value);
+    state = state.copyWith(emailErrorMessage: validationResult);
   }
 
   void updatePassword(String value) {
-    state = state.copyWith(password: value, errorMessage: null);
+    state = state.copyWith(password: value);
+    final validationResult = AppValidators.validatePassword(value);
+
+    state = state.copyWith(
+      passwordErrorMessage: validationResult,
+    );
   }
 
   void togglePasswordVisibility() {
@@ -22,10 +30,10 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
   }
 
   Future<void> submitLogin() async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isLoading: true);
 
     // Fake delay to simulate API call
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     if (state.email == "test@example.com" && state.password == "123456") {
       // success
@@ -34,7 +42,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
       // failure
       state = state.copyWith(
         isLoading: false,
-        errorMessage: "Invalid credentials",
+        // errorMessage: "Invalid credentials",
       );
     }
   }

@@ -37,11 +37,11 @@ class ResetPasswordScreen extends ConsumerWidget {
                     OldPasswordField(
                         obscureText: resetPasswordState.obscureOldPassword),
                     const Gap(20),
-                    ConfirmPasswordField(
-                        obscureText: resetPasswordState.obscureConfirmPassword),
-                    const Gap(20),
                     NewPasswordField(
                         obscureText: resetPasswordState.obscureNewPassword),
+                    const Gap(20),
+                    ConfirmPasswordField(
+                        obscureText: resetPasswordState.obscureConfirmPassword),
                     const Gap(40),
                     SizedBox(
                       width: double.infinity,

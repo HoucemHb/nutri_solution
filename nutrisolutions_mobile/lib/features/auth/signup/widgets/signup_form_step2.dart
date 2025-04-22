@@ -33,6 +33,7 @@ class SignupFormStep2 extends ConsumerWidget {
           TextInputTemplate(
             labelText: 'Phone Number',
             hintText: 'Enter your phone number (+216 ...)',
+            keyboardType: TextInputType.phone,
           ),
         ],
       ),

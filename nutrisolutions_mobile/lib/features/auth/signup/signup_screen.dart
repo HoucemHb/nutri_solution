@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
@@ -107,8 +108,24 @@ class SignupScreen extends ConsumerWidget {
                                 width: 150,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    signupNotifier.animateToPage(
-                                        signupState.currentStep + 1);
+                                    if ((signupState.currentStep == 0 &&
+                                            !signupNotifier
+                                                .validateAccountInformation()) ||
+                                        (signupState.currentStep == 1 &&
+                                            !signupNotifier
+                                                .validateProfileData())) {
+                                      Fluttertoast.showToast(
+                                        msg: "Fill the required fields!",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        backgroundColor: AppColors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 18.0,
+                                      );
+                                    } else {
+                                      signupNotifier.animateToPage(
+                                          signupState.currentStep + 1);
+                                    }
                                   },
                                   child: const Text(
                                     'Next',
@@ -123,7 +140,14 @@ class SignupScreen extends ConsumerWidget {
                             SizedBox(
                               width: 150,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (!signupNotifier
+                                      .validateProfilePicture()) {
+                                    //popup
+                                  } else {
+                                    //signup api
+                                  }
+                                },
                                 child: const Text(
                                   'Confirm',
                                   style: TextStyle(fontSize: 16),
