@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/shared/custom_drawer.dart';
-import 'package:uni_links/uni_links.dart';
 import 'app_observer.dart';
 import 'core/theme/theme.dart';
 import 'routes/app_router.dart';
@@ -24,14 +24,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final appLinks = AppLinks();
+
   bool _initialUriHandled = false;
   StreamSubscription? _sub;
-  void _initDeepLinkListener() {
+  Future<void> _initDeepLinkListener() async {
     // Handle initial URI that may have launched the app
+
     if (!_initialUriHandled) {
       _initialUriHandled = true;
       try {
-        getInitialUri().then((Uri? uri) {
+        appLinks.getInitialLink().then((Uri? uri) {
           if (uri != null) {
             debugPrint('Initial URI: $uri');
             _handleDeepLink(uri);
@@ -44,19 +47,10 @@ class _MyAppState extends State<MyApp> {
     }
 
     // Listen for subsequent URI events
-    try {
-      _sub = uriLinkStream.listen((Uri? uri) {
-        if (uri != null) {
-          debugPrint('Got URI: $uri');
-          _handleDeepLink(uri);
-        }
-      }, onError: (Object err) {
-        debugPrint('URI stream error: $err');
-      });
-    } catch (e) {
-      // Changed from specific exception types to a general catch
-      debugPrint('Failed to subscribe to URI links: $e');
-    }
+    appLinks.uriLinkStream.listen((Uri uri) {
+      print('uri detected: $uri');
+      _handleDeepLink(uri); // Navigate using go_router
+    });
   }
 
   void _handleDeepLink(Uri uri) {

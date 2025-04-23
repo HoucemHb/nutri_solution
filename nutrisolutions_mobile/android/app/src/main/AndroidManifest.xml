@@ -32,17 +32,16 @@
 			<!-- For Flutter deep linking -->
 			<meta-data android:name="flutter-deepLink" android:value="true" />
 
-			<intent-filter>
+			<!-- <intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
 				<data
 					android:scheme="http"
 					android:host="localhost:4200" />
-			</intent-filter>
+			</intent-filter> -->
 
-			<!-- <intent-filter android:autoVerify="true">
+			<intent-filter android:autoVerify="true">
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
@@ -54,7 +53,7 @@
 					android:host="localhost"
 					android:port="4200"
 					android:pathPrefix="/reset-password" />
-			</intent-filter> -->
+			</intent-filter>
 		</activity>
 
 		<!-- Required for Flutter plugins -->
