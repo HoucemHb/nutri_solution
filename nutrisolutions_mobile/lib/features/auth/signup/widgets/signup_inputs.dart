@@ -15,6 +15,7 @@ class SignupEmailField extends ConsumerWidget {
     final signupFormState = ref.watch(signupFormProvider);
 
     return EmailTemplate(
+        value: signupFormState.email,
         labelText: 'Email address',
         onChanged: signupNotifier.updateEmail,
         noteText: signupFormState.emailErrorMessage,
@@ -33,6 +34,7 @@ class SignupPasswordField extends ConsumerWidget {
     final signupFormState = ref.watch(signupFormProvider);
 
     return PasswordTemplate(
+      value: signupFormState.password,
       labelText: 'Password',
       hintText: 'Enter your password',
       obscureText: obscureText,
@@ -57,6 +59,7 @@ class SignupConfirmPasswordField extends ConsumerWidget {
     final signupFormState = ref.watch(signupFormProvider);
 
     return PasswordTemplate(
+        value: signupFormState.confirmPassword,
         labelText: 'Confirm Password',
         hintText: 'Confirm your password',
         obscureText: obscureText,

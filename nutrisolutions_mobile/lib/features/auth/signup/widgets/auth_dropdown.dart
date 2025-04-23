@@ -5,22 +5,6 @@ import 'package:nutrisolutions_mobile/features/auth/widgets/input_template_widge
 
 import '../../../../data/models/enums.dart';
 
-class AgeDropDown extends ConsumerWidget {
-  const AgeDropDown({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final signupFormState = ref.watch(signupFormProvider);
-    return DropDownTemplate<int>(
-      labelText: 'Age',
-      items: List.generate(90, (index) => index + 10),
-      selectedValue: signupFormState.age,
-      onChanged: (value) {
-        ref.read(signupFormProvider.notifier).updateAge(value!);
-      },
-    );
-  }
-}
 
 class HeightDropDown extends ConsumerWidget {
   const HeightDropDown({super.key});

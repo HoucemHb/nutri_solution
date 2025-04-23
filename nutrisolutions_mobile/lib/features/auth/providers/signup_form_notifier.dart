@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/utils/validators.dart';
+import 'package:nutrisolutions_mobile/data/providers/image_upload_provider.dart';
 
+import '../../../data/models/client_model.dart';
+import '../../../data/providers/auth_provider.dart';
 import '../states/signup_form_state.dart';
 
 class SignupFormNotifier extends StateNotifier<SignupFormState> {
-  SignupFormNotifier() : super(SignupFormState());
+  final Ref ref;
+  SignupFormNotifier(this.ref) : super(SignupFormState());
 
   void updateEmail(String value) {
     state = state.copyWith(email: value);
@@ -49,8 +53,10 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
     state = state.copyWith(gender: gender);
   }
 
-  void updateAge(int value) {
-    state = state.copyWith(age: value);
+  void updateBirthdate(DateTime picked) async {
+    if (picked != state.birthDate) {
+      state = state.copyWith(birthDate: picked);
+    }
   }
 
   void updatePhoneNumber(String value) {
@@ -106,9 +112,36 @@ class SignupFormNotifier extends StateNotifier<SignupFormState> {
   bool validateProfilePicture() {
     return (state.profilePicture != null);
   }
+
+  Future<String> uploadImage() async {
+    try {
+      final imageUploadService = ref.read(imageUploadServiceProvider);
+      final result =
+          await imageUploadService.uploadImage(state.profilePicture!);
+      return result.path;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return '';
+    }
+  }
+
+  Future<bool> submitSignup() async {
+    try {
+      final authService = ref.read(authServiceProvider);
+      final profilePictureUrl = await uploadImage();
+      final client = state.toClientModel(profilePictureUrl);
+      await authService.signup(client);
+      state = state.copyWith(isLoading: false);
+      return true;
+    } catch (e) {
+      print('Error during signup: $e');
+      state = state.copyWith(isLoading: false);
+      return false;
+    }
+  }
 }
 
 final signupFormProvider =
     StateNotifierProvider<SignupFormNotifier, SignupFormState>((ref) {
-  return SignupFormNotifier();
+  return SignupFormNotifier(ref);
 });

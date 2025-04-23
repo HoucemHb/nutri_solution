@@ -140,12 +140,35 @@ class SignupScreen extends ConsumerWidget {
                             SizedBox(
                               width: 150,
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (!signupNotifier
                                       .validateProfilePicture()) {
                                     //popup
                                   } else {
-                                    //signup api
+                                    print("signup triggered");
+                                    final bool result =
+                                        await signupNotifier.submitSignup();
+                                    if (result) {
+                                      Fluttertoast.showToast(
+                                        msg: "Account created successfully!",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        backgroundColor:
+                                            AppColors.secondaryColor,
+                                        textColor: Colors.white,
+                                        fontSize: 18.0,
+                                      );
+                                      context.go('/');
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Error signing up!",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.TOP,
+                                        backgroundColor: AppColors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 18.0,
+                                      );
+                                    }
                                   }
                                 },
                                 child: const Text(

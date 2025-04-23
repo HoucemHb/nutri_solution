@@ -36,12 +36,17 @@ class AuthService {
     final url = Uri.parse('$_baseUrl/signup');
     final response = await http.post(
       url,
-      body: jsonEncode(user.toJson()),
+      body: user.toJson(),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception(AppUtils.getErrorMessage(response.body));
+    } else {
+      login(
+        email: user.email,
+        password: user.password,
+      );
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrisolutions_mobile/core/utils/validators.dart';
-import 'package:nutrisolutions_mobile/data/providers/client_provider.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../data/models/client_model.dart';
@@ -59,6 +58,6 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 }
 
 final loginFormProvider =
-    StateNotifierProvider<LoginFormNotifier, LoginFormState>((ref) {
+    StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
   return LoginFormNotifier(ref);
 });

@@ -36,7 +36,9 @@ ThemeData lightTheme = ThemeData(
         fontSize: 16,
         fontWeight: FontWeight.w600),
     labelSmall: poppins.copyWith(
-        color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w600),
+        color: AppColors.primaryColor,
+        fontSize: 18,
+        fontWeight: FontWeight.w600),
   ),
   appBarTheme: const AppBarTheme(
     color: AppColors.primaryColor,
@@ -46,7 +48,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   colorScheme: const ColorScheme.light(
-      primary: AppColors.primaryColor, surface: Colors.transparent),
+      surface: AppColors.white, primary: AppColors.primaryColor),
   primaryColor: AppColors.primaryColor,
   bottomNavigationBarTheme:
       const BottomNavigationBarThemeData(backgroundColor: Colors.transparent),
@@ -89,6 +91,7 @@ ThemeData lightTheme = ThemeData(
     hintStyle: poppins.copyWith(
         color: AppColors.hintText, fontSize: 16, fontWeight: FontWeight.w400),
   ),
+  dialogBackgroundColor: AppColors.white,
   drawerTheme: DrawerThemeData(
     backgroundColor: AppColors.brown,
     elevation: 8,

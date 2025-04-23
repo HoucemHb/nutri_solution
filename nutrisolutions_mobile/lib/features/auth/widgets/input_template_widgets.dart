@@ -4,26 +4,26 @@ import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/core/utils/decoration.dart';
-import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
 import 'package:nutrisolutions_mobile/features/auth/widgets/auth_label_widget.dart';
-
-import '../providers/login_form_notifier.dart';
 
 class EmailTemplate extends ConsumerWidget {
   final void Function(String)? onChanged;
   final String labelText;
   final String? noteText;
   final bool isError;
+  final String? value;
   const EmailTemplate(
       {this.onChanged,
       this.noteText,
       this.isError = false,
       super.key,
-      required this.labelText});
+      required this.labelText,   
+      this.value});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextInputTemplate(
+      value:value,
       labelText: labelText,
       hintText: 'Enter your email',
       onChanged: onChanged,
@@ -41,6 +41,7 @@ class TextInputTemplate extends ConsumerWidget {
   final String? noteText;
   final bool isError;
   final TextInputType keyboardType;
+  final String? value;
   const TextInputTemplate(
       {this.onChanged,
       required this.hintText,
@@ -48,11 +49,13 @@ class TextInputTemplate extends ConsumerWidget {
       super.key,
       required this.labelText,
       this.noteText,
-      this.isError = false});
+      this.isError = false,
+      this.value});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return _AuthInput(
+      value: value,
       labelText: labelText,
       hintText: hintText,
       keyboardType: keyboardType,
@@ -71,6 +74,7 @@ class PasswordTemplate extends StatelessWidget {
   final void Function(String)? onChanged;
   final String? noteText;
   final bool isError;
+  final String? value;
 
   const PasswordTemplate(
       {required this.hintText,
@@ -80,11 +84,13 @@ class PasswordTemplate extends StatelessWidget {
       super.key,
       required this.labelText,
       this.noteText,
-      this.isError = false});
+      this.isError = false,
+      this.value});
 
   @override
   Widget build(BuildContext context) {
     return _AuthInput(
+        value: value,
         labelText: labelText,
         hintText: hintText,
         obscureText: obscureText,
@@ -110,6 +116,7 @@ class _AuthInput extends StatelessWidget {
   final void Function(String)? onChanged;
   final String? noteText;
   final bool isError;
+  final String? value;
 
   const _AuthInput({
     super.key,
@@ -121,6 +128,7 @@ class _AuthInput extends StatelessWidget {
     required this.labelText,
     this.noteText,
     this.isError = false,
+    this.value,
   });
 
   @override
@@ -140,7 +148,8 @@ class _AuthInput extends StatelessWidget {
           ],
         ),
         const Gap(8),
-        TextField(
+        TextFormField(
+          initialValue: value,
           obscureText: obscureText,
           onChanged: onChanged,
           keyboardType: keyboardType,

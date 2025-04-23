@@ -108,7 +108,7 @@ class ClientModel {
       'phoneNumber': phoneNumber,
       'profilePictureUrl': profilePictureUrl,
       'gender': gender,
-      'birthDate': birthDate.millisecondsSinceEpoch,
+      'birthDate': birthDate.toIso8601String(),
       'role': role,
       'height': height,
       'weight': weight,
@@ -117,7 +117,7 @@ class ClientModel {
       'activityLevel': activityLevel,
       'reservedSlots': reservedSlots.map((x) => x).toList(),
       'reservedSlotsCount': reservedSlotsCount,
-      'id': id,
+      // 'id': id,
     };
   }
 
