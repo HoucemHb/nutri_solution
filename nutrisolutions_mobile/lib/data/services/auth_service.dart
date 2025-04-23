@@ -50,6 +50,42 @@ class AuthService {
     }
   }
 
+  Future<void> resetPasswordRequest(String email) async {
+    final url = Uri.parse('$_baseUrl/request-password-reset');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    if (response.statusCode != 200) {
+      final body = jsonDecode(response.body);
+      throw Exception(body['message'] ?? 'Erreur lors de la requête');
+    }
+  }
+
+  Future<void> resetPassword(
+      String token, String oldPassword, String newPassword) async {
+    final url = Uri.parse('$_baseUrl/reset-password');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      final body = jsonDecode(response.body);
+      throw Exception(body['message'] ?? 'Erreur inconnue');
+    }
+  }
+
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();

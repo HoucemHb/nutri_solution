@@ -4,13 +4,23 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
+import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
 import '../providers/login_form_notifier.dart';
 import '../widgets/auth_label_widget.dart';
 import '../widgets/input_template_widgets.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
+  void showMyDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const ResetPassPopup();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,7 +133,8 @@ class LoginScreen extends ConsumerWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            context.go('/reset-password');
+                            showMyDialog(context, 'test');
+                            // context.go('/reset-password');
                           },
                           child: Text(
                             'Forgot Password ?',
@@ -145,6 +156,71 @@ class LoginScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ResetPassPopup extends ConsumerWidget {
+  const ResetPassPopup({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final resetPassState = ref.watch(resetFormProvider);
+    final resetPassNotifier = ref.read(resetFormProvider.notifier);
+    return AlertDialog(
+      title: Text('Forgot Your Password?',
+          style: Theme.of(context)
+              .textTheme
+              .headlineLarge!
+              .copyWith(fontSize: 22)),
+      content: SizedBox(
+        height: 100,
+        width: double.infinity,
+        child: TextInputTemplate(
+          onChanged: (String value) {
+            resetPassNotifier.updateEmailAddress(value);
+          },
+          hintText: 'example@gmail.com',
+          labelText: 'Enter your email here',
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            final email = resetPassState.email;
+            //api call
+            if (email != null) {
+              await ref
+                  .read(authServiceProvider)
+                  .resetPasswordRequest(resetPassState.email!);
+
+              Navigator.of(context).pop();
+              Fluttertoast.showToast(
+                msg:
+                    "Check your email! We sent you instructions to reset your password",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.TOP,
+                backgroundColor: AppColors.secondaryColor,
+                textColor: Colors.white,
+                fontSize: 18.0,
+              );
+            } else {
+              Fluttertoast.showToast(
+                msg: "Please Enter Your Email",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.TOP,
+                backgroundColor: AppColors.secondaryColor,
+                textColor: Colors.white,
+                fontSize: 18.0,
+              );
+            }
+          },
+          child:
+              Text('Confirm', style: Theme.of(context).textTheme.labelMedium),
+        ),
+      ],
     );
   }
 }

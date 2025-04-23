@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class ResetFormState {
+  final String? email;
   final String oldPassword;
   final String? newPasswordErrorMessage;
   final String? confirmPasswordErrorMessage;
@@ -13,6 +14,7 @@ class ResetFormState {
   final bool obscureOldPassword;
 
   const ResetFormState({
+    this.email,
     this.oldPassword = '',
     this.newPassword = '',
     this.confirmPassword = '',
@@ -25,6 +27,7 @@ class ResetFormState {
   });
 
   ResetFormState copyWith({
+    String? email,
     String? oldPassword,
     String? newPassword,
     String? confirmPassword,
@@ -37,6 +40,7 @@ class ResetFormState {
     bool? obscureOldPassword,
   }) {
     return ResetFormState(
+      email: email ?? this.email,
       oldPassword: oldPassword ?? this.oldPassword,
       newPassword: newPassword ?? this.newPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,

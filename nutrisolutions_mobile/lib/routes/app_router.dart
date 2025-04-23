@@ -12,7 +12,7 @@ import '../features/recipes/recipes_screen.dart';
 import '../shared/custom_drawer.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/signup',
+  initialLocation: '/login',
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -27,8 +27,8 @@ final GoRouter appRouter = GoRouter(
                 title: Text(
                   "NUTRISOLUTIONS",
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                  ),
+                        color: Colors.white,
+                      ),
                 ),
               ),
               body: child,
@@ -43,16 +43,18 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: '/login',
-          builder: (context, state) => LoginScreen(),
+          builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
           path: '/signup',
-          builder: (context, state) => SignupScreen(),
+          builder: (context, state) => const SignupScreen(),
         ),
         GoRoute(
-          path: '/reset-password',
-          builder: (context, state) => ResetPasswordScreen(),
-        ),
+            path: '/reset-password',
+            builder: (context, state) {
+              final token = state.uri.queryParameters['token'] ?? '';
+              return ResetPasswordScreen(token: token);
+            }),
         GoRoute(
           path: '/recipes',
           builder: (context, state) => RecipesScreen(),

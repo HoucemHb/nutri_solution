@@ -8,7 +8,8 @@ import '../widgets/auth_label_widget.dart';
 import '../widgets/input_template_widgets.dart';
 
 class ResetPasswordScreen extends ConsumerWidget {
-  const ResetPasswordScreen({super.key});
+  final String token;
+  const ResetPasswordScreen({required this.token, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

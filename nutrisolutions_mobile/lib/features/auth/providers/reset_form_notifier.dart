@@ -6,6 +6,10 @@ import '../states/reset_form_state.dart';
 class ResetFormNotifier extends StateNotifier<ResetFormState> {
   ResetFormNotifier() : super(const ResetFormState());
 
+  void updateEmailAddress(String email) {
+    state = state.copyWith(email: email);
+  }
+
   void updateOldPassword(String value) {
     state = state.copyWith(oldPassword: value);
   }
