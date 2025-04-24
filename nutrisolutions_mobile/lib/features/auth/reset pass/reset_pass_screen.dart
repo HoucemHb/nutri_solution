@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/core/utils/show_toast.dart';
 import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
 import 'package:nutrisolutions_mobile/features/auth/reset%20pass/widgets/reset_pass_input_widgets.dart';
 import '../providers/reset_form_notifier.dart';
@@ -14,6 +18,8 @@ class ResetPasswordScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final resetPasswordState = ref.watch(resetFormProvider);
+    final resetPassNotifier = ref.read(resetFormProvider.notifier);
+    print('token in reset pass screen: $token');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFFDF2E9),
@@ -47,7 +53,17 @@ class ResetPasswordScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await resetPassNotifier.submitReset(token);
+                            AppToast.showSuccessToast(
+                                'Password reset successfully');
+                            context.go('/login');
+                          } catch (e) {
+                            AppToast.showErrorToast(
+                                'Error While Reseting Password');
+                          }
+                        },
                         child: const Text(
                           'Confirm',
                           style: TextStyle(fontSize: 16, color: Colors.white),

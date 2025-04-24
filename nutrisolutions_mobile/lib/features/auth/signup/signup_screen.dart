@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/core/utils/show_toast.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/signup_form_notifier.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step1.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step2.dart';
@@ -114,14 +115,8 @@ class SignupScreen extends ConsumerWidget {
                                         (signupState.currentStep == 1 &&
                                             !signupNotifier
                                                 .validateProfileData())) {
-                                      Fluttertoast.showToast(
-                                        msg: "Fill the required fields!",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.TOP,
-                                        backgroundColor: AppColors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 18.0,
-                                      );
+                                      AppToast.showErrorToast(
+                                          'Fill the required fields!');
                                     } else {
                                       signupNotifier.animateToPage(
                                           signupState.currentStep + 1);
@@ -149,25 +144,13 @@ class SignupScreen extends ConsumerWidget {
                                     final bool result =
                                         await signupNotifier.submitSignup();
                                     if (result) {
-                                      Fluttertoast.showToast(
-                                        msg: "Account created successfully!",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.TOP,
-                                        backgroundColor:
-                                            AppColors.secondaryColor,
-                                        textColor: Colors.white,
-                                        fontSize: 18.0,
-                                      );
+                                      AppToast.showSuccessToast(
+                                          'Account created successfully!');
+
                                       context.go('/');
                                     } else {
-                                      Fluttertoast.showToast(
-                                        msg: "Error signing up!",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.TOP,
-                                        backgroundColor: AppColors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 18.0,
-                                      );
+                                      AppToast.showErrorToast(
+                                          'Error signing up!');
                                     }
                                   }
                                 },

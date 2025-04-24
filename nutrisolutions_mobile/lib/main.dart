@@ -25,54 +25,64 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final appLinks = AppLinks();
-
   bool _initialUriHandled = false;
   StreamSubscription? _sub;
-  Future<void> _initDeepLinkListener() async {
-    // Handle initial URI that may have launched the app
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initDeepLinkListener();
+    });
+  }
+
+  Future<void> _initDeepLinkListener() async {
     if (!_initialUriHandled) {
       _initialUriHandled = true;
       try {
-        appLinks.getInitialLink().then((Uri? uri) {
-          if (uri != null) {
-            debugPrint('Initial URI: $uri');
-            _handleDeepLink(uri);
-          }
-        });
+        final uri = await appLinks.getInitialLink();
+        if (uri != null) {
+          debugPrint('Initial URI: $uri');
+          _handleDeepLink(uri);
+        }
       } catch (e) {
-        // Changed from specific exception types to a general catch
         debugPrint('Error getting initial URI: $e');
       }
     }
 
-    // Listen for subsequent URI events
-    appLinks.uriLinkStream.listen((Uri uri) {
+    _sub = appLinks.uriLinkStream.listen((Uri uri) {
       print('uri detected: $uri');
-      _handleDeepLink(uri); // Navigate using go_router
+      _handleDeepLink(uri);
     });
   }
 
   void _handleDeepLink(Uri uri) {
+    print('Context type: ${context.widget.runtimeType}');
+
+    if (!mounted) return;
     try {
       if (uri.pathSegments.length >= 2 &&
           uri.pathSegments[0] == 'reset-password') {
         final token = uri.pathSegments[1];
-        context.go('/reset-password?token=$token');
+        final navContext = rootNavigatorKey.currentContext;
+        if (navContext != null) {
+          GoRouter.of(navContext).go('/reset-password?token=$token');
+        } else {
+          print('Navigator context not ready');
+        }
       }
-    } catch (e) {
-      print('Error handling deep link: $e');
+    } catch (e, stack) {
+      print('Error handling deep link: $e\n$stack');
     }
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _initDeepLinkListener();
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nutrisolutions_mobile/core/utils/validators.dart';
+import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 
 import '../states/reset_form_state.dart';
 
 class ResetFormNotifier extends StateNotifier<ResetFormState> {
-  ResetFormNotifier() : super(const ResetFormState());
+  final Ref ref;
+  ResetFormNotifier({required this.ref}) : super(const ResetFormState());
 
   void updateEmailAddress(String email) {
     state = state.copyWith(email: email);
@@ -43,25 +45,27 @@ class ResetFormNotifier extends StateNotifier<ResetFormState> {
     state = state.copyWith(confirmPasswordErrorMessage: validationResult);
   }
 
-  Future<void> submitReset() async {
+  Future<void> submitReset(String token) async {
     // Add validation logic if needed
     if (state.newPassword != state.confirmPassword) {
       throw Exception("New password and confirm password do not match");
     }
 
     // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Reset state after successful submission
-    state = const ResetFormState(
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    );
+    try {
+      final authService = ref.read(authServiceProvider);
+      await authService.resetPassword(
+          token, state.oldPassword, state.newPassword);
+      state = state.copyWith(isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+      print(e);
+      throw Exception("Error In ResetPassword");
+    }
   }
 }
 
 final resetFormProvider =
-    StateNotifierProvider<ResetFormNotifier, ResetFormState>((ref) {
-  return ResetFormNotifier();
+    StateNotifierProvider.autoDispose<ResetFormNotifier, ResetFormState>((ref) {
+  return ResetFormNotifier(ref: ref);
 });

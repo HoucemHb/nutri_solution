@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/core/utils/show_toast.dart';
 import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
@@ -61,28 +62,15 @@ class LoginScreen extends ConsumerWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (!loginFormNotifier.validateLoginForm()) {
-                            Fluttertoast.showToast(
-                              msg: "Fill the required fields!",
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.TOP,
-                              backgroundColor: AppColors.red,
-                              textColor: Colors.white,
-                              fontSize: 18.0,
-                            );
+                            AppToast.showErrorToast(
+                                'Fill the required fields!');
                           } else {
                             final response =
                                 await loginFormNotifier.submitLogin();
                             if (response != null) {
                               context.go('/');
                             } else {
-                              Fluttertoast.showToast(
-                                msg: "Invalid credentials!",
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.TOP,
-                                backgroundColor: AppColors.red,
-                                textColor: Colors.white,
-                                fontSize: 18.0,
-                              );
+                              AppToast.showErrorToast('Invalid Credentials!');
                             }
                           }
                         },
@@ -197,24 +185,10 @@ class ResetPassPopup extends ConsumerWidget {
                   .resetPasswordRequest(resetPassState.email!);
 
               Navigator.of(context).pop();
-              Fluttertoast.showToast(
-                msg:
-                    "Check your email! We sent you instructions to reset your password",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.TOP,
-                backgroundColor: AppColors.secondaryColor,
-                textColor: Colors.white,
-                fontSize: 18.0,
-              );
+              AppToast.showSuccessToast(
+                  'Check your email! We sent you instructions to reset your password');
             } else {
-              Fluttertoast.showToast(
-                msg: "Please Enter Your Email",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.TOP,
-                backgroundColor: AppColors.secondaryColor,
-                textColor: Colors.white,
-                fontSize: 18.0,
-              );
+              AppToast.showErrorToast('Please Enter Your Email');
             }
           },
           child:

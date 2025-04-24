@@ -12,49 +12,50 @@ class ResetFormState {
   final bool obscureConfirmPassword;
   final bool obscureNewPassword;
   final bool obscureOldPassword;
+  final bool isLoading;
 
-  const ResetFormState({
-    this.email,
-    this.oldPassword = '',
-    this.newPassword = '',
-    this.confirmPassword = '',
-    this.newPasswordErrorMessage,
-    this.newPasswordStrengthLevel,
-    this.confirmPasswordErrorMessage,
-    this.obscureConfirmPassword = true,
-    this.obscureNewPassword = true,
-    this.obscureOldPassword = true,
-  });
+  const ResetFormState(
+      {this.email,
+      this.oldPassword = '',
+      this.newPassword = '',
+      this.confirmPassword = '',
+      this.newPasswordErrorMessage,
+      this.newPasswordStrengthLevel,
+      this.confirmPasswordErrorMessage,
+      this.obscureConfirmPassword = true,
+      this.obscureNewPassword = true,
+      this.obscureOldPassword = true,
+      this.isLoading = false});
 
-  ResetFormState copyWith({
-    String? email,
-    String? oldPassword,
-    String? newPassword,
-    String? confirmPassword,
-    String? oldPasswordErrorMessage,
-    String? newPasswordErrorMessage,
-    String? newPasswordStrengthLevel,
-    String? confirmPasswordErrorMessage,
-    bool? obscureConfirmPassword,
-    bool? obscureNewPassword,
-    bool? obscureOldPassword,
-  }) {
+  ResetFormState copyWith(
+      {String? email,
+      String? oldPassword,
+      String? newPassword,
+      String? confirmPassword,
+      String? oldPasswordErrorMessage,
+      String? newPasswordErrorMessage,
+      String? newPasswordStrengthLevel,
+      String? confirmPasswordErrorMessage,
+      bool? obscureConfirmPassword,
+      bool? obscureNewPassword,
+      bool? obscureOldPassword,
+      bool? isLoading}) {
     return ResetFormState(
-      email: email ?? this.email,
-      oldPassword: oldPassword ?? this.oldPassword,
-      newPassword: newPassword ?? this.newPassword,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      newPasswordErrorMessage:
-          newPasswordErrorMessage ?? this.newPasswordErrorMessage,
-      newPasswordStrengthLevel:
-          newPasswordStrengthLevel ?? this.newPasswordStrengthLevel,
-      confirmPasswordErrorMessage:
-          confirmPasswordErrorMessage ?? this.confirmPasswordErrorMessage,
-      obscureConfirmPassword:
-          obscureConfirmPassword ?? this.obscureConfirmPassword,
-      obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
-      obscureOldPassword: obscureOldPassword ?? this.obscureOldPassword,
-    );
+        email: email ?? this.email,
+        oldPassword: oldPassword ?? this.oldPassword,
+        newPassword: newPassword ?? this.newPassword,
+        confirmPassword: confirmPassword ?? this.confirmPassword,
+        newPasswordErrorMessage:
+            newPasswordErrorMessage ?? this.newPasswordErrorMessage,
+        newPasswordStrengthLevel:
+            newPasswordStrengthLevel ?? this.newPasswordStrengthLevel,
+        confirmPasswordErrorMessage:
+            confirmPasswordErrorMessage ?? this.confirmPasswordErrorMessage,
+        obscureConfirmPassword:
+            obscureConfirmPassword ?? this.obscureConfirmPassword,
+        obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
+        obscureOldPassword: obscureOldPassword ?? this.obscureOldPassword,
+        isLoading: isLoading ?? this.isLoading);
   }
 
   Map<String, dynamic> toMap() {

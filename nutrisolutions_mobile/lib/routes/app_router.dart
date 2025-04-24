@@ -11,8 +11,10 @@ import '../features/profile/profile_screen.dart';
 import '../features/recipes/recipes_screen.dart';
 import '../shared/custom_drawer.dart';
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
+  navigatorKey: rootNavigatorKey,
+  initialLocation: '/',
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -39,7 +41,7 @@ final GoRouter appRouter = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => HomeScreen(),
+          builder: (context, state) => const HomeScreen(),
         ),
         GoRoute(
           path: '/login',

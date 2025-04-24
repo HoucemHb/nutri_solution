@@ -75,12 +75,13 @@ class AuthService {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
+        'resetToken': token,
         'oldPassword': oldPassword,
         'newPassword': newPassword,
       }),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       final body = jsonDecode(response.body);
       throw Exception(body['message'] ?? 'Erreur inconnue');
     }
