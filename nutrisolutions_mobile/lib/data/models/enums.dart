@@ -57,3 +57,45 @@ enum GoalEnum implements  HasLabel {
     }
   }
 }
+
+enum CategoryEnum implements HasLabel {
+  all('Tous'),
+  diner('Diner'),
+  dej('Déjeuner'),
+  petitDej('Petit Déjeuner'),
+  snack('Snack'),
+  entree('Entrée'),
+  principal('Plat principal');
+
+  @override
+  final String label;
+
+  const CategoryEnum(this.label);
+}
+
+enum PreparationTimeEnum implements HasLabel {
+  all('Tous'),
+  veryShort('Moins de 15 minutes'),
+  short('15-30 minutes'),
+  medium('30-45 minutes'),
+  long('45-60 minutes'),
+  veryLong('Plus de 60 minutes');
+
+  @override
+  final String label;
+
+  const PreparationTimeEnum(this.label);
+}
+
+enum ExperienceEnum implements HasLabel {
+  all('Tous'),
+  junior('1-3 ans'),
+  midLevel('4-6 ans'),
+  senior('7-10 ans'),
+  seniorPlus('Plus de 10 ans');
+
+  @override
+  final String label;
+
+  const ExperienceEnum(this.label);
+}

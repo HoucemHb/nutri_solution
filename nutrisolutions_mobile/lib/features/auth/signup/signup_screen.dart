@@ -11,9 +11,7 @@ import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_s
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step3.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/signup_form_step4.dart';
 import 'package:nutrisolutions_mobile/features/auth/signup/widgets/stepper_widget.dart';
-import '../providers/reset_form_notifier.dart';
-import '../widgets/auth_label_widget.dart';
-import '../widgets/input_template_widgets.dart';
+
 
 class SignupScreen extends ConsumerWidget {
   const SignupScreen({super.key});
@@ -22,12 +20,6 @@ class SignupScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final signupState = ref.watch(signupFormProvider);
     final signupNotifier = ref.read(signupFormProvider.notifier);
-    final steps = [
-      'Account Information',
-      'Profile Data',
-      'Additional Information',
-      'Profile Picture'
-    ];
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFFDF2E9),

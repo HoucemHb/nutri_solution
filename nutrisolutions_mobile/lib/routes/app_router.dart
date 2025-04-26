@@ -8,13 +8,14 @@ import '../features/auth/signup/signup_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/nutritionistes/nutritionists_screen.dart';
 import '../features/profile/profile_screen.dart';
+import '../features/recipes/recipe_details_screen.dart';
 import '../features/recipes/recipes_screen.dart';
 import '../shared/custom_drawer.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: '/',
+  initialLocation: '/recipes',
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -61,6 +62,12 @@ final GoRouter appRouter = GoRouter(
           path: '/recipes',
           builder: (context, state) => RecipesScreen(),
         ),
+        GoRoute(
+            path: '/recipes/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return RecipeDetailsScreen(recipeId: id);
+            }),
         GoRoute(
           path: '/nutritionists',
           builder: (context, state) => NutritionistsScreen(),
