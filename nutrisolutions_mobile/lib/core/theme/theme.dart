@@ -37,7 +37,7 @@ ThemeData lightTheme = ThemeData(
         fontWeight: FontWeight.w600),
     labelSmall: poppins.copyWith(
         color: AppColors.primaryColor,
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: FontWeight.w600),
   ),
   appBarTheme: const AppBarTheme(
@@ -91,7 +91,6 @@ ThemeData lightTheme = ThemeData(
     hintStyle: poppins.copyWith(
         color: AppColors.hintText, fontSize: 16, fontWeight: FontWeight.w400),
   ),
-  dialogBackgroundColor: AppColors.white,
   drawerTheme: DrawerThemeData(
     backgroundColor: AppColors.brown,
     elevation: 8,
@@ -100,4 +99,5 @@ ThemeData lightTheme = ThemeData(
     ),
     scrimColor: AppColors.lightOrange.withOpacity(0.1), // when drawer slides in
   ),
+  dialogTheme: const DialogThemeData(backgroundColor: AppColors.white),
 );

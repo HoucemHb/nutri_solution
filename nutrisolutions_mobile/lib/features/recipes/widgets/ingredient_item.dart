@@ -8,11 +8,11 @@ class IngredientItem extends StatefulWidget {
   final ValueChanged<bool>? onChanged;
 
   const IngredientItem({
-    Key? key,
+    super.key,
     required this.ingredient,
     this.initiallyChecked = false,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   _IngredientItemState createState() => _IngredientItemState();
@@ -49,7 +49,7 @@ class _IngredientItemState extends State<IngredientItem> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             value: isChecked,
-            activeColor: Colors.lightGreen,
+            activeColor: AppColors.secondaryColor,
             onChanged: _toggleCheckbox,
           ),
         ),
@@ -60,7 +60,7 @@ class _IngredientItemState extends State<IngredientItem> {
             fontSize: 16,
             decoration:
                 isChecked ? TextDecoration.lineThrough : TextDecoration.none,
-            color: isChecked ? AppColors.hintText : AppColors.black,
+            color: AppColors.black,
           ),
         ),
       ],

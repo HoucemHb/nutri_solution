@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/shared/nutri_box.dart';
 
@@ -17,9 +18,7 @@ class RecipeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // context.go('/recipes/${recipe.id}');
-        context.go('/recipes/1');
-
+        context.push('/recipes/${recipe.id}');
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -30,15 +29,10 @@ class RecipeItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(),
-                Text(
-                  recipe.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall
-                      ?.copyWith(fontSize: 14),
-                ),
+                Text(recipe.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelSmall),
                 const Gap(4),
                 Text(
                   recipe.description,
@@ -65,8 +59,8 @@ class RecipeItem extends StatelessWidget {
             top: -50,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                recipe.imageUrl,
+              child: Image.network(
+                AppApi.baseUrl + recipe.imageUrl,
                 fit: BoxFit.cover,
                 width: 100,
                 height: 100,

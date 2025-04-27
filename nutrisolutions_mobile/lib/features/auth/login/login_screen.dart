@@ -68,7 +68,7 @@ class LoginScreen extends ConsumerWidget {
                             final response =
                                 await loginFormNotifier.submitLogin();
                             if (response != null) {
-                              context.go('/');
+                              context.go('/recipes');
                             } else {
                               AppToast.showErrorToast('Invalid Credentials!');
                             }

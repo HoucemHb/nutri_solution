@@ -1,202 +1,376 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
+import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/data/models/enums.dart';
+import 'package:nutrisolutions_mobile/data/providers/recipes_provider.dart';
+import 'package:nutrisolutions_mobile/features/recipes/providers/recipes_screen_notifier.dart';
+import 'package:nutrisolutions_mobile/features/recipes/states/recipes_screen_state.dart';
 import 'package:nutrisolutions_mobile/features/recipes/widgets/recipe_item.dart';
-import 'package:nutrisolutions_mobile/data/models/recipe_model.dart';
 
 class RecipesScreen extends ConsumerWidget {
+  const RecipesScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<RecipeModel> recipes = [
-      RecipeModel(
-        id: '1',
-        name: 'Omelette au Fromage',
-        description: 'Une omelette rapide et délicieuse au fromage.',
-        ingredients: ['Œufs', 'Fromage râpé', 'Sel', 'Poivre', 'Beurre'],
-        imageUrl: 'assets/images/recipe1.png',
-        calories: 250,
-        category: 'Petit Déjeuner', // <- plain string
-        objectif: 'Maintenance', // <- plain string
-        preparationTime: 'Moins de 15 minutes', // <- plain string
-        createdBy: 'user123',
-        createdAt: DateTime.now(),
-        protein: 18,
-        fat: 20,
-        carbohydrates: 2,
-        instructions: [
-          'Battre les œufs avec du sel et du poivre.',
-          'Faire fondre le beurre dans une poêle.',
-          'Cuire les œufs et ajouter le fromage.',
-          'Plier et servir chaud.'
-        ],
-        cookingNotes: ['Ne pas trop cuire pour garder la texture moelleuse.'],
-        favoritedByClient: [],
-      ),
-      RecipeModel(
-        id: '2',
-        name: 'Salade César',
-        description: 'Une salade classique, fraîche et croquante.',
-        ingredients: [
-          'Laitue romaine',
-          'Poulet grillé',
-          'Croûtons',
-          'Parmesan',
-          'Sauce César'
-        ],
-        imageUrl: 'assets/images/recipe2.png',
-        calories: 450,
-        category: 'Déjeuner',
-        objectif: 'Perte de poids',
-        preparationTime: '15-30 minutes',
-        createdBy: 'user456',
-        createdAt: DateTime.now(),
-        protein: 30,
-        fat: 25,
-        carbohydrates: 15,
-        instructions: [
-          'Laver et couper la laitue.',
-          'Ajouter le poulet grillé et les croûtons.',
-          'Parsemer de parmesan.',
-          'Assaisonner avec la sauce César.'
-        ],
-        cookingNotes: ['Utiliser un poulet bio pour une meilleure qualité.'],
-        favoritedByClient: [],
-      ),
-      RecipeModel(
-        id: '3',
-        name: 'Spaghetti Bolognese',
-        description: 'Un plat italien savoureux et réconfortant.',
-        ingredients: [
-          'Spaghetti',
-          'Bœuf haché',
-          'Tomates',
-          'Oignons',
-          'Ail',
-          'Basilic'
-        ],
-        imageUrl: 'assets/images/recipe3.png',
-        calories: 700,
-        category: 'Diner',
-        objectif: 'Prise de masse',
-        preparationTime: '30-45 minutes',
-        createdBy: 'user789',
-        createdAt: DateTime.now(),
-        protein: 40,
-        fat: 20,
-        carbohydrates: 70,
-        instructions: [
-          'Cuire les spaghetti selon les instructions du paquet.',
-          'Faire revenir les oignons et l’ail.',
-          'Ajouter le bœuf haché et cuire.',
-          'Incorporer les tomates et laisser mijoter.',
-          'Servir avec les pâtes et du basilic frais.'
-        ],
-        cookingNotes: ['Cuire les pâtes al dente pour un meilleur goût.'],
-        favoritedByClient: [],
-      ),
-      RecipeModel(
-        id: '1',
-        name: 'Omelette au Fromage',
-        description: 'Une omelette rapide et délicieuse au fromage.',
-        ingredients: ['Œufs', 'Fromage râpé', 'Sel', 'Poivre', 'Beurre'],
-        imageUrl: 'assets/images/recipe1.png',
-        calories: 250,
-        category: 'Petit Déjeuner', // <- plain string
-        objectif: 'Maintenance', // <- plain string
-        preparationTime: 'Moins de 15 minutes', // <- plain string
-        createdBy: 'user123',
-        createdAt: DateTime.now(),
-        protein: 18,
-        fat: 20,
-        carbohydrates: 2,
-        instructions: [
-          'Battre les œufs avec du sel et du poivre.',
-          'Faire fondre le beurre dans une poêle.',
-          'Cuire les œufs et ajouter le fromage.',
-          'Plier et servir chaud.'
-        ],
-        cookingNotes: ['Ne pas trop cuire pour garder la texture moelleuse.'],
-        favoritedByClient: [],
-      ),
-      RecipeModel(
-        id: '2',
-        name: 'Salade César',
-        description: 'Une salade classique, fraîche et croquante.',
-        ingredients: [
-          'Laitue romaine',
-          'Poulet grillé',
-          'Croûtons',
-          'Parmesan',
-          'Sauce César'
-        ],
-        imageUrl: 'assets/images/recipe2.png',
-        calories: 450,
-        category: 'Déjeuner',
-        objectif: 'Perte de poids',
-        preparationTime: '15-30 minutes',
-        createdBy: 'user456',
-        createdAt: DateTime.now(),
-        protein: 30,
-        fat: 25,
-        carbohydrates: 15,
-        instructions: [
-          'Laver et couper la laitue.',
-          'Ajouter le poulet grillé et les croûtons.',
-          'Parsemer de parmesan.',
-          'Assaisonner avec la sauce César.'
-        ],
-        cookingNotes: ['Utiliser un poulet bio pour une meilleure qualité.'],
-        favoritedByClient: [],
-      ),
-      RecipeModel(
-        id: '3',
-        name: 'Spaghetti Bolognese',
-        description: 'Un plat italien savoureux et réconfortant.',
-        ingredients: [
-          'Spaghetti',
-          'Bœuf haché',
-          'Tomates',
-          'Oignons',
-          'Ail',
-          'Basilic'
-        ],
-        imageUrl: 'assets/images/recipe3.png',
-        calories: 700,
-        category: 'Diner',
-        objectif: 'Prise de masse',
-        preparationTime: '30-45 minutes',
-        createdBy: 'user789',
-        createdAt: DateTime.now(),
-        protein: 40,
-        fat: 20,
-        carbohydrates: 70,
-        instructions: [
-          'Cuire les spaghetti selon les instructions du paquet.',
-          'Faire revenir les oignons et l’ail.',
-          'Ajouter le bœuf haché et cuire.',
-          'Incorporer les tomates et laisser mijoter.',
-          'Servir avec les pâtes et du basilic frais.'
-        ],
-        cookingNotes: ['Cuire les pâtes al dente pour un meilleur goût.'],
-        favoritedByClient: [],
-      ),
-    ];
+    int totalRecipes = 0;
+    final recipesScreenState = ref.watch(recipesScreenNotifierProvider);
+    final recipesAsync = ref.watch(allRecipesFutureProvider(RecipesQueryParams(
+      searchText: recipesScreenState.searchText,
+      page: recipesScreenState.page,
+      limit: recipesScreenState.limit,
+      category: recipesScreenState.category != 'Tous'
+          ? recipesScreenState.category
+          : null,
+      objectif: recipesScreenState.objectif != 'Tous'
+          ? recipesScreenState.objectif
+          : null,
+    )));
+    print('Rebuilding');
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Recipes'),
-        ),
-        body: GridView.builder(
-          padding: const EdgeInsets.only(right: 14.0, left: 14.0, top: 70.0),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 70.0,
-            childAspectRatio: 0.7,
+        body: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Text('Our Recipes',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontSize: 30)),
+          const Gap(10),
+          const MySearchAndFilters(),
+          recipesAsync.when(
+            data: (recipesResponse) {
+              final recipes = recipesResponse.recipes;
+              if (totalRecipes == 0) totalRecipes = recipesResponse.totalCount;
+              return Expanded(
+                child: GridView.builder(
+                  padding:
+                      const EdgeInsets.only(right: 14.0, left: 14.0, top: 55.0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 70.0,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index) {
+                    return RecipeItem(recipe: recipes[index]);
+                  },
+                ),
+              );
+            },
+            loading: () => const Expanded(
+                child: Center(child: CircularProgressIndicator())),
+            error: (error, stack) => Center(child: Text('Erreur: $error')),
           ),
-          itemCount: recipes.length,
-          itemBuilder: (context, index) {
-            return RecipeItem(recipe: recipes[index]);
+          PaginationWidget(
+            totalPages: (totalRecipes / recipesScreenState.limit).toInt(),
+            selectedPageIndex: recipesScreenState.page,
+            onNextPressed: () => ref
+                .read(recipesScreenNotifierProvider.notifier)
+                .updatePage(recipesScreenState.page + 1),
+            onPreviousPressed: () => ref
+                .read(recipesScreenNotifierProvider.notifier)
+                .updatePage(recipesScreenState.page - 1),
+          )
+        ],
+      ),
+    ));
+  }
+}
+
+class MySearchAndFilters extends ConsumerWidget {
+  const MySearchAndFilters({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recipesScreenState = ref.watch(recipesScreenNotifierProvider);
+
+    return Column(
+      children: [
+        // Search Field
+        Row(
+          children: [
+            const Expanded(
+              child: SearchField(),
+            ),
+            const Gap(10),
+            GestureDetector(
+              child:
+                  const Icon(Icons.filter_list, color: AppColors.primaryColor),
+              onTap: () {
+                ref
+                    .read(recipesScreenNotifierProvider.notifier)
+                    .toggleFilters();
+                // Your filter action here
+              },
+            )
+          ],
+        ),
+        const Filters()
+        // First Dropdown
+      ],
+    );
+  }
+}
+
+class Filters extends ConsumerWidget {
+  const Filters({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recipesScreenState = ref.watch(recipesScreenNotifierProvider);
+
+    return AnimatedContainer(
+      height: recipesScreenState.areFiltersOpen ? 70 : 0,
+      clipBehavior: Clip.hardEdge,
+      color: Colors.transparent,
+      duration: const Duration(milliseconds: 200),
+      child: const Row(
+        children: [
+          Expanded(child: CategoryFilter()),
+          Gap(8),
+          // Second Dropdown
+          Expanded(child: GoalFilter()),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchField extends ConsumerWidget {
+  const SearchField({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return _GradientBorderWidget(
+      child: SizedBox(
+        height: 35,
+        child: TextField(
+          onChanged: (value) {
+            ref
+                .read(recipesScreenNotifierProvider.notifier)
+                .updateSearchText(value);
           },
-        ));
+          decoration: const InputDecoration(
+            hintText: 'Search...',
+            hintStyle: TextStyle(
+              color: AppColors.primaryColor,
+            ),
+            suffixIcon: Icon(Icons.search, color: AppColors.primaryColor),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class GoalFilter extends ConsumerWidget {
+  const GoalFilter({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recipesState = ref.watch(recipesScreenNotifierProvider);
+    return _GradientBorderWidget(
+      child: _CustomDropdown(
+        options: GoalEnum.values.map((e) => e.label).toList(),
+        selectedValue: recipesState.objectif,
+        onChanged: (value) => ref
+            .read(recipesScreenNotifierProvider.notifier)
+            .updateObjectif(value),
+      ),
+    );
+  }
+}
+
+class CategoryFilter extends ConsumerWidget {
+  const CategoryFilter({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recipesState = ref.watch(recipesScreenNotifierProvider);
+    return _GradientBorderWidget(
+      child: _CustomDropdown(
+        options: CategoryEnum.values.map((e) => e.label).toList(),
+        selectedValue: recipesState.category,
+        onChanged: (value) => ref
+            .read(recipesScreenNotifierProvider.notifier)
+            .updateCategory(value),
+      ),
+    );
+  }
+}
+
+class _CustomDropdown extends ConsumerWidget {
+  final List<String> options;
+  final String? selectedValue;
+  final void Function(String?)? onChanged;
+  const _CustomDropdown(
+      {super.key,
+      required this.options,
+      required this.selectedValue,
+      required this.onChanged});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 35,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+            value: selectedValue,
+            icon: const Icon(Icons.arrow_drop_down,
+                color: AppColors.primaryColor),
+            style: const TextStyle(color: AppColors.primaryColor),
+            isExpanded: true,
+            items: options.map((option) {
+              return DropdownMenuItem(
+                value: option,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(option),
+                ),
+              );
+            }).toList(),
+            onChanged: onChanged),
+      ),
+    );
+  }
+}
+
+class _GradientBorderWidget extends StatelessWidget {
+  final Widget child;
+  const _GradientBorderWidget({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [AppColors.primaryColor, AppColors.secondaryColor],
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      padding: const EdgeInsets.all(1.5), // Border thickness
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(28), // slightly smaller
+        ),
+        child: child,
+      ),
+    );
+  }
+}
+
+class PaginationWidget extends ConsumerWidget {
+  final int totalPages;
+  final void Function() onNextPressed;
+  final void Function() onPreviousPressed;
+  final int selectedPageIndex;
+
+  const PaginationWidget({
+    super.key,
+    required this.totalPages,
+    required this.onNextPressed,
+    required this.onPreviousPressed,
+    required this.selectedPageIndex,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Prev
+        if (selectedPageIndex > 1)
+          TextButton(
+            onPressed: onPreviousPressed,
+            child:
+                Text('Previous', style: Theme.of(context).textTheme.labelSmall),
+          ),
+
+        // 1
+        pageNumberButton(1),
+
+        // 2
+        if (selectedPageIndex <= 2 && totalPages > 1) pageNumberButton(2),
+
+        // ...
+        if (selectedPageIndex > 2)
+          const Text(
+            '...',
+            style: TextStyle(color: AppColors.primaryColor),
+          ),
+
+        // 3
+        if (selectedPageIndex <= 3 && totalPages > 2) pageNumberButton(3),
+
+        // current page
+        if (selectedPageIndex >= 4 &&
+            selectedPageIndex <= totalPages - 3 &&
+            totalPages > 3)
+          pageNumberButton(selectedPageIndex, isCurrent: true),
+        // selected + 1
+        if (selectedPageIndex >= 3 &&
+            selectedPageIndex <= totalPages - 4 &&
+            totalPages > 3)
+          pageNumberButton(selectedPageIndex + 1),
+
+        // ...
+        if (totalPages - selectedPageIndex >= 3 && totalPages > 5)
+          const Text(
+            '...',
+            style: TextStyle(color: AppColors.primaryColor),
+          ),
+
+        // totalPages - 2
+        if (selectedPageIndex > (totalPages - 3) && totalPages > 5)
+          pageNumberButton(totalPages - 2),
+
+        // totalPages - 1
+        if (selectedPageIndex >= (totalPages - 2) && totalPages > 5)
+          pageNumberButton(totalPages - 1),
+
+        // totalPages
+        if (totalPages > 3) pageNumberButton(totalPages),
+
+        // Next
+        if (selectedPageIndex < totalPages)
+          TextButton(
+            onPressed: onNextPressed,
+            child: Text('Next', style: Theme.of(context).textTheme.labelSmall),
+          ),
+      ],
+    );
+  }
+
+  Widget pageNumberButton(int pageNumber, {bool isCurrent = false}) {
+    final bool isActive = selectedPageIndex == pageNumber || isCurrent;
+    return Container(
+      height: 30,
+      width: 30,
+      margin: const EdgeInsets.symmetric(horizontal: 7),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: isActive ? AppColors.secondaryColor : AppColors.white),
+      child: Center(
+        child: Text(
+          '$pageNumber',
+          style: TextStyle(
+            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            color: isActive ? AppColors.white : AppColors.primaryColor,
+          ),
+        ),
+      ),
+    );
   }
 }

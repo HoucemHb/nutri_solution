@@ -9,12 +9,12 @@ class InstructionItem extends StatefulWidget {
   final ValueChanged<bool>? onChanged; // <-- add this
 
   const InstructionItem({
-    Key? key,
+    super.key,
     required this.number,
     required this.instruction,
     this.initiallyChecked = false,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   _InstructionItemState createState() => _InstructionItemState();
@@ -68,7 +68,7 @@ class _InstructionItemState extends State<InstructionItem> {
                 decoration: isChecked
                     ? TextDecoration.lineThrough
                     : TextDecoration.none,
-                color: isChecked ? AppColors.hintText : AppColors.black,
+                color: AppColors.black,
               ),
             ),
           ),

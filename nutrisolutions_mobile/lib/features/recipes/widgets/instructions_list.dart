@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'instruction_item.dart'; // Import your InstructionItem
 
-class DetailsList extends StatefulWidget {
-  final List<String> details;
+class InstructionsList extends StatefulWidget {
+  final List<String> instructions;
 
-  const DetailsList({
-    Key? key,
-    required this.details,
-  }) : super(key: key);
+  const InstructionsList({
+    super.key,
+    required this.instructions,
+  });
 
   @override
-  State<DetailsList> createState() => _DetailsListState();
+  State<InstructionsList> createState() => _InstructionsListState();
 }
 
-class _DetailsListState extends State<DetailsList> {
+class _InstructionsListState extends State<InstructionsList> {
   late List<bool> _checked;
 
   @override
   void initState() {
     super.initState();
-    _checked = List<bool>.filled(widget.details.length, false);
+    _checked = List<bool>.filled(widget.instructions.length, false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(widget.details.length, (index) {
+      children: List.generate(widget.instructions.length, (index) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: InstructionItem(
             number: index + 1,
-            instruction: widget.details[index],
+            instruction: widget.instructions[index],
             initiallyChecked: _checked[index],
             onChanged: (value) {
               setState(() {

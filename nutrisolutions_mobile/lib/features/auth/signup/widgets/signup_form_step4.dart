@@ -45,7 +45,7 @@ class SignupFormStep4 extends ConsumerWidget {
                     Text(
                       'Add Picture',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
                 ))

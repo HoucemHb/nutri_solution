@@ -60,7 +60,7 @@ final GoRouter appRouter = GoRouter(
             }),
         GoRoute(
           path: '/recipes',
-          builder: (context, state) => RecipesScreen(),
+          builder: (context, state) => const RecipesScreen(),
         ),
         GoRoute(
             path: '/recipes/:id',

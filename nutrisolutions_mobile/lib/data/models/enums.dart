@@ -12,8 +12,7 @@ enum GenderEnum implements HasLabel {
   const GenderEnum(this.label);
 }
 
-
-enum DailyActivityEnum implements  HasLabel {
+enum DailyActivityEnum implements HasLabel {
   sedentary,
   lightlyActive,
   moderatelyActive,
@@ -37,11 +36,12 @@ enum DailyActivityEnum implements  HasLabel {
   }
 }
 
-enum GoalEnum implements  HasLabel {
+enum GoalEnum implements HasLabel {
   all,
   loseWeight,
   gainWeight,
-  buildMuscle;
+  buildMuscle,
+  maintainWeight;
 
   @override
   String get label {
@@ -54,6 +54,8 @@ enum GoalEnum implements  HasLabel {
         return 'Prendre du poids';
       case GoalEnum.buildMuscle:
         return 'Se muscler';
+      case GoalEnum.maintainWeight:
+        return 'Maintenir le poids';
     }
   }
 }
