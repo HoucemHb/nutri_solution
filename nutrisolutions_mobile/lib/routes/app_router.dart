@@ -15,7 +15,7 @@ import '../shared/custom_drawer.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: '/recipes',
+  initialLocation: '/login',
   routes: [
     ShellRoute(
       builder: (context, state, child) {

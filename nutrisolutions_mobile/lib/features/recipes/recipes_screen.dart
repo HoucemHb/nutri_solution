@@ -158,13 +158,11 @@ class SearchField extends ConsumerWidget {
                 .read(recipesScreenNotifierProvider.notifier)
                 .updateSearchText(value);
           },
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: 'Search...',
-            hintStyle: TextStyle(
-              color: AppColors.primaryColor,
-            ),
-            suffixIcon: Icon(Icons.search, color: AppColors.primaryColor),
-            contentPadding: EdgeInsets.symmetric(
+            hintStyle: Theme.of(context).textTheme.labelMedium,
+            suffixIcon: const Icon(Icons.search, color: AppColors.primaryColor),
+            contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
           ),

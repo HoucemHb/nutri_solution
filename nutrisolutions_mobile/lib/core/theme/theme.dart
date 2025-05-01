@@ -99,5 +99,5 @@ ThemeData lightTheme = ThemeData(
     ),
     scrimColor: AppColors.lightOrange.withOpacity(0.1), // when drawer slides in
   ),
-  dialogTheme: const DialogThemeData(backgroundColor: AppColors.white),
+  dialogTheme: const DialogTheme(backgroundColor: AppColors.white),
 );
