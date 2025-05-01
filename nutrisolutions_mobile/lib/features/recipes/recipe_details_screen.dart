@@ -6,8 +6,6 @@ import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:nutrisolutions_mobile/data/providers/recipes_provider.dart';
 import 'package:nutrisolutions_mobile/features/recipes/widgets/instructions_list.dart';
 import 'package:nutrisolutions_mobile/shared/nutri_box.dart';
-
-import '../../data/models/recipe_model.dart';
 import 'widgets/checklist.dart';
 import 'widgets/detail_item.dart';
 

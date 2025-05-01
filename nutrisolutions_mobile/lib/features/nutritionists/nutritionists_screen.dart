@@ -2,29 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
-import 'package:nutrisolutions_mobile/data/models/enums.dart';
-import 'package:nutrisolutions_mobile/data/providers/recipes_provider.dart';
-import 'package:nutrisolutions_mobile/features/recipes/providers/recipes_screen_notifier.dart';
-import 'package:nutrisolutions_mobile/features/recipes/widgets/recipe_item.dart';
-
+import '../../data/models/enums.dart';
+import '../../data/providers/nutritionists_provider.dart';
 import '../../shared/list_filter_widgets.dart';
+import 'providers/nutitionists_screen_notifier.dart';
+import 'widgets/nutritionist_item.dart';
 
-class RecipesScreen extends ConsumerWidget {
-  const RecipesScreen({super.key});
+class NutritionistsScreen extends ConsumerWidget {
+  const NutritionistsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int totalRecipes = 0;
-    final recipesScreenState = ref.watch(recipesScreenNotifierProvider);
-    final recipesAsync = ref.watch(allRecipesFutureProvider(RecipesQueryParams(
-      searchText: recipesScreenState.searchText,
-      page: recipesScreenState.page,
-      limit: recipesScreenState.limit,
-      category: recipesScreenState.category != 'Tous'
-          ? recipesScreenState.category
-          : null,
-      objectif: recipesScreenState.objectif != 'Tous'
-          ? recipesScreenState.objectif
+    int totalNutritionists = 0;
+    final nutritionistsScreenState =
+        ref.watch(nutritionistScreenNotifierProvider);
+    final nutritionistsAsync =
+        ref.watch(allNutritionistsFutureProvider(NutritionistsQueryParams(
+      searchText: nutritionistsScreenState.searchText,
+      page: nutritionistsScreenState.page,
+      limit: nutritionistsScreenState.limit,
+      experienceYears: nutritionistsScreenState.experienceYears != 'Tous'
+          ? nutritionistsScreenState.experienceYears
           : null,
     )));
     print('Rebuilding');
@@ -34,18 +32,21 @@ class RecipesScreen extends ConsumerWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Text('Our Recipes',
-              textAlign: TextAlign.center,
+          Text('Our Nutritionists',
               style: Theme.of(context)
                   .textTheme
                   .titleLarge
                   ?.copyWith(fontSize: 30)),
           const Gap(10),
           const MySearchAndFilters(),
-          recipesAsync.when(
-            data: (recipesResponse) {
-              final recipes = recipesResponse.recipes;
-              if (totalRecipes == 0) totalRecipes = recipesResponse.totalCount;
+          nutritionistsAsync.when(
+            data: (nutritionistsResponse) {
+              final nutritionists = nutritionistsResponse.nutritionists;
+              print('Total count nutri: ${nutritionistsResponse.totalCount}');
+              if (totalNutritionists == 0) {
+                totalNutritionists = nutritionistsResponse.totalCount;
+                print('Total count nutri: $totalNutritionists');
+              }
               return Expanded(
                 child: GridView.builder(
                   padding:
@@ -56,9 +57,9 @@ class RecipesScreen extends ConsumerWidget {
                     mainAxisSpacing: 70.0,
                     childAspectRatio: 0.7,
                   ),
-                  itemCount: recipes.length,
+                  itemCount: nutritionists.length,
                   itemBuilder: (context, index) {
-                    return RecipeItem(recipe: recipes[index]);
+                    return NutritionistItem(nutritionist: nutritionists[index]);
                   },
                 ),
               );
@@ -68,14 +69,15 @@ class RecipesScreen extends ConsumerWidget {
             error: (error, stack) => Center(child: Text('Erreur: $error')),
           ),
           PaginationWidget(
-            totalPages: (totalRecipes / recipesScreenState.limit).ceil(),
-            selectedPageIndex: recipesScreenState.page,
+            totalPages: (totalNutritionists / nutritionistsScreenState.limit)
+                .ceil(), // Calculate total pages based on the limit
+            selectedPageIndex: nutritionistsScreenState.page,
             onNextPressed: () => ref
-                .read(recipesScreenNotifierProvider.notifier)
-                .updatePage(recipesScreenState.page + 1),
+                .read(nutritionistScreenNotifierProvider.notifier)
+                .updatePage(nutritionistsScreenState.page + 1),
             onPreviousPressed: () => ref
-                .read(recipesScreenNotifierProvider.notifier)
-                .updatePage(recipesScreenState.page - 1),
+                .read(nutritionistScreenNotifierProvider.notifier)
+                .updatePage(nutritionistsScreenState.page - 1),
           )
         ],
       ),
@@ -94,19 +96,18 @@ class MySearchAndFilters extends ConsumerWidget {
         Row(
           children: [
             Expanded(
-              child: SearchField(
-                onChanged: (value) => ref
-                    .read(recipesScreenNotifierProvider.notifier)
-                    .updateSearchText(value),
-              ),
-            ),
+                child: SearchField(
+              onChanged: (value) => ref
+                  .read(nutritionistScreenNotifierProvider.notifier)
+                  .updateSearchText(value),
+            )),
             const Gap(10),
             GestureDetector(
               child:
                   const Icon(Icons.filter_list, color: AppColors.primaryColor),
               onTap: () {
                 ref
-                    .read(recipesScreenNotifierProvider.notifier)
+                    .read(nutritionistScreenNotifierProvider.notifier)
                     .toggleFilters();
                 // Your filter action here
               },
@@ -127,19 +128,15 @@ class Filters extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recipesScreenState = ref.watch(recipesScreenNotifierProvider);
+    final recipesScreenState = ref.watch(nutritionistScreenNotifierProvider);
+
     return AnimatedContainer(
       height: recipesScreenState.areFiltersOpen ? 70 : 0,
       clipBehavior: Clip.hardEdge,
       color: Colors.transparent,
       duration: const Duration(milliseconds: 200),
-      child: const Row(
-        children: [
-          Expanded(child: CategoryFilter()),
-          Gap(8),
-          // Second Dropdown
-          Expanded(child: GoalFilter()),
-        ],
+      child: const Center(
+        child: ExperienceYearsFilter(),
       ),
     );
   }

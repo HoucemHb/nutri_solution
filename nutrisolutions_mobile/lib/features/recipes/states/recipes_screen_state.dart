@@ -26,14 +26,14 @@ class RecipesScreenState {
       int? limit,
       String? objectif,
       String? category,
-      bool? areFiltesrOpen}) {
+      bool? areFiltersOpen}) {
     return RecipesScreenState(
         searchText: searchText ?? this.searchText,
         page: page ?? this.page,
         limit: limit ?? this.limit,
         objectif: objectif ?? this.objectif,
         category: category ?? this.category,
-        areFiltersOpen: areFiltesrOpen ?? areFiltersOpen);
+        areFiltersOpen: areFiltersOpen ?? this.areFiltersOpen);
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +8,6 @@ import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 import 'package:nutrisolutions_mobile/features/auth/login/widgets/login_input_widgets.dart';
 import 'package:nutrisolutions_mobile/features/auth/providers/reset_form_notifier.dart';
 import '../providers/login_form_notifier.dart';
-import '../widgets/auth_label_widget.dart';
 import '../widgets/input_template_widgets.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -68,7 +66,7 @@ class LoginScreen extends ConsumerWidget {
                             final response =
                                 await loginFormNotifier.submitLogin();
                             if (response != null) {
-                              context.go('/recipes');
+                              context.go('/nutritionists');
                             } else {
                               AppToast.showErrorToast('Invalid Credentials!');
                             }

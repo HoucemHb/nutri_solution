@@ -3,14 +3,13 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/data/models/nutritionist_model.dart';
 import 'package:nutrisolutions_mobile/shared/nutri_box.dart';
 
-import '../../../data/models/recipe_model.dart';
-
-class RecipeItem extends StatelessWidget {
-  final RecipeModel recipe;
-  const RecipeItem({
-    required this.recipe,
+class NutritionistItem extends StatelessWidget {
+  final NutritionistModel nutritionist;
+  const NutritionistItem({
+    required this.nutritionist,
     super.key,
   });
 
@@ -18,7 +17,7 @@ class RecipeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push('/recipes/${recipe.id}');
+        context.push('/nutritionists/${nutritionist.id}');
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -29,13 +28,13 @@ class RecipeItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(30),
-                Text(recipe.name,
+                Text(nutritionist.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelSmall),
                 const Spacer(),
                 Text(
-                  recipe.description,
+                  '${nutritionist.patientsNumber}+ Patients',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -45,7 +44,7 @@ class RecipeItem extends StatelessWidget {
                 ),
                 const Gap(4),
                 Text(
-                  '${recipe.calories} calories',
+                  '${nutritionist.experienceYears}+ Exp. Years',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
                         color: AppColors.secondaryColor,
@@ -57,10 +56,9 @@ class RecipeItem extends StatelessWidget {
           ),
           Positioned(
             top: -50,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
+            child: ClipOval(
               child: Image.network(
-                AppApi.baseUrl + recipe.imageUrl,
+                AppApi.baseUrl + nutritionist.profilePictureUrl,
                 fit: BoxFit.cover,
                 width: 90,
                 height: 90,

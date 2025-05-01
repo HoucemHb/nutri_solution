@@ -6,7 +6,7 @@ import '../features/auth/login/login_screen.dart';
 import '../features/auth/reset pass/reset_pass_screen.dart';
 import '../features/auth/signup/signup_screen.dart';
 import '../features/home/home_screen.dart';
-import '../features/nutritionistes/nutritionists_screen.dart';
+import '../features/nutritionists/nutritionists_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/recipes/recipe_details_screen.dart';
 import '../features/recipes/recipes_screen.dart';

@@ -21,7 +21,7 @@ class RecipesScreenNotifier extends StateNotifier<RecipesScreenState> {
   }
 
   void toggleFilters() {
-    state = state.copyWith(areFiltesrOpen: !state.areFiltersOpen);
+    state = state.copyWith(areFiltersOpen: !state.areFiltersOpen);
   }
 }
 

@@ -101,3 +101,28 @@ enum ExperienceEnum implements HasLabel {
 
   const ExperienceEnum(this.label);
 }
+
+
+enum TrieEnum implements HasLabel {
+  all('Tous'),
+  plusRecents('Plus Récents'),
+  plusAnciens('Plus Anciens');
+
+  @override
+  final String label;
+
+  const TrieEnum(this.label);
+}
+
+enum StarsCountEnum implements HasLabel {
+  one('1'),
+  two('2'),
+  three('3'),
+  four('4'),
+  five('5');
+
+  @override
+  final String label;
+
+  const StarsCountEnum(this.label);
+}
