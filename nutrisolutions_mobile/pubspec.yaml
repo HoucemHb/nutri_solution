@@ -48,6 +48,7 @@ dependencies:
   image: ^4.5.4
   http_parser: ^4.0.2
   app_links: ^6.4.0
+  syncfusion_flutter_calendar: ^29.1.40
 
 dev_dependencies:
   flutter_test:

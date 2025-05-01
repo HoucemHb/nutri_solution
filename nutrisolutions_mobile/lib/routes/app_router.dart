@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nutrisolutions_mobile/features/nutritionists/nutritionist_planning_screen.dart';
 import '../data/providers/drawer_provider.dart';
 import '../features/auth/login/login_screen.dart';
 import '../features/auth/reset pass/reset_pass_screen.dart';
@@ -70,8 +71,14 @@ final GoRouter appRouter = GoRouter(
             }),
         GoRoute(
           path: '/nutritionists',
-          builder: (context, state) => NutritionistsScreen(),
+          builder: (context, state) => const NutritionistsScreen(),
         ),
+        GoRoute(
+            path: '/nutritionists/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return NutritionistPlanningScreen(nutritionistId: id);
+            }),
         GoRoute(
           path: '/profile/:id',
           builder: (context, state) {
