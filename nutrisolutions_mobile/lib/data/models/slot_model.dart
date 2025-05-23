@@ -4,9 +4,10 @@ class SlotModel {
   final String time;
   final String nutritionistName;
   final bool isReservation;
-  final bool isReserved;
+  // final bool isReserved;
   final double rating;
   final String? clientName;
+  final String? clientId;
   final List<String>? notes;
   final String? id;
 
@@ -16,11 +17,12 @@ class SlotModel {
     required this.time,
     required this.nutritionistName,
     required this.isReservation,
-    required this.isReserved,
+    // required this.isReserved,
     required this.rating,
     this.clientName,
     this.notes,
     this.id,
+    this.clientId,
   });
 
   factory SlotModel.fromJson(Map<String, dynamic> json) {
@@ -30,11 +32,12 @@ class SlotModel {
       time: json['time'],
       nutritionistName: json['nutritionist']['name'], // adjust as needed
       isReservation: json['isReservation'],
-      isReserved: json['isReserved'],
+      // isReserved: json['isReserved'],
       rating: json['rating'].toDouble(),
       clientName: json['client']?['name'],
       notes: List<String>.from(json['notes'] ?? []),
       id: json['id'],
+      clientId: json['client']?['id'],
     );
   }
 }

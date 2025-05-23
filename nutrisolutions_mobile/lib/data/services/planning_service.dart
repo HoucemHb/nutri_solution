@@ -39,10 +39,9 @@ class PlanningService {
     }
   }
 
-  Future<bool> cancelSlotReservation(String id) async {
+  Future<void> cancelSlotReservation(String id) async {
     try {
       final response = await _dio.delete('/$id');
-      return response.data['count'] > 0;
     } catch (e) {
       throw Exception('Failed to cancel reservation: $e');
     }

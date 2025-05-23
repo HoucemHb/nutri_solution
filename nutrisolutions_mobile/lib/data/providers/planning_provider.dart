@@ -22,7 +22,7 @@ final addSlotProvider = FutureProvider.autoDispose
 
 // Cancel slot reservation
 final cancelSlotReservationProvider =
-    FutureProvider.autoDispose.family<bool, String>((ref, slotId) async {
+    FutureProvider.autoDispose.family<void, String>((ref, slotId) async {
   final service = ref.read(planningServiceProvider);
   return service.cancelSlotReservation(slotId);
 });

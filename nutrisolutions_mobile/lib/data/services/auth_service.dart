@@ -8,7 +8,8 @@ import '../../core/utils/app_utils.dart';
 
 class AuthService {
   final String _baseUrl = '${AppApi.baseUrl}/auth';
-
+  String _userId = '';
+  get userId => _userId;
   Future<ClientModel?> login({String email = '', String password = ''}) async {
     final url = Uri.parse('$_baseUrl/login');
     final response = await http.post(
@@ -26,7 +27,7 @@ class AuthService {
       await prefs.setString(AppConstants.tokenLocalStorage, token);
       await prefs.setString(AppConstants.payloadIdKey, user.id ?? '');
       await prefs.setString(AppConstants.nameLocalStorage, user.name);
-
+      _userId = user.id ?? '';
       return user;
     }
     return null;

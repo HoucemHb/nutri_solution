@@ -49,6 +49,9 @@ dependencies:
   http_parser: ^4.0.2
   app_links: ^6.4.0
   syncfusion_flutter_calendar: ^29.1.40
+  intl_mobile_field: ^2.0.2
+  intl: ^0.20.2
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
