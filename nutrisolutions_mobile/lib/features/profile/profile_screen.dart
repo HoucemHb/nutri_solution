@@ -124,42 +124,7 @@ class ProfileScreen extends ConsumerWidget {
                   children: [
                     PersonalInfo(profile: profile),
                     HealthInfo(profile: profile),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Recettes préférées',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium!
-                                .copyWith(color: AppColors.brown),
-                          ),
-                          const Gap(10),
-                          for (int i = 0;
-                              i < profile.favoriteRecipes.length;
-                              i++)
-                            ListTile(
-                              leading: ClipOval(
-                                child: Image.network(
-                                  width: 60,
-                                  height: 60,
-                                  AppApi.baseUrl +
-                                      profile.favoriteRecipes[i].imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              title: Text(profile.favoriteRecipes[i].name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: AppColors.primaryColor,
-                                      )),
-                            ),
-                        ],
-                      ),
-                    ),
+                    FavoriteRecipes(profile: profile),
                   ],
                 ),
               )
@@ -175,6 +140,45 @@ class ProfileScreen extends ConsumerWidget {
         child: Text('Error getting user ID: $error'),
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
+    );
+  }
+}
+
+class FavoriteRecipes extends StatelessWidget {
+  final ClientModel profile;
+  const FavoriteRecipes({super.key, required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            'Recettes préférées',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: AppColors.brown),
+          ),
+          const Gap(10),
+          for (int i = 0; i < profile.favoriteRecipes.length; i++)
+            ListTile(
+              leading: ClipOval(
+                child: Image.network(
+                  width: 60,
+                  height: 60,
+                  AppApi.baseUrl + profile.favoriteRecipes[i].imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              title: Text(profile.favoriteRecipes[i].name,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.primaryColor,
+                      )),
+            ),
+        ],
+      ),
     );
   }
 }
