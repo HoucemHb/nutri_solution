@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
@@ -28,6 +29,20 @@ class NutritionistItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(30),
+                RatingBar.builder(
+                  itemSize: 15,
+                  initialRating: nutritionist.rating.toDouble(),
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: false,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 0.5),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {},
+                ),
                 Text(nutritionist.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
