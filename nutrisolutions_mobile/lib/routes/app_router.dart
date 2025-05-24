@@ -23,7 +23,7 @@ final GoRouter appRouter = GoRouter(
         return Consumer(
           builder: (context, ref, _) {
             return Scaffold(
-              drawer: CustomDrawer(),
+              drawer: const CustomDrawer(),
               onDrawerChanged: (isOpened) {
                 ref.read(drawerStateProvider.notifier).state = isOpened;
               },
@@ -80,10 +80,9 @@ final GoRouter appRouter = GoRouter(
               return NutritionistPlanningScreen(nutritionistId: id);
             }),
         GoRoute(
-          path: '/profile/:id',
+          path: '/profile',
           builder: (context, state) {
-            final id = state.pathParameters['id']!;
-            return ProfileScreen(userId: id);
+            return const ProfileScreen();
           },
         ),
       ],

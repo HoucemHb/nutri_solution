@@ -18,14 +18,31 @@ class AppUtils {
     }
   }
 
-static T? convertToEnum<T extends HasLabel>(List<T> enumValues, String value) {
-  try {
-    return enumValues.firstWhere(
-      (e) => e.label.toLowerCase() == value.toLowerCase(),
-    );
-  } catch (_) {
-    return null;
+  static T? convertToEnum<T extends HasLabel>(
+      List<T> enumValues, String value) {
+    try {
+      return enumValues.firstWhere(
+        (e) => e.label.toLowerCase() == value.toLowerCase(),
+      );
+    } catch (_) {
+      return null;
+    }
   }
-}
 
+  static double getBMI(int weight, int height) {
+    int weightKg = weight;
+    double heightM = height / 100; // Convert height to meters
+    double bmi = weightKg / (heightM * heightM);
+    return bmi;
+  }
+
+  static String getBMIStatus(double bmi) {
+    if (bmi < 18.5) {
+      return 'Underweight';
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+      return 'Healthy';
+    } else {
+      return 'Not Healthy';
+    }
+  }
 }

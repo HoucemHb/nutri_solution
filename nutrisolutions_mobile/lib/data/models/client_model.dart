@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:nutrisolutions_mobile/data/models/recipe_model.dart';
 import 'package:nutrisolutions_mobile/data/models/slot_model.dart';
 
 class ClientModel {
@@ -14,7 +15,7 @@ class ClientModel {
   final String role;
   final int height;
   final int weight;
-  // final List<RecipeModel> favoriteRecipes;
+  final List<RecipeModel> favoriteRecipes;
   final String objectif;
   final String activityLevel;
   final List<SlotModel> reservedSlots;
@@ -32,7 +33,7 @@ class ClientModel {
     required this.birthDate,
     required this.height,
     required this.weight,
-    // this.favoriteRecipes = const [],
+    this.favoriteRecipes = const [],
     required this.objectif,
     required this.activityLevel,
     this.reservedSlots = const [],
@@ -62,7 +63,7 @@ class ClientModel {
     String? role,
     int? height,
     int? weight,
-    // List<RecipeModel>? favoriteRecipes,
+    List<RecipeModel>? favoriteRecipes,
     String? objectif,
     String? activityLevel,
     List<SlotModel>? reservedSlots,
@@ -80,7 +81,7 @@ class ClientModel {
       role: role ?? this.role,
       height: height ?? this.height,
       weight: weight ?? this.weight,
-      // favoriteRecipes: favoriteRecipes ?? this.favoriteRecipes,
+      favoriteRecipes: favoriteRecipes ?? this.favoriteRecipes,
       objectif: objectif ?? this.objectif,
       activityLevel: activityLevel ?? this.activityLevel,
       reservedSlots: reservedSlots ?? this.reservedSlots,
@@ -101,7 +102,7 @@ class ClientModel {
       'role': role,
       'height': height,
       'weight': weight,
-      // 'favoriteRecipes': favoriteRecipes,
+      'favoriteRecipes': favoriteRecipes,
       'objectif': objectif,
       'activityLevel': activityLevel,
       'reservedSlots': reservedSlots.map((x) => x).toList(),
@@ -122,18 +123,22 @@ class ClientModel {
       role: map['role'] as String,
       height: map['height'] as int,
       weight: map['weight'] as int,
-      // favoriteRecipes: List<RecipeModel>.from(
-      //   (map['favoriteRecipes'] as List<int>).map<RecipeModel>(
-      //     (x) => RecipeModel.fromMap(x as Map<String, dynamic>),
-      //   ),
-      // ),
+      favoriteRecipes: map['favoriteRecipes'] != null
+          ? List<RecipeModel>.from(
+              map['favoriteRecipes'].map<RecipeModel>(
+                (x) => RecipeModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [],
       objectif: map['objectif'],
       activityLevel: map['activityLevel'],
-      // reservedSlots: List<SlotModel>.from(
-      //   (map['reservedSlots'] as List<int>).map<SlotModel>(
-      //     (x) => SlotModel.fromMap(x as Map<String, dynamic>),
-      //   ),
-      // ),
+      reservedSlots: map['reservedSlots'] != null
+          ? List<SlotModel>.from(
+              (map['reservedSlots']).map<SlotModel>(
+                (x) => SlotModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : [],
       reservedSlotsCount: map['reservedSlotsCount'] as int,
       id: map['id'] != null ? map['id'] as String : null,
     );

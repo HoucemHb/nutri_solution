@@ -7,6 +7,8 @@ import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
 import '../data/providers/drawer_provider.dart';
 
 class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -20,10 +22,10 @@ class CustomDrawer extends StatelessWidget {
             const SizedBox(height: 15),
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   _DrawerItem(icon: Icons.home, title: 'Accueil', route: '/'),
                   _DrawerItem(
-                      icon: Icons.person, title: 'Profil', route: '/profile/1'),
+                      icon: Icons.person, title: 'Profil', route: '/profile'),
                   _DrawerItem(
                       icon: Icons.menu_book,
                       title: 'Recettes',
@@ -113,7 +115,7 @@ class _DrawerItemState extends ConsumerState<_DrawerItem> {
                 : null,
           ),
         ),
-        Container(
+        SizedBox(
           height: 51,
           width: double.infinity,
           child: ListTile(

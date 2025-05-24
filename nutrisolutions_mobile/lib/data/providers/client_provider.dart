@@ -18,10 +18,8 @@ final clientsCountProvider = FutureProvider<int>((ref) async {
 });
 
 // Client by ID
-final clientByIdProvider = FutureProvider.family<ClientModel, String>((ref, id) async {
+final clientByIdProvider =
+    FutureProvider.family<ClientModel, String>((ref, id) async {
   final service = ref.read(clientServiceProvider);
   return service.getClientById(id);
 });
-
-// Selected client (for selection purposes)
-final selectedClientProvider = StateProvider<ClientModel?>((ref) => null);

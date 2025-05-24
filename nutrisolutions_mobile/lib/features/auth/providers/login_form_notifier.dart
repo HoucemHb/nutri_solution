@@ -45,7 +45,8 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
       state = state.copyWith(isLoading: false);
       return result;
     } catch (e, stacktrace) {
-
+      print('Login error: $e');
+      print('Stacktrace: $stacktrace');
       state = state.copyWith(isLoading: false);
       return null;
     }

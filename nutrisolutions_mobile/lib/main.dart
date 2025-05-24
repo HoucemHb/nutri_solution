@@ -1,40 +1,38 @@
 import 'dart:async';
-import 'dart:isolate';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nutrisolutions_mobile/data/services/notification_service.dart';
 import 'package:nutrisolutions_mobile/shared/custom_drawer.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:workmanager/workmanager.dart';
+// import 'package:workmanager/workmanager.dart';
 import 'app_observer.dart';
 import 'core/theme/theme.dart';
 import 'routes/app_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> backgroundTask() async {
-  print("Background task started");
-  // debugPrint("⏰ Alarm triggered!");
+// Future<void> backgroundTask() async {
+//   print("Background task started");
+//   // debugPrint("⏰ Alarm triggered!");
 
-  await NotificationService.initialize();
-  await NotificationService.showNotification(
-    "Hydration Reminder",
-    "Time to drink some water!",
-  );
-}
+//   await NotificationService.initialize();
+//   await NotificationService.showNotification(
+//     "Hydration Reminder",
+//     "Time to drink some water!",
+//   );
+// }
 
-@pragma(
-    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    await NotificationService.showNotification(
-      'Hydrate-toi !',
-      'Il est temps de boire un verre d\'eau 💧',
-    );
-    return Future.value(true);
-  });
-}
+// @pragma(
+//     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     await NotificationService.showNotification(
+//       'Hydrate-toi !',
+//       'Il est temps de boire un verre d\'eau 💧',
+//     );
+//     return Future.value(true);
+//   });
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,10 +42,10 @@ void main() async {
     await Permission.notification.request();
   }
   // Schedule task every minute (only for testing; production use may vary)
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
-  Workmanager().registerPeriodicTask(
-      "drinkWaterReminder", "drinkWaterReminderTask",
-      frequency: const Duration(minutes: 1));
+  // Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+  // Workmanager().registerPeriodicTask(
+  //     "drinkWaterReminder", "drinkWaterReminderTask",
+  //     frequency: const Duration(minutes: 1));
   runApp(ProviderScope(
     observers: [AppObserver()],
     child: const MyApp(),
