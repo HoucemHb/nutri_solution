@@ -11,7 +11,8 @@ final allNutritionistsFutureProvider =
     FutureProvider.family<NutritionistsResponse, NutritionistsQueryParams>(
   (ref, params) async {
     final nutritionistsService = ref.read(nutritionistsServiceProvider);
-    final nutritionistsResponse = await nutritionistsService.getAllNutritionists(
+    final nutritionistsResponse =
+        await nutritionistsService.getAllNutritionists(
       page: params.page,
       limit: params.limit,
       searchText: params.searchText,
@@ -21,7 +22,14 @@ final allNutritionistsFutureProvider =
   },
 );
 
-final nutritionistByIdProvider = FutureProvider.family<NutritionistModel, String>(
+final bestNutritionistsProvider =
+    FutureProvider<List<NutritionistModel>>((ref) async {
+  final service = ref.read(nutritionistsServiceProvider);
+  return service.getBestNutritionists();
+});
+
+final nutritionistByIdProvider =
+    FutureProvider.family<NutritionistModel, String>(
   (ref, id) async {
     final nutritionistsService = ref.read(nutritionistsServiceProvider);
     final nutritionist = await nutritionistsService.getNutritionistById(id);
@@ -42,24 +50,21 @@ class NutritionistsQueryParams {
     this.experienceYears,
   });
 
-
-
   @override
   bool operator ==(covariant NutritionistsQueryParams other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.page == page &&
-      other.limit == limit &&
-      other.searchText == searchText &&
-      other.experienceYears == experienceYears;
+
+    return other.page == page &&
+        other.limit == limit &&
+        other.searchText == searchText &&
+        other.experienceYears == experienceYears;
   }
 
   @override
   int get hashCode {
     return page.hashCode ^
-      limit.hashCode ^
-      searchText.hashCode ^
-      experienceYears.hashCode;
+        limit.hashCode ^
+        searchText.hashCode ^
+        experienceYears.hashCode;
   }
 }

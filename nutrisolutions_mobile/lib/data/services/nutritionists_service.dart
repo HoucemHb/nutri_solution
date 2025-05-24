@@ -42,9 +42,11 @@ class NutritionistsService {
       final List<dynamic> data = response.data['data'];
       final int totalNutritionistsCount = response.data['total'];
       print(data);
-      final nutritionists = data.map((json) => NutritionistModel.fromMap(json)).toList();
+      final nutritionists =
+          data.map((json) => NutritionistModel.fromMap(json)).toList();
       print('from nutritionists service: $nutritionists');
-      return NutritionistsResponse(nutritionists: nutritionists, totalCount: totalNutritionistsCount);
+      return NutritionistsResponse(
+          nutritionists: nutritionists, totalCount: totalNutritionistsCount);
     } catch (e) {
       throw Exception('Failed to load nutritionists: $e');
     }
@@ -68,6 +70,17 @@ class NutritionistsService {
     }
   }
 
+  Future<List<NutritionistModel>> getBestNutritionists() async {
+    try {
+      final response = await _dio.get('/top');
+      final List<dynamic> data = response.data;
+
+      return data.map((json) => NutritionistModel.fromMap(json)).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch top nutritionists: $e');
+    }
+  }
+
   Future<bool> deleteNutritionist(String id) async {
     try {
       final response = await _dio.delete('/$id');
@@ -77,7 +90,8 @@ class NutritionistsService {
     }
   }
 
-  Future<NutritionistModel> addNutritionist(NutritionistModel nutritionist) async {
+  Future<NutritionistModel> addNutritionist(
+      NutritionistModel nutritionist) async {
     try {
       final response = await _dio.post(
         '',
@@ -89,7 +103,8 @@ class NutritionistsService {
     }
   }
 
-  Future<NutritionistModel> updateNutritionist(String id, NutritionistModel nutritionist) async {
+  Future<NutritionistModel> updateNutritionist(
+      String id, NutritionistModel nutritionist) async {
     try {
       final response = await _dio.patch(
         '/$id',

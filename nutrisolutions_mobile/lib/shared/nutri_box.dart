@@ -25,7 +25,7 @@ class NutriBox extends StatelessWidget {
         child: ClipPath(
           clipper: BoxClipper(),
           child: Container(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(25.0),
             color: AppColors.backgroundColor,
             // width: 224,
             // height: 238,

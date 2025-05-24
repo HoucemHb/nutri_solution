@@ -27,6 +27,15 @@ final allRecipesFutureProvider =
   },
 );
 
+final recentRecipesProvider = FutureProvider<List<RecipeModel>>((ref) async {
+  final recipesService = ref.read(recipesServiceProvider);
+  final response = await recipesService.getAllRecipes(
+    page: 1,
+    limit: 4,
+  );
+  return response.recipes;
+});
+
 final recipeByIdProvider = FutureProvider.family<RecipeModel, String>(
   (ref, id) async {
     final recipesService = ref.read(recipesServiceProvider);
