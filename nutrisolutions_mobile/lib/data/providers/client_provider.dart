@@ -19,7 +19,7 @@ final clientsCountProvider = FutureProvider<int>((ref) async {
 
 // Client by ID
 final clientByIdProvider =
-    FutureProvider.family<ClientModel, String>((ref, id) async {
+    FutureProvider.autoDispose.family<ClientModel, String>((ref, id) async {
   final service = ref.read(clientServiceProvider);
   return service.getClientById(id);
 });

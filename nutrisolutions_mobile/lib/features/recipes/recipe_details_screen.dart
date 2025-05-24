@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
+import 'package:nutrisolutions_mobile/core/utils/show_toast.dart';
+import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
+import 'package:nutrisolutions_mobile/data/providers/client_provider.dart';
 import 'package:nutrisolutions_mobile/data/providers/recipes_provider.dart';
 import 'package:nutrisolutions_mobile/features/recipes/widgets/instructions_list.dart';
 import 'package:nutrisolutions_mobile/shared/nutri_box.dart';
@@ -126,7 +129,25 @@ class RecipeDetailsScreen extends ConsumerWidget {
                                   height: 50,
                                   width: 200,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      try {
+                                        final clientId = (await ref
+                                                .read(authServiceProvider)
+                                                .getUserId()) ??
+                                            '';
+
+                                        await ref
+                                            .read(clientServiceProvider)
+                                            .addRecipeToFavorite(
+                                                clientId, recipeId);
+                                        AppToast.showSuccessToast(
+                                            'Recipe added to favorites successfully!');
+                                      } catch (e) {
+                                        print(e);
+                                        AppToast.showErrorToast(
+                                            'Failed to add to favorites: $e');
+                                      }
+                                    },
                                     child: const Text(
                                       'Add to favorites',
                                       style: TextStyle(

@@ -136,6 +136,27 @@ class ProfileScreen extends ConsumerWidget {
                                 .copyWith(color: AppColors.brown),
                           ),
                           const Gap(10),
+                          for (int i = 0;
+                              i < profile.favoriteRecipes.length;
+                              i++)
+                            ListTile(
+                              leading: ClipOval(
+                                child: Image.network(
+                                  width: 60,
+                                  height: 60,
+                                  AppApi.baseUrl +
+                                      profile.favoriteRecipes[i].imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              title: Text(profile.favoriteRecipes[i].name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: AppColors.primaryColor,
+                                      )),
+                            ),
                         ],
                       ),
                     ),
