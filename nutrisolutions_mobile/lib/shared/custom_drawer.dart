@@ -23,16 +23,16 @@ class CustomDrawer extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: const [
-                  _DrawerItem(icon: Icons.home, title: 'Accueil', route: '/'),
+                  _DrawerItem(icon: Icons.home, title: 'Home', route: '/'),
                   _DrawerItem(
-                      icon: Icons.person, title: 'Profil', route: '/profile'),
+                      icon: Icons.person, title: 'Profile', route: '/profile'),
                   _DrawerItem(
                       icon: Icons.menu_book,
-                      title: 'Recettes',
+                      title: 'Recipes',
                       route: '/recipes'),
                   _DrawerItem(
                       icon: Icons.group,
-                      title: 'Nutritionnistes',
+                      title: 'Nutritionists',
                       route: '/nutritionists'),
                 ],
               ),
@@ -42,6 +42,7 @@ class CustomDrawer extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   context.go('/login');
+                  Navigator.pop(context); // Close the drawer
                 },
                 child: const Text("Logout"),
               ),

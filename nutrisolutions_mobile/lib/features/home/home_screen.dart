@@ -53,58 +53,61 @@ class WaterTracking extends ConsumerWidget {
     }
 
     return NutriBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Suivi de l\'Hydratation - ${waterState.currentTime}',
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              Expanded(
-                  child: SvgPicture.asset(
-                'assets/images/${mapStatusToSvg(waterState.status)}.svg',
-                height: 50,
-                width: 50,
-              )),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              for (int i = 0; i < 7; i++)
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Suivi de l\'Hydratation - ${waterState.currentTime}',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => notifier.fillNextCup(),
-                    child: Stack(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/cup.svg',
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 600),
-                            curve: Curves.easeInOut,
-                            height: (i + 1 <= waterState.filledCups) ? 70 : 0,
-                            child: SvgPicture.asset(
-                              'assets/images/cup-water.svg',
-                              fit: BoxFit.contain,
-                            ),
+                    child: SvgPicture.asset(
+                  'assets/images/${mapStatusToSvg(waterState.status)}.svg',
+                  height: 50,
+                  width: 50,
+                )),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (int i = 0; i < 7; i++)
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => notifier.fillNextCup(),
+                      child: Stack(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/cup.svg',
                           ),
-                        )
-                      ],
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 600),
+                              curve: Curves.easeInOut,
+                              height: (i + 1 <= waterState.filledCups) ? 70 : 0,
+                              child: SvgPicture.asset(
+                                'assets/images/cup-water.svg',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -120,7 +123,8 @@ class TopNutritionist extends ConsumerWidget {
     final bestNutritionistsAsync = ref.watch(bestNutritionistsProvider);
 
     return NutriBox(
-        child: SizedBox(
+        child: Container(
+      padding: const EdgeInsets.all(15.0),
       height: 280,
       child: Column(
         children: [
@@ -175,7 +179,8 @@ class RecentRecipes extends ConsumerWidget {
     final recentRecipesAsync = ref.watch(recentRecipesProvider);
 
     return NutriBox(
-        child: SizedBox(
+        child: Container(
+      padding: const EdgeInsets.all(15.0),
       height: 280,
       child: Column(
         children: [

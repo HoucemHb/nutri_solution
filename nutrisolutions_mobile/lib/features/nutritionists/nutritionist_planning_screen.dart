@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +9,6 @@ import 'package:nutrisolutions_mobile/data/models/slot_model.dart';
 import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 import 'package:nutrisolutions_mobile/data/providers/planning_provider.dart';
 import 'package:nutrisolutions_mobile/data/services/planning_service.dart';
-import 'package:nutrisolutions_mobile/features/nutritionists/providers/nutritionist_planning_notifier.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class NutritionistPlanningScreen extends ConsumerWidget {

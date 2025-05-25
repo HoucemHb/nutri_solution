@@ -136,6 +136,18 @@ class RecipeDetailsScreen extends ConsumerWidget {
                                                 .getUserId()) ??
                                             '';
 
+                                        // Get current favorite recipe IDs
+                                        final favoriteIds = await ref
+                                            .read(clientServiceProvider)
+                                            .getFavoriteRecipeIds(clientId);
+
+                                        if (favoriteIds.contains(recipeId)) {
+                                          AppToast.showSuccessToast(
+                                              'Recipe already in favorites.');
+                                          return;
+                                        }
+
+                                        // Add to favorites if not already present
                                         await ref
                                             .read(clientServiceProvider)
                                             .addRecipeToFavorite(
