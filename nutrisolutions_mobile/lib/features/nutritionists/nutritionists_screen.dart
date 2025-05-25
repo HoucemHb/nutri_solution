@@ -50,7 +50,7 @@ class NutritionistsScreen extends ConsumerWidget {
               return Expanded(
                 child: GridView.builder(
                   padding:
-                      const EdgeInsets.only(right: 14.0, left: 14.0, top: 55.0),
+                      const EdgeInsets.only(right: 7.0, left: 7.0, top: 55.0),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 5.0,
