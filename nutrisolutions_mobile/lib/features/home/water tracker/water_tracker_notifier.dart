@@ -19,7 +19,7 @@ class WaterTrackingNotifier extends StateNotifier<WaterTrackingState> {
 
     // Increment recommended cups every 15 seconds and update status
     cupTimer = Timer.periodic(const Duration(seconds: 15), (_) {
-      if (state.filledCups >= 7) {
+      if (state.recommendedDrunCups >= 7) {
         cupTimer?.cancel();
         return;
       }
@@ -74,10 +74,14 @@ class WaterTrackingNotifier extends StateNotifier<WaterTrackingState> {
         break;
       case 4:
         newStatus = WaterTrackingStatus.verySad;
+        NotificationService.showNotification(
+          "Hydration Alert",
+          "You are falling behind on your water intake!",
+        );
         // You can also trigger notifications here if needed
         break;
       default:
-        newStatus = state.status;
+        newStatus = WaterTrackingStatus.veryHappy;
     }
     if (newStatus != state.status) {
       state = state.copyWith(status: newStatus);

@@ -7,8 +7,8 @@ final nutritionistsServiceProvider = Provider<NutritionistsService>((ref) {
   return NutritionistsService();
 });
 
-final allNutritionistsFutureProvider =
-    FutureProvider.family<NutritionistsResponse, NutritionistsQueryParams>(
+final allNutritionistsFutureProvider = FutureProvider.autoDispose
+    .family<NutritionistsResponse, NutritionistsQueryParams>(
   (ref, params) async {
     final nutritionistsService = ref.read(nutritionistsServiceProvider);
     final nutritionistsResponse =
@@ -23,13 +23,13 @@ final allNutritionistsFutureProvider =
 );
 
 final bestNutritionistsProvider =
-    FutureProvider<List<NutritionistModel>>((ref) async {
+    FutureProvider.autoDispose<List<NutritionistModel>>((ref) async {
   final service = ref.read(nutritionistsServiceProvider);
   return service.getBestNutritionists();
 });
 
 final nutritionistByIdProvider =
-    FutureProvider.family<NutritionistModel, String>(
+    FutureProvider.autoDispose.family<NutritionistModel, String>(
   (ref, id) async {
     final nutritionistsService = ref.read(nutritionistsServiceProvider);
     final nutritionist = await nutritionistsService.getNutritionistById(id);
