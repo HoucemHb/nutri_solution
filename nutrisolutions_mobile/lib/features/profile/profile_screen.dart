@@ -10,6 +10,7 @@ import 'package:nutrisolutions_mobile/core/utils/app_utils.dart';
 import 'package:nutrisolutions_mobile/data/models/client_model.dart';
 import 'package:nutrisolutions_mobile/data/providers/auth_provider.dart';
 import 'package:nutrisolutions_mobile/data/providers/client_provider.dart';
+import 'package:nutrisolutions_mobile/features/profile/profile_page_provider.dart';
 
 final userIdProvider = FutureProvider<String?>((ref) async {
   return ref.read(authServiceProvider).getUserId();
@@ -22,6 +23,12 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<ClientInfoItem> clientInfos;
     final userIdAsync = ref.watch(userIdProvider);
+    final List<String> pageTitles = [
+      'Personal Information',
+      'Health Information',
+      'Favorite Recipes'
+    ];
+    final currentPage = ref.watch(currentPageProvider);
 
     return userIdAsync.when(
       data: (userId) {
@@ -69,28 +76,28 @@ class ProfileScreen extends ConsumerWidget {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.lightGray,
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: Border.all(
-                                        color: AppColors.white,
-                                        width: 3,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        'assets/images/edit.png',
-                                        fit: BoxFit.contain,
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                    ),
-                                  )),
+                              // Positioned(
+                              //     bottom: 0,
+                              //     right: 0,
+                              //     child: Container(
+                              //       padding: const EdgeInsets.all(5),
+                              //       decoration: BoxDecoration(
+                              //         color: AppColors.lightGray,
+                              //         borderRadius: BorderRadius.circular(50),
+                              //         border: Border.all(
+                              //           color: AppColors.white,
+                              //           width: 3,
+                              //         ),
+                              //       ),
+                              //       child: Center(
+                              //         child: Image.asset(
+                              //           'assets/images/edit.png',
+                              //           fit: BoxFit.contain,
+                              //           height: 20,
+                              //           width: 20,
+                              //         ),
+                              //       ),
+                              //     )),
                             ],
                           ),
                           Text(
@@ -119,8 +126,37 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              const Gap(20),
+              Text(
+                pageTitles[currentPage],
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .copyWith(color: AppColors.brown),
+              ),
+              const Gap(15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(3, (index) {
+                  final isActive = index == currentPage;
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: isActive ? 24 : 12,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: isActive
+                          ? AppColors.secondaryColor
+                          : AppColors.hintText,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  );
+                }),
+              ),
+              const Gap(10),
               Expanded(
                 child: PageView(
+                  controller: ref.watch(pageControllerProvider),
                   children: [
                     PersonalInfo(profile: profile),
                     HealthInfo(profile: profile),
@@ -154,14 +190,6 @@ class FavoriteRecipes extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Text(
-            'Recettes préférées',
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: AppColors.brown),
-          ),
-          const Gap(10),
           for (int i = 0; i < profile.favoriteRecipes.length; i++)
             ListTile(
               leading: ClipOval(
@@ -192,169 +220,150 @@ class HealthInfo extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            'Données de Santé',
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: AppColors.brown),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  SvgPicture.asset('assets/images/height.svg'),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Row(
                       children: [
-                        SvgPicture.asset('assets/images/height.svg'),
-                        Positioned(
-                          bottom: 10,
-                          left: 10,
-                          child: Row(
-                            children: [
-                              const Text('Height'),
-                              Text(
-                                profile.height != null
-                                    ? ' ${profile.height} cm'
-                                    : ' N/A',
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        )
+                        const Text('Height', style: TextStyle(fontSize: 12)),
+                        Text(
+                          profile.height != null
+                              ? ' ${profile.height} cm'
+                              : ' N/A',
+                        ),
                       ],
                     ),
-                    const Gap(20),
-                    Stack(
-                      children: [
-                        SvgPicture.asset('assets/images/weight.svg'),
-                        Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: Row(
-                              children: [
-                                const Text('Weight',
-                                    style: TextStyle(fontSize: 12)),
-                                Text(
-                                  profile.weight != null
-                                      ? ' ${profile.weight} Kg'
-                                      : ' N/A',
-                                ),
-                              ],
-                            ))
-                      ],
-                    ),
-                  ],
-                ),
-                const Gap(10),
-                Stack(
-                  children: [
-                    SvgPicture.asset('assets/images/bmi.svg'),
-                    Positioned(
-                      top: 10,
+                  )
+                ],
+              ),
+              const Gap(20),
+              Stack(
+                children: [
+                  SvgPicture.asset('assets/images/weight.svg'),
+                  Positioned(
+                      bottom: 10,
                       left: 10,
-                      child: Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Body mass index (BMI)',
+                      child: Row(
+                        children: [
+                          const Text('Weight', style: TextStyle(fontSize: 12)),
+                          Text(
+                            profile.weight != null
+                                ? ' ${profile.weight} Kg'
+                                : ' N/A',
+                          ),
+                        ],
+                      ))
+                ],
+              ),
+            ],
+          ),
+          const Gap(10),
+          Stack(
+            children: [
+              SvgPicture.asset('assets/images/bmi.svg',width: 230),
+              Positioned(
+                top: 10,
+                left: 10,
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Body mass index (BMI)',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.white,
+                            ),
+                      ),
+                      const Gap(15),
+                      Row(
+                        children: [
+                          Text(
+                            AppUtils.getBMI(profile.weight, profile.height)
+                                .toStringAsFixed(2),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppColors.white),
+                          ),
+                          const Gap(10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightGray,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Text(
+                              AppUtils.getBMIStatus(
+                                AppUtils.getBMI(profile.weight, profile.height),
+                              ),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
                                   ?.copyWith(
-                                    color: AppColors.white,
+                                    color: AppColors.primaryColor,
                                   ),
                             ),
-                            const Gap(15),
-                            Row(
-                              children: [
-                                Text(
-                                  AppUtils.getBMI(
-                                          profile.weight, profile.height)
-                                      .toStringAsFixed(2),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(color: AppColors.white),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.lightGray,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Text(
-                                    AppUtils.getBMIStatus(
-                                      AppUtils.getBMI(
-                                          profile.weight, profile.height),
-                                    ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          color: AppColors.primaryColor,
-                                        ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                const Gap(10),
-                Text(
-                  'Upcoming Appointment',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(color: AppColors.brown),
-                ),
-                const Gap(10),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    ],
                   ),
-                  child: profile.reservedSlots.isNotEmpty
-                      ? Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: AppColors.secondaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                  '${DateFormat('MMM d, y').format(profile.reservedSlots[profile.reservedSlots.length - 1].date)} at ${profile.reservedSlots[profile.reservedSlots.length - 1].time}h'),
-                            ),
-                            if (profile.reservedSlots.isNotEmpty)
-                              Text(profile
-                                  .reservedSlots[
-                                      profile.reservedSlots.length - 1]
-                                  .nutritionistName),
-                          ],
-                        )
-                      : Text(
-                          'You have no upcoming appointments',
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.brown,
-                                  ),
-                        ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
+          const Gap(10),
+          Text(
+            'Upcoming Appointment',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(color: AppColors.brown),
+          ),
+          const Gap(10),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: profile.reservedSlots.isNotEmpty &&
+                    profile.reservedSlots
+                        .where((slot) => slot.date.isAfter(DateTime.now()))
+                        .isNotEmpty
+                ? Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                            '${DateFormat('MMM d, y').format(profile.reservedSlots[profile.reservedSlots.length - 1].date)} at ${profile.reservedSlots[profile.reservedSlots.length - 1].time}h'),
+                      ),
+                      const Gap(5),
+                      Text(
+                          'With Doctor: ${profile.reservedSlots.where((slot) => slot.date.isAfter(DateTime.now())).toList().first.nutritionistName}'),
+                    ],
+                  )
+                : Text(
+                    'You have no upcoming appointments',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.brown,
+                        ),
+                  ),
+          )
         ],
       ),
     );
@@ -371,47 +380,33 @@ class PersonalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            'Personal Information',
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .copyWith(color: AppColors.brown),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.user,
+                color: AppColors.primaryColor),
+            title: Text(profile.gender ?? 'N/A'),
           ),
-          const Gap(10),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ListTile(
-                  leading: const Icon(FontAwesomeIcons.user,
-                      color: AppColors.primaryColor),
-                  title: Text(profile.gender ?? 'N/A'),
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(FontAwesomeIcons.cakeCandles,
-                      color: AppColors.primaryColor),
-                  title: Text('${profile.getClientAge()} years'),
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(FontAwesomeIcons.envelope,
-                      color: AppColors.primaryColor),
-                  title: Text(profile.email ?? 'N/A'),
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(FontAwesomeIcons.phone,
-                      color: AppColors.primaryColor),
-                  title: Text(profile.phoneNumber ?? 'N/A'),
-                ),
-              ],
-            ),
-          )
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.cakeCandles,
+                color: AppColors.primaryColor),
+            title: Text('${profile.getClientAge()} years'),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.envelope,
+                color: AppColors.primaryColor),
+            title: Text(profile.email ?? 'N/A'),
+          ),
+          const Divider(height: 1),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.phone,
+                color: AppColors.primaryColor),
+            title: Text(profile.phoneNumber ?? 'N/A'),
+          ),
         ],
       ),
     );
