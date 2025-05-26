@@ -10,6 +10,7 @@ import { Client } from './client.entity';
 import { ClientService } from './client.service';
 import { Public } from 'src/auth/guards/auth.guard';
 import { ReservedSlotService } from 'src/planning/reserved-slot/reserved-slot.service';
+import { RecipeEntity } from 'src/recipe/recipe-entity';
 
 @Public()
 @Controller('clients')
@@ -58,7 +59,7 @@ export class ClientController {
    * Endpoint pour obtenir les recettes favorites d'un client
    */
   @Get(':clientId/favorites')
-  async getFavourites(@Param('clientId') clientId: string) {
+  async getFavourites(@Param('clientId') clientId: string):Promise<RecipeEntity[]>  {
     return this.clientService.getFavouriteRecipes(clientId);
   }
 

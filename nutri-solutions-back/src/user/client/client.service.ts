@@ -90,7 +90,7 @@ export class ClientService extends UserService {
   }
   async getFavouriteRecipes(clientId: string): Promise<RecipeEntity[]> {
     const client = await this.clientRepository.findOne({
-      where: { id: clientId },
+      where: { id: clientId }, relations: ['favoriteRecipes'], 
     }); // Ensure client exists
 
     if (!client) {
