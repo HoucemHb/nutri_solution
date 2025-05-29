@@ -42,7 +42,7 @@ class SignupFormState {
     this.confirmPassword = '',
     this.obscureConfirmPassword = true,
     this.name = '',
-    this.gender = 'Male',
+    this.gender = 'homme',
     this.phoneNumber = '',
     this.currentWeight = 150,
     this.currentHeight = 150,
@@ -103,7 +103,6 @@ class SignupFormState {
       pageController: pageController ?? this.pageController,
     );
   }
-
 
   factory SignupFormState.fromMap(Map<String, dynamic> map) {
     return SignupFormState(

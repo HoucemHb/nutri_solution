@@ -73,6 +73,9 @@ class WaterTrackingNotifier extends StateNotifier<WaterTrackingState> {
         newStatus = WaterTrackingStatus.sad;
         break;
       case 4:
+      case 5:
+      case 6:
+      case 7:
         newStatus = WaterTrackingStatus.verySad;
         NotificationService.showNotification(
           "Hydration Alert",

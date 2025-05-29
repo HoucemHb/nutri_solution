@@ -3,8 +3,8 @@ abstract class HasLabel {
 }
 
 enum GenderEnum implements HasLabel {
-  male('Male'),
-  female('Female');
+  male('homme'),
+  female('femme');
 
   @override
   final String label;
@@ -101,7 +101,6 @@ enum ExperienceEnum implements HasLabel {
 
   const ExperienceEnum(this.label);
 }
-
 
 enum TrieEnum implements HasLabel {
   all('Tous'),

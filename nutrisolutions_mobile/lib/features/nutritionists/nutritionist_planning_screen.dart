@@ -233,6 +233,14 @@ class NutritionistPlanningScreen extends ConsumerWidget {
               final appointment = details.appointments.first;
               return Stack(
                 children: [
+                  if (appointment.recurrenceId == null)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      alignment: Alignment.center,
+                    ),
                   Container(
                     decoration: BoxDecoration(
                       color: appointment.color,
@@ -244,7 +252,7 @@ class NutritionistPlanningScreen extends ConsumerWidget {
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),
-                  if (((appointment.recurrenceId as String) ==
+                  if (((appointment.recurrenceId) ==
                           ref.read(authServiceProvider).userId) &&
                       (appointment.endTime.isAfter(DateTime.now())))
                     Positioned(
@@ -255,7 +263,7 @@ class NutritionistPlanningScreen extends ConsumerWidget {
                         width: 20,
                       ),
                     ),
-                  if (((appointment.recurrenceId as String) ==
+                  if (((appointment.recurrenceId) ==
                           ref.read(authServiceProvider).userId) &&
                       (appointment.endTime.isBefore(DateTime.now())))
                     Positioned(

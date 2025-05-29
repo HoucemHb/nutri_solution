@@ -17,7 +17,7 @@ class DatePickerTemplate extends ConsumerWidget {
       Container(
         padding: const EdgeInsets.symmetric(
           vertical: 6,
-          horizontal: 12,
+          horizontal: 0,
         ),
         decoration: BoxDecoration(
           color: AppColors.white,

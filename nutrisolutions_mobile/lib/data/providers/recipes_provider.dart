@@ -13,7 +13,7 @@ final recipesServiceProvider = Provider<RecipesService>((ref) {
 });
 
 final allRecipesFutureProvider =
-    FutureProvider.family<RecipesResponse, RecipesQueryParams>(
+    FutureProvider.autoDispose.family<RecipesResponse, RecipesQueryParams>(
   (ref, params) async {
     final recipesService = ref.read(recipesServiceProvider);
     final recipesResponse = await recipesService.getAllRecipes(
@@ -27,7 +27,7 @@ final allRecipesFutureProvider =
   },
 );
 
-final recentRecipesProvider = FutureProvider<List<RecipeModel>>((ref) async {
+final recentRecipesProvider = FutureProvider.autoDispose<List<RecipeModel>>((ref) async {
   final recipesService = ref.read(recipesServiceProvider);
   final response = await recipesService.getAllRecipes(
     page: 1,
@@ -36,7 +36,7 @@ final recentRecipesProvider = FutureProvider<List<RecipeModel>>((ref) async {
   return response.recipes;
 });
 
-final recipeByIdProvider = FutureProvider.family<RecipeModel, String>(
+final recipeByIdProvider = FutureProvider.autoDispose.family<RecipeModel, String>(
   (ref, id) async {
     final recipesService = ref.read(recipesServiceProvider);
     final recipe = await recipesService.getRecipeById(id);

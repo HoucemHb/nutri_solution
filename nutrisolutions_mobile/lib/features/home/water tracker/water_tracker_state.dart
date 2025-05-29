@@ -16,7 +16,7 @@ class WaterTrackingState {
   WaterTrackingState({
     this.filledCups = 0,
     this.recommendedDrunCups = 1,
-    this.status = WaterTrackingStatus.neutral,
+    this.status = WaterTrackingStatus.veryHappy,
     required this.currentTime,
   });
 

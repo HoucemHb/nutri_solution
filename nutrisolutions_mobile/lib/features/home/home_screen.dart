@@ -62,7 +62,7 @@ class WaterTracking extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Suivi de l\'Hydratation - ${waterState.currentTime}',
+                  'Water Tracker - ${waterState.currentTime}',
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 Expanded(
@@ -136,7 +136,7 @@ class TopNutritionist extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Les Nutritionnistes les plus populaires',
+                  'Most Popular Nutritionists',
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 const Icon(Icons.arrow_forward_ios,
@@ -192,7 +192,7 @@ class RecentRecipes extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Les Recettes les plus récentes',
+                  'Most Recent Recipes',
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 Icon(Icons.arrow_forward_ios,

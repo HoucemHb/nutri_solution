@@ -5,7 +5,6 @@ import 'package:nutrisolutions_mobile/features/auth/widgets/input_template_widge
 
 import '../../../../data/models/enums.dart';
 
-
 class HeightDropDown extends ConsumerWidget {
   const HeightDropDown({super.key});
 
@@ -57,7 +56,6 @@ class GoalDropDown extends ConsumerWidget {
   }
 }
 
-
 class GenderDropDown extends ConsumerWidget {
   const GenderDropDown({super.key});
 
@@ -65,7 +63,7 @@ class GenderDropDown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final signupFormState = ref.watch(signupFormProvider);
     return DropDownTemplate<String>(
-      labelText: 'Goal',
+      labelText: 'Gender',
       items: GenderEnum.values.map((e) => e.label).toList(),
       selectedValue: signupFormState.gender,
       onChanged: (value) {
@@ -91,4 +89,3 @@ class DailyActivityDropDown extends ConsumerWidget {
     );
   }
 }
-

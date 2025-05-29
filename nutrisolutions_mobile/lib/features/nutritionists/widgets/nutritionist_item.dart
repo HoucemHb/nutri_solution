@@ -59,7 +59,7 @@ class NutritionistItem extends StatelessWidget {
                 ),
                 const Gap(4),
                 Text(
-                  '${nutritionist.experienceYears}+ Exp. Years',
+                  '${nutritionist.experienceYears}+ Expr.',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
                         color: AppColors.secondaryColor,

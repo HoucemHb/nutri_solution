@@ -30,7 +30,7 @@ class SignupStepper extends ConsumerWidget {
           children: List.generate(
             4,
             (index) => Padding(
-              padding: const EdgeInsets.only(right: 22),
+              padding: const EdgeInsets.only(right: 15),
               child: Column(
                 children: [
                   Container(

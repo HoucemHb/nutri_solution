@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:nutrisolutions_mobile/core/constants/app_constants.dart';
 import 'package:nutrisolutions_mobile/core/theme/app_colors.dart';
@@ -126,7 +127,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const Gap(20),
+              const Gap(5),
               Text(
                 pageTitles[currentPage],
                 style: Theme.of(context)
@@ -134,7 +135,7 @@ class ProfileScreen extends ConsumerWidget {
                     .headlineMedium!
                     .copyWith(color: AppColors.brown),
               ),
-              const Gap(15),
+              const Gap(5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(3, (index) {
@@ -191,19 +192,24 @@ class FavoriteRecipes extends StatelessWidget {
       child: Column(
         children: [
           for (int i = 0; i < profile.favoriteRecipes.length; i++)
-            ListTile(
-              leading: ClipOval(
-                child: Image.network(
-                  width: 60,
-                  height: 60,
-                  AppApi.baseUrl + profile.favoriteRecipes[i].imageUrl,
-                  fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                context.push('/recipes/${profile.favoriteRecipes[i].id}');
+              },
+              child: ListTile(
+                leading: ClipOval(
+                  child: Image.network(
+                    width: 60,
+                    height: 60,
+                    AppApi.baseUrl + profile.favoriteRecipes[i].imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
+                title: Text(profile.favoriteRecipes[i].name,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.primaryColor,
+                        )),
               ),
-              title: Text(profile.favoriteRecipes[i].name,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.primaryColor,
-                      )),
             ),
         ],
       ),
@@ -268,7 +274,7 @@ class HealthInfo extends StatelessWidget {
           const Gap(10),
           Stack(
             children: [
-              SvgPicture.asset('assets/images/bmi.svg',width: 230),
+              SvgPicture.asset('assets/images/bmi.svg', width: 230),
               Positioned(
                 top: 10,
                 left: 10,
@@ -328,9 +334,9 @@ class HealthInfo extends StatelessWidget {
                 .headlineMedium
                 ?.copyWith(color: AppColors.brown),
           ),
-          const Gap(10),
+          const Gap(5),
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(10),
@@ -342,8 +348,7 @@ class HealthInfo extends StatelessWidget {
                 ? Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           color: AppColors.secondaryColor,
                           borderRadius: BorderRadius.circular(10),
@@ -351,9 +356,10 @@ class HealthInfo extends StatelessWidget {
                         child: Text(
                             '${DateFormat('MMM d, y').format(profile.reservedSlots[profile.reservedSlots.length - 1].date)} at ${profile.reservedSlots[profile.reservedSlots.length - 1].time}h'),
                       ),
-                      const Gap(5),
                       Text(
-                          'With Doctor: ${profile.reservedSlots.where((slot) => slot.date.isAfter(DateTime.now())).toList().first.nutritionistName}'),
+                        'With Doctor: ${profile.reservedSlots.where((slot) => slot.date.isAfter(DateTime.now())).toList().first.nutritionistName}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   )
                 : Text(
