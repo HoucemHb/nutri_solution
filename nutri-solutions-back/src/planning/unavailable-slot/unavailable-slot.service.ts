@@ -8,6 +8,7 @@ import { CreateUnavailableSlotDto } from './dtos/create-unavailable-slot.dto';
 import { ReservedSlot } from '../reserved-slot/reserved-slot.entity';
 import { EmailService } from 'src/common/email/email.service';
 import { CreateReservedSlotDto } from '../dtos/create-slot.dto';
+import { MessagesService } from 'src/messenger/messenger.service';
 
 @Injectable()
 export class UnavailableSlotService {
@@ -19,6 +20,7 @@ export class UnavailableSlotService {
     protected readonly clientService: ClientService,
     protected readonly emailService: EmailService,
     protected readonly nutritionistService: NutritionistService,
+    private readonly messagesService: MessagesService,
   ) {}
 
   /**
@@ -36,10 +38,11 @@ export class UnavailableSlotService {
         `Nutritionist with ID ${nutritionistId} not found`,
       );
     }
+
     if (createUnavailableSlotDto.isReservation) {
       const { date, day, time, clientId, isReservation } =
         createUnavailableSlotDto as CreateReservedSlotDto;
-      // Find client and nutritionist by their IDs
+
       const client = await this.clientService.findOne(clientId);
       if (!client) {
         throw new NotFoundException(`Client with ID ${clientId} not found`);
@@ -55,6 +58,8 @@ export class UnavailableSlotService {
         isReservation,
       });
       const slot = await this.reservedSlotRepository.save(reservedSlot);
+
+      // Send reservation email
       const reservationDate = `${new Date(slot.date).toLocaleDateString()} at ${slot.time}`;
       await this.emailService.sendReservationNotification(
         slot.nutritionist.email,
@@ -62,10 +67,18 @@ export class UnavailableSlotService {
         slot.client.name,
         reservationDate,
       );
+
+      // ✅ Create a conversation automatically
+      await this.messagesService.getOrCreateConversation(
+        nutritionist.id,
+        client.id,
+      );
+
       return slot;
     } else {
       const { date, day, time, isReservation } =
         createUnavailableSlotDto as CreateUnavailableSlotDto;
+
       const unavailableSlot = this.unavailableSlotRepository.create({
         date,
         day,
@@ -73,6 +86,7 @@ export class UnavailableSlotService {
         nutritionist,
         isReservation,
       });
+
       return this.unavailableSlotRepository.save(unavailableSlot);
     }
   }

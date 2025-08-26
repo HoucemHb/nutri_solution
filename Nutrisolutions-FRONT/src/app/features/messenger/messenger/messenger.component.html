@@ -1,0 +1,153 @@
+<app-page-background>
+    <div class="messenger-container">
+        <!-- Conversations Sidebar -->
+        <div class="conversations-sidebar">
+            <!-- Header -->
+            <div class="sidebar-header">
+                <h2>Messages</h2>
+                <div class="unread-count">
+                    {{ getTotalUnreadCount() }} unread conversations
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search conversations..." [(ngModel)]="searchQuery"
+                    (input)="filterConversations()" class="search-input" />
+            </div>
+
+            <!-- Conversations List -->
+            <div class="conversations-list">
+                <div *ngFor="let conversation of filteredConversations; trackBy: trackConversation"
+                    (click)="selectConversation(conversation)" class="conversation-item"
+                    [class.active]="activeConversation?.id === conversation.id"
+                    [class.unread]="getUnreadCount(conversation) > 0">
+                    <!-- Avatar -->
+                    <div class="avatar-container">
+                        <img [src]="base_url+ getOtherParticipant(conversation).profilePictureUrl || 'assets/default-avatar.png'"
+                            [alt]="getOtherParticipant(conversation).name" class="avatar" />
+                        <div *ngIf="isUserOnline(getOtherParticipant(conversation).id)" class="online-indicator"></div>
+                    </div>
+
+                    <!-- Conversation Info -->
+                    <div class="conversation-info">
+                        <div class="conversation-header">
+                            <span class="conversation-name">
+                                {{ getOtherParticipant(conversation).name }}
+                            </span>
+                            <span class="conversation-time">
+                                {{ formatTime(conversation.lastMessageTime??'') }}
+                            </span>
+                        </div>
+
+                        <div class="conversation-footer">
+                            <span class="last-message">
+                                {{ conversation.lastMessage || 'No messages yet' }}
+                            </span>
+                            <span *ngIf="getUnreadCount(conversation) > 0" class="unread-badge">
+                                {{ getUnreadCount(conversation) }}
+                            </span>
+                        </div>
+
+                        <!-- Typing Indicator -->
+                        <div *ngIf="isUserTyping(getOtherParticipant(conversation).id)" class="typing-indicator">
+                            <span class="typing-text">Typing</span>
+                            <span class="typing-dots">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div *ngIf="filteredConversations.length === 0" class="empty-conversations">
+                    <p>No conversations found</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <!-- Chat Header -->
+            <div *ngIf="activeConversation" class="chat-header">
+                <img [src]="base_url+ getOtherParticipant(activeConversation).profilePictureUrl || 'assets/default-avatar.png'"
+                    [alt]="getOtherParticipant(activeConversation).name" class="chat-avatar" />
+                <div class="chat-user-info">
+                    <h3>{{ getOtherParticipant(activeConversation).name }}</h3>
+                    <div class="user-status">
+                        <div class="status-dot"
+                            [class.online]="isUserOnline(getOtherParticipant(activeConversation).id)"
+                            [class.offline]="!isUserOnline(getOtherParticipant(activeConversation).id)"></div>
+                        <span>
+                            {{ isUserOnline(getOtherParticipant(activeConversation).id) ? 'Online' : 'Offline' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div #messagesContainer class="messages-area" [class.with-header]="activeConversation">
+                <!-- Empty State -->
+                <div *ngIf="!activeConversation" class="empty-chat">
+                    <div class="empty-icon">💬</div>
+                    <h3>Select a conversation</h3>
+                    <p>Choose a conversation from the sidebar to start messaging</p>
+                </div>
+
+                <!-- Messages -->
+                <div *ngIf="activeConversation " class="messages-container">
+                    <div *ngFor="let message of messages$ | async; trackBy: trackMessage" class="message"
+                        [class.own]="message.sender.id === getCurrentUserId()"
+                        [class.other]="message.sender.id !== getCurrentUserId()">
+                        <div class="message-bubble">
+                            <div class="message-content">{{ message.content }}</div>
+                            <div class="message-time">
+                                {{ formatMessageTime(message.createdAt) }}
+                                <span *ngIf="message.sender.id === getCurrentUserId() && message.isRead"
+                                    class="read-indicator">
+                                    ✓✓
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div *ngIf="activeConversation && isUserTyping(getOtherParticipant(activeConversation).id)"
+                        class="typing-message">
+                        <div class="typing-bubble">
+                            <div class="typing-animation">
+                                <span class="typing-dot"></span>
+                                <span class="typing-dot"></span>
+                                <span class="typing-dot"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Messages State -->
+                <div *ngIf="activeConversation && messages.length === 0" class="no-messages">
+                    <p>No messages in this conversation yet</p>
+                    <span>Start the conversation!</span>
+                </div>
+            </div>
+
+            <!-- Message Input Area -->
+            <div *ngIf="activeConversation" class="message-input-area">
+                <div class="input-container">
+                    <textarea #messageInput [(ngModel)]="messageText" (input)="handleTyping()"
+                        (keydown)="handleEnterKey($event)" placeholder="Type a message..." class="message-input"
+                        rows="1">
+</textarea>
+
+                    <button (click)="sendMessage()" [disabled]="!messageText.trim() || isSending" class="send-button"
+                        [class.sending]="isSending">
+                        <span class="send-icon" *ngIf="!isSending">➤</span>
+                        <span class="loading-spinner" *ngIf="isSending">⟳</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-page-background>

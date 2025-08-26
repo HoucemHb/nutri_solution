@@ -14,13 +14,15 @@ import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ReservedSlotSubscriber } from './planning/reserved-slot/reserved-slot.subscriber';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MessagesModule } from './messenger/messenger.module';
 
-@Module({ 
+@Module({
   imports: [
     ScheduleModule.forRoot(),
     RecipeModule,
     UserModule,
     PlanningModule,
+    MessagesModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

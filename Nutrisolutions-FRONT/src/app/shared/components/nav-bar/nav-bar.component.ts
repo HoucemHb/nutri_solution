@@ -57,7 +57,11 @@ export class NavBarComponent implements AfterViewInit {
         break;
       case UserRoleEnum.NUTRITIONIST:
         this.menuItems = [
-          { title: 'Acceuil', iconClass: 'fas fa-home', route: '/nutritionist-home' },
+          {
+            title: 'Acceuil',
+            iconClass: 'fas fa-home',
+            route: '/nutritionist-home',
+          },
           {
             title: 'Recettes',
             iconClass: 'fas fa-utensils',

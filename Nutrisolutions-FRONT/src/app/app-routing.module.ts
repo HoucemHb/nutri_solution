@@ -16,6 +16,7 @@ import { AddRecipeComponent } from './features/recipes/add-recipe/add-recipe.com
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { UserRoleEnum } from './models/client.model';
 import { UnderConstructionComponent } from './features/under-construction/under-construction.component';
+import { MessengerComponent } from './features/messenger/messenger/messenger.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -59,6 +60,12 @@ const routes: Routes = [
     component: HomeNutritionisteComponent,
     canActivate: [authGuard, roleGuard],
     data: { roles: [UserRoleEnum.NUTRITIONIST] },
+  },
+  {
+    path: 'messenger',
+    component: MessengerComponent,
+
+    canActivate: [authGuard],
   },
 
   { path: '**', component: UnderConstructionComponent, pathMatch: 'full' },

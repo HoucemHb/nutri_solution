@@ -15,8 +15,10 @@ import { ProfileModule } from './features/profile/profile.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
-import { CoreModule } from "./core/core.module";
+import { CoreModule } from './core/core.module';
 import { UnderConstructionComponent } from './features/under-construction/under-construction.component';
+import { MessengerComponent } from './features/messenger/messenger/messenger.component';
+import { MessengerModule } from './features/messenger/messenger.module';
 
 @NgModule({
   declarations: [AppComponent, PlanningComponent, UnderConstructionComponent],
@@ -27,14 +29,15 @@ import { UnderConstructionComponent } from './features/under-construction/under-
     FormsModule,
     RecipesModule,
     NutritionistsModule,
+    MessengerModule,
     SharedModule,
     ProfileModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-        timeOut: 3000, // Notification duration (in ms)
-        positionClass: 'toast-top-right', // Position of notifications
-        preventDuplicates: true, // Prevent duplicate notifications
-        closeButton: true, // Show close button in the notification
+      timeOut: 3000, // Notification duration (in ms)
+      positionClass: 'toast-top-right', // Position of notifications
+      preventDuplicates: true, // Prevent duplicate notifications
+      closeButton: true, // Show close button in the notification
     }),
     HomeModule,
     BrowserAnimationsModule,
@@ -42,8 +45,8 @@ import { UnderConstructionComponent } from './features/under-construction/under-
     RouterModule,
     RouterOutlet,
     RouterLink,
-    CoreModule
-],
+    CoreModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

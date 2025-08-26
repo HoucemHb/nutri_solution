@@ -19,6 +19,7 @@ import { UnavailableSlot } from './unavailable-slot.entity';
 import { ReservedSlot } from '../reserved-slot/reserved-slot.entity';
 import { CreateUnavailableSlotDto } from './dtos/create-unavailable-slot.dto';
 import { UpdateResult } from 'typeorm';
+import { MessagesService } from 'src/messenger/messenger.service';
 
 @Controller('planning')
 export class UnavailableSlotController {

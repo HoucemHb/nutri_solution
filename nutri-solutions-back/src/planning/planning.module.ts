@@ -13,6 +13,9 @@ import { UnavailableSlot } from './unavailable-slot/unavailable-slot.entity';
 import { UnavailableSlotService } from './unavailable-slot/unavailable-slot.service';
 import { UnavailableSlotController } from './unavailable-slot/unavailable-slot.controller';
 import { UserModule } from 'src/user/user.module';
+import { MessagesService } from 'src/messenger/messenger.service';
+import { Message } from 'src/messenger/message.entity';
+import { Conversation } from 'src/messenger/conversation.entity';
 @Module({
   imports: [
     UserModule,
@@ -22,8 +25,10 @@ import { UserModule } from 'src/user/user.module';
       // Nutritionist,
       // RecipeEntity,
       // UserEntity,
-      RecipeEntity,
+      Message,
+      Conversation,
       UnavailableSlot,
+      UserEntity,
     ]),
     UserModule,
   ],
@@ -32,6 +37,7 @@ import { UserModule } from 'src/user/user.module';
     ReservedSlotService,
     EmailService,
     UnavailableSlotService,
+    MessagesService,
   ],
   controllers: [UnavailableSlotController],
 })
