@@ -5,13 +5,13 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { APP_API } from 'src/app/core/constants/constants.config';
 import {
   CategoryEnum,
   ObjectifEnum,
   RecipeModel,
 } from 'src/app/models/recipe.model';
 import { LoggerService } from 'src/app/services/logger.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recipe-item',
@@ -19,7 +19,7 @@ import { LoggerService } from 'src/app/services/logger.service';
   styleUrls: ['./recette-item.component.css'],
 })
 export class RecetteItemComponent {
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
   @Input({ required: true }) recipe!: RecipeModel;
   logger = inject(LoggerService);
   router = inject(Router);

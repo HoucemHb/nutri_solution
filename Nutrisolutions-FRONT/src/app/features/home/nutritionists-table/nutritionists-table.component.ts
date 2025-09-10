@@ -8,7 +8,6 @@ import {
   distinctUntilChanged,
   switchMap,
 } from 'rxjs';
-import { APP_API } from 'src/app/core/constants/constants.config';
 import { AppUtils } from 'src/app/core/utils/functions.utils';
 // import { generateFakeNutritionist } from 'src/app/core/helpers/faker.helper';
 import {
@@ -20,6 +19,7 @@ import { ExperienceEnum } from 'src/app/models/recipe.model';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { NutritionistsService } from 'src/app/services/nutritionists.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-nutritionists-table',
@@ -30,7 +30,7 @@ import { NutritionistsService } from 'src/app/services/nutritionists.service';
   ],
 })
 export class NutritionistsTableComponent {
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
   searchControl: FormControl = new FormControl('');
   statusControl: FormControl = new FormControl(StatusEnumFilter.ALL);
   statusOptions = Object.values(StatusEnumFilter);

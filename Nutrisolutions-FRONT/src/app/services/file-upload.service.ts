@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { APP_API } from '../core/constants/constants.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoggerService } from './logger.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileUploadService {
-  apiUrl = APP_API.base_url + '/upload';
+  apiUrl = environment.apiUrl + '/upload';
   constructor() {}
   http = inject(HttpClient);
   logger = inject(LoggerService);

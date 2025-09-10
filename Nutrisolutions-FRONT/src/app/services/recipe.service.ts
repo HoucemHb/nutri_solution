@@ -9,7 +9,7 @@ import {
   RecipeModel,
 } from '../models/recipe.model';
 import { Observable } from 'rxjs';
-import { APP_API } from '../core/constants/constants.config';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ import { APP_API } from '../core/constants/constants.config';
 export class RecipesService {
   #recipes: RecipeModel[] = [];
 
-  apiUrl = APP_API.base_url + '/recipes';
+  apiUrl = environment.apiUrl + '/recipes';
 
   constructor() {}
   http = inject(HttpClient);

@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { NutritionistModel, StatusEnum } from '../models/nutritionist.model';
 // import { generateFakeNutritionist } from '../core/helpers/faker.helper';
-import { APP_API } from '../core/constants/constants.config';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClientModel } from '../models/client.model';
 import { ExperienceEnum } from '../models/recipe.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class NutritionistsService {
 
   #nutritionists: NutritionistModel[] = [];
 
-  apiUrl = APP_API.base_url + '/nutritionists';
+  apiUrl = environment.apiUrl + '/nutritionists';
 
   constructor() {}
   http = inject(HttpClient);

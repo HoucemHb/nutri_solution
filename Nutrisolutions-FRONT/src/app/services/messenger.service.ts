@@ -11,9 +11,10 @@ import {
   UserStatusEvent,
   MessageType,
 } from '../models/message.model';
-import { APP_API, APP_CONST } from '../core/constants/constants.config';
+import { APP_CONST } from '../core/constants/constants.config';
 import { AuthService } from './auth.service';
 import { Socket, io } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ import { Socket, io } from 'socket.io-client';
 export class MessagesService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private apiUrl = APP_API.base_url + '/messages';
+  private apiUrl = environment.apiUrl + '/messages';
   private socket: Socket | null = null;
 
   // Reactive state management
@@ -48,7 +49,7 @@ export class MessagesService {
     const token = localStorage.getItem(APP_CONST.tokenLocalStorage);
     if (!token) return;
 
-    this.socket = io(`${APP_API.base_url}/messages`, {
+    this.socket = io(`${environment.apiUrl}/messages`, {
       auth: { token },
       transports: ['websocket'],
       autoConnect: true,

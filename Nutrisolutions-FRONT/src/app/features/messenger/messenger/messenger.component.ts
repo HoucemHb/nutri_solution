@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { APP_API } from 'src/app/core/constants/constants.config';
 import {
   Conversation,
   Message,
@@ -21,6 +20,7 @@ import {
 } from 'src/app/models/message.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessagesService } from 'src/app/services/messenger.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-messenger',
@@ -28,7 +28,7 @@ import { MessagesService } from 'src/app/services/messenger.service';
   styleUrls: ['./messenger.component.css'],
 })
 export class MessengerComponent implements OnInit, OnDestroy, AfterViewChecked {
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild('messageInput') messageInput!: ElementRef;

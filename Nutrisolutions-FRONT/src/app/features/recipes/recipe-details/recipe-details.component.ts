@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { APP_API } from 'src/app/core/constants/constants.config';
 import { AppUtils } from 'src/app/core/utils/functions.utils';
 import { UserRoleEnum } from 'src/app/models/client.model';
 import { RecipeModel } from 'src/app/models/recipe.model';
@@ -9,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ClientService } from 'src/app/services/client.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { RecipesService } from 'src/app/services/recipe.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recipe-details',
@@ -19,7 +19,7 @@ import { RecipesService } from 'src/app/services/recipe.service';
   ],
 })
 export class RecipeDetailsComponent implements OnInit {
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
   recipe!: RecipeModel;
   items: { image: string; content: string }[] = []; // Additional recipe details
   recipeId: string | null = '';
@@ -63,7 +63,7 @@ export class RecipeDetailsComponent implements OnInit {
     return this.checkedInstructions.has(index);
   }
   role: string = UserRoleEnum.CLIENT;
-  
+
   ngOnInit(): void {
     this.recipeId = this.route.snapshot.paramMap.get('id');
     this.logger.debug('Recipe ID:', this.recipeId);

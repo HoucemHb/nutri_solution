@@ -1,15 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { APP_API } from '../core/constants/constants.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Slot } from '../features/planning/planning.component';
 import { SlotModel, CreateSlotModelDto } from '../models/slot.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlanningService {
-  apiUrl = APP_API.base_url + '/planning';
+  apiUrl = environment.apiUrl + '/planning';
 
   constructor() {}
   http = inject(HttpClient);

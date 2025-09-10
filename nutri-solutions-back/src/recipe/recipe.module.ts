@@ -11,10 +11,10 @@ import { join } from 'path';
   providers: [RecipesService],
   imports: [
     TypeOrmModule.forFeature([RecipeEntity]),
-    ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'uploads', 'recipes'),
-      serveRoot: '/uploads/recipes',
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(process.cwd(), 'uploads', 'recipes'),
+    //   serveRoot: '/uploads/recipes',
+    // }),
   ],
   exports: [],
 })

@@ -3,7 +3,7 @@ import { ClientModel, UserRoleEnum } from '../models/client.model';
 import { NutritionistModel } from '../models/nutritionist.model';
 import { ToastrService } from 'ngx-toastr';
 import { UserModel } from '../models/user.model';
-import { APP_API, APP_CONST } from '../core/constants/constants.config';
+import { APP_CONST } from '../core/constants/constants.config';
 import { Observable, subscribeOn } from 'rxjs';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { AppUtils } from '../core/utils/functions.utils';
 import { ClientService } from './client.service';
 import { NutritionistsService } from './nutritionists.service';
 import { LoggerService } from './logger.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService {
   private userRole: string = 'client';
   toastr = inject(ToastrService);
   http = inject(HttpClient);
-  apiUrl = APP_API.base_url + '/auth';
+  apiUrl = environment.apiUrl + '/auth';
   router = inject(Router);
   logger = inject(LoggerService);
   private addUser(user: UserModel): Observable<UserModel> {

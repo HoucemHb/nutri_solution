@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { APP_API } from '../core/constants/constants.config';
 import { ClientModel } from '../models/client.model';
 import { SlotModel } from '../models/slot.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class ClientService {
 
   #clients: ClientModel[] = [];
 
-  apiUrl = APP_API.base_url + '/clients';
+  apiUrl = environment.apiUrl + '/clients';
   #selectPatientSubject$ = new Subject<ClientModel>();
   selectPatient$ = this.#selectPatientSubject$.asObservable();
 

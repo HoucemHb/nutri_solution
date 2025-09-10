@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { APP_API } from 'src/app/core/constants/constants.config';
 import { GetAgePipe } from 'src/app/core/pipes/get-age.pipe';
 import { AppUtils } from 'src/app/core/utils/functions.utils';
 import { ClientModel } from 'src/app/models/client.model';
@@ -10,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ClientService } from 'src/app/services/client.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { RecipesService } from 'src/app/services/recipe.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-page',
@@ -24,9 +24,9 @@ export class ProfilePageComponent implements OnInit {
   authService = inject(AuthService);
   clientService = inject(ClientService);
   toastr = inject(ToastrService);
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
   upcomingAppointement: SlotModel | null = null;
-  logger=inject(LoggerService);
+  logger = inject(LoggerService);
   constructor(private getAgePipe: GetAgePipe) {
     this.clientService.getClientById(this.authService.getUserId()).subscribe({
       next: (response) => {

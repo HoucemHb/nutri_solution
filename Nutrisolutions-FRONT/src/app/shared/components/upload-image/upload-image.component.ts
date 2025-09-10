@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { APP_API } from 'src/app/core/constants/constants.config';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-upload-image',
@@ -18,7 +18,7 @@ export class UploadImageComponent {
   @Input() uploadedImage: string = '';
   @Input() acceptedFileTypes: string = 'image/*'; // Default to images
   @Output() fileSelected = new EventEmitter<File>();
-  base_url = APP_API.base_url;
+  base_url = environment.apiUrl;
 
   @Input() uploadedFileName: string = ''; // For non-image file names
   isImage: boolean = true; // Determines if the file is an image
