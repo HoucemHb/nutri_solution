@@ -141,51 +141,22 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
   deploy:
-    runs-on: self-hosted # this will now match your WSL runner
+    name: 🚀 Deploy on Local WSL
+    runs-on: self-hosted # WSL runner
     needs: build
 
     steps:
-      # 1️⃣ Checkout code
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup SSH
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY2 }}
-
-      # 3️⃣ Add server to known hosts (security)
-      - name: Add known host
-        run: ssh-keyscan -H 172.30.75.94 >> ~/.ssh/known_hosts
-
-      # 4️⃣ Deploy
-      - name: Deploy
-
+      - name: Create .env file
         run: |
-          ssh houcem@172.30.75.94 << 'EOF'
-            # Create app folder and navigate
-            mkdir -p /home/houcem/my-app
-            cd /home/houcem/my-app
+          echo "${{ secrets.ENV_FILE }}" > .env
 
-            # Clone repo if first time, otherwise pull
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/HoucemHb/nutri_solution.git .
-            else
-              git pull origin main
-            fi
-
-            # Create .env from GitHub secrets
-            cat > .env << 'ENV_EOF'
-            ${{ secrets.ENV_FILE }}
-            ENV_EOF
-
-            # Stop and clean up
-            docker-compose down --remove-orphans
-            docker system prune -f
-
-            # Build and start
-            docker-compose up -d --build
-
-            echo "✅ Deployment complete!"
-          EOF
+      - name: Deploy with Docker Compose
+        run: |
+          docker-compose down --remove-orphans
+          docker system prune -f
+          docker-compose pull
+          docker-compose up -d
+          echo "✅ Deployment complete!"
