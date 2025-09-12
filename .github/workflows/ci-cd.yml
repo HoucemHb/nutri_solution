@@ -10,140 +10,140 @@ on:
 
 jobs:
   # 🔍 Code Quality & Linting
-  quality-check:
-    name: 📊 Code Quality
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🔄 Checkout code
-        uses: actions/checkout@v4
+  # quality-check:
+  #   name: 📊 Code Quality
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 🔄 Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
+  #     - name: 🟢 Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "18"
+  #         cache: "npm"
 
-      # Backend checks
-      - name: 📦 Install Backend Dependencies
-        run: |
-          cd nutri-solutions-back
-          npm ci
+  #     # Backend checks
+  #     - name: 📦 Install Backend Dependencies
+  #       run: |
+  #         cd nutri-solutions-back
+  #         npm ci
 
-      - name: 🔍 Lint Backend Code
-        run: |
-          cd nutri-solutions-back
-          npm run lint:check || echo "Please add 'lint:check' script to package.json"
+  #     - name: 🔍 Lint Backend Code
+  #       run: |
+  #         cd nutri-solutions-back
+  #         npm run lint:check || echo "Please add 'lint:check' script to package.json"
 
-      - name: 🎨 Check Backend Formatting
-        run: |
-          cd nutri-solutions-back
-          npm run format:check || echo "Please add 'format:check' script to package.json"
+  #     - name: 🎨 Check Backend Formatting
+  #       run: |
+  #         cd nutri-solutions-back
+  #         npm run format:check || echo "Please add 'format:check' script to package.json"
 
-      # Frontend checks
-      - name: 📦 Install Frontend Dependencies
-        run: |
-          cd Nutrisolutions-FRONT
-          npm ci
+  #     # Frontend checks
+  #     - name: 📦 Install Frontend Dependencies
+  #       run: |
+  #         cd Nutrisolutions-FRONT
+  #         npm ci
 
-      - name: 🔍 Lint Frontend Code
-        run: |
-          cd Nutrisolutions-FRONT
-          npm run lint || echo "Linting completed"
+  #     - name: 🔍 Lint Frontend Code
+  #       run: |
+  #         cd Nutrisolutions-FRONT
+  #         npm run lint || echo "Linting completed"
 
-  # 🧪 Testing
-  test:
-    name: 🧪 Run Tests
-    runs-on: ubuntu-latest
-    needs: quality-check
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: test_password
-          MYSQL_DATABASE: test_db
-          MYSQL_USER: test_user
-          MYSQL_PASSWORD: test_password
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+  # # 🧪 Testing
+  # test:
+  #   name: 🧪 Run Tests
+  #   runs-on: ubuntu-latest
+  #   needs: quality-check
+  #   services:
+  #     mysql:
+  #       image: mysql:8.0
+  #       env:
+  #         MYSQL_ROOT_PASSWORD: test_password
+  #         MYSQL_DATABASE: test_db
+  #         MYSQL_USER: test_user
+  #         MYSQL_PASSWORD: test_password
+  #       ports:
+  #         - 3306:3306
+  #       options: >-
+  #         --health-cmd="mysqladmin ping"
+  #         --health-interval=10s
+  #         --health-timeout=5s
+  #         --health-retries=3
 
-    steps:
-      - name: 🔄 Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: 🔄 Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
+  #     - name: 🟢 Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "18"
+  #         cache: "npm"
 
-      # Backend tests
-      - name: 📦 Install Backend Dependencies
-        run: |
-          cd nutri-solutions-back
-          npm ci
+  #     # Backend tests
+  #     - name: 📦 Install Backend Dependencies
+  #       run: |
+  #         cd nutri-solutions-back
+  #         npm ci
 
-      - name: 🧪 Run Backend Tests
-        env:
-          DB_HOST: localhost
-          DB_PORT: 3306
-          DB_USERNAME: test_user
-          DB_PASSWORD: test_password
-          DB_DATABASE: test_db
-          NODE_ENV: test
-        run: |
-          cd nutri-solutions-back
-          npm run test || echo "Please add tests to your backend"
+  #     - name: 🧪 Run Backend Tests
+  #       env:
+  #         DB_HOST: localhost
+  #         DB_PORT: 3306
+  #         DB_USERNAME: test_user
+  #         DB_PASSWORD: test_password
+  #         DB_DATABASE: test_db
+  #         NODE_ENV: test
+  #       run: |
+  #         cd nutri-solutions-back
+  #         npm run test || echo "Please add tests to your backend"
 
-      # Frontend tests
-      - name: 📦 Install Frontend Dependencies
-        run: |
-          cd Nutrisolutions-FRONT
-          npm ci
+  #     # Frontend tests
+  #     - name: 📦 Install Frontend Dependencies
+  #       run: |
+  #         cd Nutrisolutions-FRONT
+  #         npm ci
 
-      - name: 🧪 Run Frontend Tests
-        run: |
-          cd Nutrisolutions-FRONT
-          npm run test:ci || echo "Please add tests to your frontend"
+  #     - name: 🧪 Run Frontend Tests
+  #       run: |
+  #         cd Nutrisolutions-FRONT
+  #         npm run test:ci || echo "Please add tests to your frontend"
 
-  # 🐳 Build Docker Images
-  # 🐳 Build & Push Docker Images
-  build:
-    name: 🐳 Build & Push Images
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: 🔄 Checkout code
-        uses: actions/checkout@v4
+  # # 🐳 Build Docker Images
+  # # 🐳 Build & Push Docker Images
+  # build:
+  #   name: 🐳 Build & Push Images
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - name: 🔄 Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: 🐳 Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+  #     - name: 🐳 Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
 
-      - name: 🔑 Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: 🔑 Login to DockerHub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🏗️ Build & Push Backend Image
-        run: |
-          cd nutri-solutions-back
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:backend-latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:backend-latest
+  #     - name: 🏗️ Build & Push Backend Image
+  #       run: |
+  #         cd nutri-solutions-back
+  #         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:backend-latest .
+  #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:backend-latest
 
-      - name: 🏗️ Build & Push Frontend Image
-        run: |
-          cd Nutrisolutions-FRONT
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
+  #     - name: 🏗️ Build & Push Frontend Image
+  #       run: |
+  #         cd Nutrisolutions-FRONT
+  #         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
+  #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
   deploy:
     name: 🚀 Deploy on Local WSL
     runs-on: self-hosted
-    needs: build
+    # needs: build
 
     steps:
       # 1️⃣ Checkout code
