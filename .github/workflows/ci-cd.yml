@@ -129,7 +129,7 @@ jobs:
   #         username: ${{ secrets.DOCKERHUB_USERNAME }}
   #         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  #     - name: 🏗️ Build & Push Backend Image
+  #     - name:  Build & Push Backend Image
   #       run: |
   #         cd nutri-solutions-back
   #         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:backend-latest .
