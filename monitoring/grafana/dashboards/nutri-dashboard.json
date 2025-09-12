@@ -1,0 +1,243 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "🥗 NutriSolutions Monitoring Dashboard",
+    "tags": ["nutri-solutions", "monitoring"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "🚀 Application Status",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"nestjs-app\"}",
+            "legendFormat": "API Status"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "DOWN"
+                  },
+                  "1": {
+                    "text": "UP"
+                  }
+                },
+                "type": "value"
+              }
+            ]
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "📊 HTTP Requests/sec",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(nutri_solutions_http_requests_total[5m])",
+            "legendFormat": "Requests/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "⚡ Average Response Time",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(nutri_solutions_http_request_duration_seconds_sum[5m]) / rate(nutri_solutions_http_request_duration_seconds_count[5m])",
+            "legendFormat": "Avg Response Time"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "💾 Memory Usage",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+            "legendFormat": "Memory %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "📈 HTTP Request Rate Over Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(nutri_solutions_http_requests_total[5m])",
+            "legendFormat": "{{method}} {{route}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Requests/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "⏱️ Response Time Distribution",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(nutri_solutions_http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(nutri_solutions_http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(nutri_solutions_http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "99th percentile"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Response Time (s)"
+          }
+        ],
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "id": 7,
+        "title": "🔢 HTTP Status Codes",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (status_code) (rate(nutri_solutions_http_requests_total[5m]))",
+            "legendFormat": "{{status_code}}"
+          }
+        ],
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 17
+        }
+      },
+      {
+        "id": 8,
+        "title": "🖥️ System Resources",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+            "legendFormat": "CPU Usage %"
+          },
+          {
+            "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+            "legendFormat": "Memory Usage %"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Usage %",
+            "max": 100,
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 17
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "templating": {
+      "list": []
+    },
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "refresh": "10s",
+    "schemaVersion": 27,
+    "version": 1,
+    "links": []
+  }
+}

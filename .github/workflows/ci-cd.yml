@@ -140,3 +140,50 @@ jobs:
           cd Nutrisolutions-FRONT
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      # 3️⃣ Add server to known hosts (security)
+      - name: Add known host
+        run: ssh-keyscan -H 172.30.75.94 >> ~/.ssh/known_hosts
+
+      # 4️⃣ Deploy
+      - name: Deploy
+        run: |
+          ssh houcem@172.30.75.94 << 'EOF'
+            # Create app folder and navigate
+            mkdir -p /home/houcem/my-app
+            cd /home/houcem/my-app
+
+            # Clone repo if first time, otherwise pull
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/HoucemHb/nutri_solution.git .
+            else
+              git pull origin main
+            fi
+
+            # Create .env from GitHub secrets
+            cat > .env << 'ENV_EOF'
+            ${{ secrets.ENV_FILE }}
+            ENV_EOF
+
+            # Stop and clean up
+            docker-compose down --remove-orphans
+            docker system prune -f
+
+            # Build and start
+            docker-compose up -d --build
+
+            echo "✅ Deployment complete!"
+          EOF

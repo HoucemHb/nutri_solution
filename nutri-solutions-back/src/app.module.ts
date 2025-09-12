@@ -15,6 +15,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ReservedSlotSubscriber } from './planning/reserved-slot/reserved-slot.subscriber';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MessagesModule } from './messenger/messenger.module';
+// import { MonitoringModule } from './monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { MessagesModule } from './messenger/messenger.module';
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
+    // MonitoringModule,
   ],
   controllers: [AppController, FileUploadController],
   providers: [AppService],

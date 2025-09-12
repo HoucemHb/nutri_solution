@@ -85,6 +85,54 @@ services:
     networks:
       - nutri_network
 
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: nutri-prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ./monitoring/prometheus/rules.yml:/etc/prometheus/rules.yml
+  #     - prometheus_data:/prometheus
+  #   command:
+  #     - "--config.file=/etc/prometheus/prometheus.yml"
+  #     - "--storage.tsdb.path=/prometheus"
+  #     - "--web.console.libraries=/etc/prometheus/console_libraries"
+  #     - "--web.console.templates=/etc/prometheus/consoles"
+  #     - "--storage.tsdb.retention.time=200h"
+  #     - "--web.enable-lifecycle"
+  #   networks:
+  #     - nutri_network
+
+  # # 📈 Grafana - Visualization Dashboard
+  # grafana:
+  #   image: grafana/grafana:latest-ubuntu
+  #   container_name: nutri-grafana
+  #   ports:
+  #     - "3001:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin123
+  #     - GF_USERS_ALLOW_SIGN_UP=false
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #     - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+  #     - ./monitoring/grafana/dashboards:/etc/grafana/dashboards
+  #   networks:
+  #     - nutri_network
+
+  # # 📊 Node Exporter - System Metrics
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: nutri-node-exporter
+  #   ports:
+  #     - "9100:9100"
+  #   command:
+  #     - "--path.rootfs=/host"
+  #   volumes:
+  #     - "/:/host:ro,rslave"
+  #   networks:
+  #     - nutri_network
+
 # Volumes
 volumes:
   mysql_data:
@@ -92,6 +140,8 @@ volumes:
   # Add dedicated volume for uploads
   uploads_data:
     driver: local
+  # prometheus_data:
+  # grafana_data:
 
 # Networks
 networks:
