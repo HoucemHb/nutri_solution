@@ -141,7 +141,8 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted # this will now match your WSL runner
+    needs: build
 
     steps:
       # 1️⃣ Checkout code
@@ -160,6 +161,7 @@ jobs:
 
       # 4️⃣ Deploy
       - name: Deploy
+
         run: |
           ssh houcem@172.30.75.94 << 'EOF'
             # Create app folder and navigate
