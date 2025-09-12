@@ -141,7 +141,8 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/nutri-solutions:frontend-latest
   deploy:
-    runs-on: self-hosted # this will now match your WSL runner
+    name: 🚀 Deploy on Local WSL
+    runs-on: self-hosted
     needs: build
 
     steps:
@@ -149,43 +150,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup SSH
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY2 }}
-
-      # 3️⃣ Add server to known hosts (security)
-      - name: Add known host
-        run: ssh-keyscan -H 172.30.75.94 >> ~/.ssh/known_hosts
-
-      # 4️⃣ Deploy
-      - name: Deploy
-
+      # 2️⃣ Ensure Docker is available
+      - name: Setup Docker Access
         run: |
-          ssh houcem@172.30.75.94 << 'EOF'
-            # Create app folder and navigate
-            mkdir -p /home/houcem/my-app
-            cd /home/houcem/my-app
+          # Check Docker is installed
+          if ! command -v docker &> /dev/null; then
+            echo "Docker is not installed. Please install Docker Desktop with WSL integration."
+            exit 1
+          fi
 
-            # Clone repo if first time, otherwise pull
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/HoucemHb/nutri_solution.git .
-            else
-              git pull origin main
-            fi
+          # Add current user to docker group (if not already)
+          if ! groups $(whoami) | grep -q docker; then
+            echo "Adding user to docker group..."
+            sudo usermod -aG docker $(whoami)
+            echo "⚠️ You may need to restart WSL to apply docker group changes."
+          fi
 
-            # Create .env from GitHub secrets
-            cat > .env << 'ENV_EOF'
-            ${{ secrets.ENV_FILE }}
-            ENV_EOF
+          # Test Docker access
+          docker info
 
-            # Stop and clean up
-            docker-compose down --remove-orphans
-            docker system prune -f
+      # 3️⃣ Create .env file
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
 
-            # Build and start
-            docker-compose up -d --build
-
-            echo "✅ Deployment complete!"
-          EOF
+      # 4️⃣ Deploy using Docker Compose
+      - name: Deploy with Docker Compose
+        run: |
+          docker-compose down --remove-orphans
+          docker system prune -f
+          docker-compose pull
+          docker-compose up -d
+          echo "✅ Deployment complete!"
